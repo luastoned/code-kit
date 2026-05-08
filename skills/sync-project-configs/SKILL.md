@@ -13,9 +13,10 @@ Apply shared config files from a source `configs/` directory into a target proje
 
 1. Identify the source configs directory. Default to the `configs/` directory in this code-kit repo when the user does not provide another source.
 2. Identify the target project directory from the user request or current working directory.
-3. List source config files and matching target files before editing.
+3. List source config files, including dotfiles, and matching target files before editing. Use `find`, `rg --files`, or `ls -A`; do not rely on plain `ls`, because it hides files such as `.oxfmtrc.json` and `.oxlintrc.json`.
 4. Inspect the target project:
    - Existing matching config files.
+   - Hidden config files and dotfiles in the target root.
    - Project manifests, lockfiles, workspace files, and README/developer docs when relevant.
    - Tooling actually used by the project, so unrelated configs are not added blindly.
 5. Decide the action for each source file:
@@ -45,6 +46,7 @@ Apply shared config files from a source `configs/` directory into a target proje
 
 ## Validation
 
+- Before editing, confirm the discovered source file list includes dotfiles from the source configs directory.
 - Parse every changed JSON file.
 - If local tooling exists and the change affects it, run the relevant validation command when practical.
 - If validation cannot run because dependencies are missing or the tool is unavailable, state that in the final response.
