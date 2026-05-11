@@ -21,6 +21,7 @@
 <p align="center">
   <a href="#-features">Features</a> •
   <a href="#-contents">Contents</a> •
+  <a href="#-install">Install</a> •
   <a href="#-quick-start">Quick Start</a> •
   <a href="#-usage">Usage</a> •
   <a href="#-maintenance">Maintenance</a>
@@ -32,40 +33,49 @@
 
 - 🎯 **Single source of truth** — Keep reusable guidance, formatter defaults, references, and Codex skills in one place.
 - 🧭 **Agent-ready guidance** — Store downstream `AGENTS.md` templates and language guides that can be adapted into project-specific instructions.
-- 🔧 **Shared tooling defaults** — Version common Oxc and TypeScript config defaults without burying them in individual repos.
+- 🔧 **Shared tooling defaults** — Version common Oxc, TypeScript, and package script defaults without burying them in individual repos.
 - 🔁 **Sync workflows** — Use bundled skills to merge guidance and config into target projects while preserving local conventions.
 
 ## 📦 Contents
 
 | Path          | Purpose                                                                 |
 | ------------- | ----------------------------------------------------------------------- |
-| `configs/`    | Shared tooling defaults such as Oxc config and TypeScript path mapping. |
+| `configs/`    | Shared config fragments for Oxc, TypeScript path aliases, and package scripts. |
 | `guidance/`   | Reusable downstream agent guidance, language guides, and local overlays. |
 | `references/` | Structured reference data reused across projects.                       |
 | `skills/`     | Shareable Codex skills for syncing guidance and project configs.        |
 | `docs/`       | Notes, links, and conventions that do not belong in executable configs. |
 
+## 📥 Install
+
+Clone this repo somewhere stable:
+
+```bash
+git clone https://github.com/luastoned/code-kit.git
+cd code-kit
+```
+
+`code-kit` is not installed as a project dependency. Its files are copied, merged, or symlinked into local tooling where needed.
+
 ## 🚀 Quick Start
 
-Clone or keep this repo somewhere stable, then link the pieces that should be shared across projects.
-Replace `<code-kit>`, `<workspace>`, and `<project>` with local paths.
+Link the Codex skills from the installed repo path:
 
 ```bash
-ln -sf <code-kit>/configs/.oxfmtrc.json <workspace>/.oxfmtrc.json
-ln -sf <code-kit>/configs/.oxlintrc.json <workspace>/.oxlintrc.json
-ln -sf <code-kit>/references/gitmojis.json <workspace>/gitmojis.json
-
-ln -sfn <code-kit>/skills/sync-agent-guidance ~/.codex/skills/sync-agent-guidance
-ln -sfn <code-kit>/skills/sync-project-configs ~/.codex/skills/sync-project-configs
+test -d "$(pwd)/skills/sync-agent-guidance" && ln -sfn "$(pwd)/skills/sync-agent-guidance" ~/.codex/skills/sync-agent-guidance
+test -d "$(pwd)/skills/sync-project-configs" && ln -sfn "$(pwd)/skills/sync-project-configs" ~/.codex/skills/sync-project-configs
 ```
 
-Use the shared TypeScript config only when the consuming project uses the same `~/* -> ./src/*` alias:
+Run the commands from the `code-kit` checkout. The `test -d` guard ensures the skill exists before linking it, and `$(pwd)` captures the absolute source path so Codex can resolve the skill directory later.
 
-```bash
-ln -sf <code-kit>/configs/tsconfig.json <project>/tsconfig.json
+After linking, start a new Codex session so the skills are discovered.
+
+```text
+Use $sync-agent-guidance to sync AGENTS.md and mapped language guidance into this project.
+Use $sync-project-configs to sync shared config files into this project.
 ```
 
-TypeScript `paths` entries are resolved from the `tsconfig.json` that declares them. Do not add `baseUrl` just for paths; TypeScript 6.0 deprecates it, and path mappings should include explicit project-relative prefixes.
+Do not symlink shared config files directly by default. Use the skills to copy or merge `configs/`, `guidance/`, and `references/` into target projects so local project settings are preserved.
 
 ## 💡 Usage
 
