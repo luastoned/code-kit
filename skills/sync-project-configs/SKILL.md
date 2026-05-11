@@ -7,13 +7,15 @@ description: Apply or merge shared project configuration files from code-kit int
 
 ## Overview
 
-Apply shared config files from a source `configs/` directory into a target project. This is a merge task: inspect the target first, preserve project-specific settings, and make the resulting files valid for the target.
+Apply shared config fragments and defaults from a source `configs/` directory into a target project. This is a merge task: inspect the target first, preserve project-specific settings, and make the resulting files valid for the target.
 
 ## Workflow
 
 1. Identify the source configs directory. Default to the `configs/` directory in this code-kit repo when the user does not provide another source.
 2. Identify the target project directory from the user request or current working directory.
 3. List source config files, including dotfiles, and matching target files before editing. Use `find`, `rg --files`, or `ls -A`; do not rely on plain `ls`, because it hides files such as `.oxfmtrc.json` and `.oxlintrc.json`.
+   - Read `configs/AGENTS.md` when present; it describes how to apply the config files.
+   - Do not sync `configs/AGENTS.md` itself into the target project.
 4. Inspect the target project:
    - Existing matching config files.
    - Hidden config files and dotfiles in the target root.
@@ -37,11 +39,13 @@ Apply shared config files from a source `configs/` directory into a target proje
 - For nested objects, merge recursively using the same rules.
 - Keep key ordering readable and consistent with the source config's logical grouping when possible.
 - Never invent target-specific commands or package dependencies just because a shared config exists.
+- Treat partial files as fragments. For example, merge `package.json` scripts into the target manifest instead of replacing the manifest.
 
 ## File Guidance
 
 - `.oxfmtrc.json`: merge formatter defaults. Preserve target-specific ignores and overrides. Let the shared config provide common print, quote, import-sorting, JSDoc, newline, and package sorting defaults unless the target already has a deliberate value.
 - `.oxlintrc.json`: merge linter plugins, categories, rules, environment, and ignore patterns. Preserve target rule overrides. Union plugin and ignore arrays.
+- `package.json`: merge relevant shared scripts into the target `package.json` only when the corresponding tools are installed or intentionally being adopted. Preserve existing scripts unless the user explicitly asks to replace them.
 - `tsconfig.json`: merge only when the target is a JavaScript, TypeScript, Node.js, or related web project. Preserve existing compiler options, includes, excludes, references, framework plugins, and module settings. Do not add deprecated `baseUrl`; use explicit prefixes in `paths`.
 
 ## Validation
