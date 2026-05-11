@@ -20,6 +20,8 @@ pnpm-debug.log*
 !.env.example
 !.env.*.example
 .codex
+guidance/private/*
+!guidance/private/.gitkeep
 
 # Editor and OS files
 .DS_Store

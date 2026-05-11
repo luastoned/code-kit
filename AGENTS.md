@@ -6,6 +6,7 @@ This repository stores shared coding resources that are reused across other proj
 
 - `configs/`: shared tooling defaults.
 - `guidance/`: reusable agent guidance that can be copied, linked, or adapted into target projects.
+- `guidance/private/`: local-only overlays and guidance that should not be published.
 - `skills/`: shareable Codex skills and their support files.
 - `docs/`: reference notes and links that do not belong in executable config.
 
@@ -14,9 +15,11 @@ This repository stores shared coding resources that are reused across other proj
 - Keep changes small, explicit, and easy to reuse from other projects.
 - Preserve the distinction between this repo's maintenance guidance and downstream project guidance.
 - Update `guidance/AGENTS.md` when changing the reusable root guidance intended for downstream projects.
-- Update `guidance/TypeScript.md` when changing the guidance intended for JavaScript, TypeScript, JSX, TSX, React, or Node.js projects.
+- Update the relevant mapped guide in `guidance/` when changing language, runtime, or tool-specific downstream guidance.
+- Update `configs/AGENTS.md` when adding, removing, or changing the intended use of files in `configs/`.
+- Keep personal, sensitive, or project-specific private overlays under `guidance/private/`; only `.gitkeep` should be tracked there.
 - Update `skills/sync-agent-guidance/` when changing how guidance is adapted into target projects.
-- Update `configs/` only for formatter or linter behavior that should become a shared default.
+- Update `configs/` only for tooling behavior that should become a shared default or reusable fragment.
 - Keep `README.md` focused on what this repo contains and how other locations consume it.
 - Keep docs in `docs/` when the information is reference material rather than an instruction agents must follow.
 

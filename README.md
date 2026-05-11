@@ -40,7 +40,7 @@
 | Path          | Purpose                                                                 |
 | ------------- | ----------------------------------------------------------------------- |
 | `configs/`    | Shared tooling defaults such as Oxc config and TypeScript path mapping. |
-| `guidance/`   | Reusable downstream agent guidance and language-specific guides.        |
+| `guidance/`   | Reusable downstream agent guidance, language guides, and local overlays. |
 | `references/` | Structured reference data reused across projects.                       |
 | `skills/`     | Shareable Codex skills for syncing guidance and project configs.        |
 | `docs/`       | Notes, links, and conventions that do not belong in executable configs. |
@@ -72,6 +72,7 @@ TypeScript `paths` entries are resolved from the `tsconfig.json` that declares t
 ### Agent Guidance
 
 `guidance/AGENTS.md` is the downstream entrypoint. It maps languages and runtimes to the reusable guides in `guidance/`.
+Private or personal overlays can live under `guidance/private/`. Files there are ignored by git, so local mappings and non-public guidance stay local.
 
 Use `sync-agent-guidance` when a project needs local `AGENTS.md` instructions derived from this repo:
 
@@ -99,6 +100,7 @@ The skill copies missing relevant configs, merges structured configs where possi
 
 - Keep root `AGENTS.md` focused on working in this repo.
 - Keep downstream agent instructions in `guidance/`.
+- Keep private overlays in `guidance/private/`; do not publish sensitive or personal project guidance.
 - Keep reusable tooling defaults in `configs/`.
 - Keep structured lookup data in `references/`.
 - Keep skill workflows concise and procedural in `skills/*/SKILL.md`.

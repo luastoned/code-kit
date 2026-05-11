@@ -7,7 +7,7 @@ description: Adapt and merge reusable repository agent guidance into another pro
 
 ## Overview
 
-Adapt reusable agent guidance from a source directory containing `AGENTS.md` and any mapped language guides into a target project. This is a synthesis task: read the target project first, then write guidance that fits what is actually there.
+Adapt reusable agent guidance from a source directory containing `AGENTS.md`, public mapped language guides, and optional private guides into a target project. This is a synthesis task: read the target project first, then write guidance that fits what is actually there.
 
 ## Workflow
 
@@ -16,6 +16,8 @@ Adapt reusable agent guidance from a source directory containing `AGENTS.md` and
 3. Read source guidance:
    - `AGENTS.md`
    - Any language guides mapped or referenced by `AGENTS.md` that are relevant to the target project
+   - Optional private guides under `guidance/private/` only when the user explicitly asks to include local or private guidance
+   - Ignore `guidance/private/.gitkeep`
 4. Inspect the target project before editing:
    - Existing `AGENTS.md` and any language-specific guides it references
    - Package manifests, lockfiles, workspace files, language/toolchain configs, formatter/linter configs, test configs, build configs, and README/developer docs when present
@@ -23,6 +25,7 @@ Adapt reusable agent guidance from a source directory containing `AGENTS.md` and
 5. Decide the target shape:
    - If there is no `AGENTS.md`, create a concise project-specific `AGENTS.md` from the reusable entrypoint rules plus target-specific commands and conventions discovered locally.
    - Include or reference mapped language guidance only when it fits the target project's actual languages and tooling.
+   - Supported public guides currently include `C++.md`, `Containers.md`, `Python.md`, `Shell.md`, and `TypeScript.md`; treat `AGENTS.md` as the source of truth if this list changes.
    - If `AGENTS.md` already exists, merge into that file or its referenced language guide. Preserve target-specific rules and add only useful missing guidance.
 6. Edit manually with `apply_patch`. Review the final diff for duplicated or contradictory rules.
 
@@ -33,6 +36,8 @@ Adapt reusable agent guidance from a source directory containing `AGENTS.md` and
 - Do not duplicate sections with the same purpose. Combine them under the target's existing heading when possible.
 - Keep language-specific guidance concise. Inline only the parts of mapped language guides that are relevant to the target when a separate language guide is not appropriate.
 - If the target already references separate language guides, update the relevant guide instead of inlining a second copy.
+- Do not include private overlay guidance in a target project unless the user explicitly asks for it.
+- If private guidance is requested, read `guidance/private/AGENTS.md` first when it exists, then load only the private guides it maps or the user names.
 - Prefer project-specific commands discovered from manifests, task files, or docs over generic commands.
 - Remove source rules that clearly do not fit the target runtime, framework, package manager, or language mix.
 - Surface conflicts explicitly in the final response, especially commit format, tooling source of truth, test commands, module system, or stricter typing rules.
