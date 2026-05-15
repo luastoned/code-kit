@@ -46,7 +46,7 @@ Apply shared config fragments and defaults from a source `configs/` directory in
 - `.oxfmtrc.json`: merge formatter defaults. Preserve target-specific ignores and overrides. Let the shared config provide common print, quote, import-sorting, JSDoc, newline, and package sorting defaults unless the target already has a deliberate value.
 - `.oxlintrc.json`: merge linter plugins, categories, rules, environment, and ignore patterns. Preserve target rule overrides. Union plugin and ignore arrays.
 - `package.json`: merge relevant shared scripts into the target `package.json` only when the corresponding tools are installed or intentionally being adopted. Preserve existing scripts unless the user explicitly asks to replace them.
-- `tsconfig.json`: merge only when the target is a JavaScript, TypeScript, Node.js, or related web project. Preserve existing compiler options, includes, excludes, references, framework plugins, and module settings. Do not add deprecated `baseUrl`; use explicit prefixes in `paths`.
+- `tsconfig.json`: merge only when the target is a JavaScript, TypeScript, Node.js, or related web project. Preserve existing compiler options, includes, excludes, references, framework plugins, and module settings. For TypeScript 6.0 compatibility, remove deprecated `baseUrl` when it only prefixes `paths`; move that prefix into each `paths` entry instead. Preserve old lookup-root behavior only when the target truly depends on it, by replacing it with an explicit catch-all path mapping. If the user asks for a TypeScript 6.0+ upgrade audit or broader migration cleanup, use the `migrate-typescript` skill after the config sync.
 
 ## Validation
 
