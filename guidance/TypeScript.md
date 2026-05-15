@@ -33,6 +33,7 @@ Check, in order:
 ## Typing and boundaries
 
 - Do not introduce `any` or `as any` in application code. If a third-party interop boundary truly requires it, keep it isolated, explain why in a short comment, and convert back to a typed shape immediately.
+- Prefer `@ts-expect-error` with a short reason over `@ts-ignore` when a suppression is unavoidable.
 - Type all external boundaries, including env, request/response, API payloads, and SDK/provider responses.
 - Prefer explicit, validated boundaries and trusted internal types.
 - Prefer explicit return types for exported functions, hooks, public class methods, and cross-module APIs.
@@ -59,12 +60,12 @@ Check, in order:
 - Use `AbortSignal`, timeouts, and explicit cancellation paths for new long-running IO where the surrounding code supports it.
 - In larger files, use `// #region RegionName` and `// #endregion` to group related sections that belong together. Avoid adding regions to small files that are already easy to scan.
 
-## Configuration and migrations
+## Configuration
 
-- Prefer `strict` TypeScript projects. When changing tsconfig, consider `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, and modern `module`/`moduleResolution` settings, but only enable them deliberately for the affected project.
-- For bundled web apps and Bun-style runtimes, prefer `moduleResolution: "bundler"` when it matches the toolchain. For Node libraries/services, prefer Node-aware module settings such as `node20` or `nodenext` when the project is ready for them.
-- Treat TypeScript 6 deprecations as migration work toward TypeScript 7. Do not add new usage of deprecated compiler options or syntax.
-- Use migration-only compiler flags, such as stable type ordering checks, only to diagnose upgrade differences; do not turn them into permanent project style.
+- Treat the project's existing `tsconfig*.json`, package scripts, runtime, bundler, module system, and emitted output shape as the source of truth.
+- Run type checks through the project-local script or project-mode `tsc`; do not use `tsc some-file.ts` in repos with `tsconfig.json`.
+- Prefer strict TypeScript for new projects and new isolated config surfaces, but do not broaden strictness in an existing repo as a drive-by change.
+- Do not add deprecated TypeScript compiler options, deprecated syntax, or migration-only flags as permanent project style.
 
 ## Functions and classes
 
