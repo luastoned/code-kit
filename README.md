@@ -35,6 +35,7 @@
 - 🧭 **Agent-ready guidance** — Store downstream `AGENTS.md` templates and language guides that can be adapted into project-specific instructions.
 - 🔧 **Shared tooling defaults** — Version common Oxc, TypeScript, and package script defaults without burying them in individual repos.
 - 🔁 **Sync workflows** — Use bundled skills to merge guidance and config into target projects while preserving local conventions.
+- 🧪 **Migration checks** — Audit TypeScript projects for one-time upgrade issues without baking cleanup checklists into downstream guidance.
 
 ## 📦 Contents
 
@@ -43,7 +44,7 @@
 | `configs/`    | Shared config fragments for Oxc, TypeScript path aliases, and package scripts. |
 | `guidance/`   | Reusable downstream agent guidance, language guides, and local overlays. |
 | `references/` | Structured reference data reused across projects.                       |
-| `skills/`     | Shareable Codex skills for syncing guidance and project configs.        |
+| `skills/`     | Shareable Codex skills for syncing guidance, project configs, and migration checks. |
 | `docs/`       | Notes, links, and conventions that do not belong in executable configs. |
 
 ## 📥 Install
@@ -59,20 +60,36 @@ cd code-kit
 
 ## 🚀 Quick Start
 
-Link the Codex skills from the installed repo path:
+The `skills/` directory is the source of truth. Each skill is a directory with a `SKILL.md` entrypoint and YAML frontmatter, which keeps the files portable across agent runtimes that support this shape.
+
+Link the skills from the installed repo path into the runtime you want to use.
+
+### Codex
 
 ```bash
 test -d "$(pwd)/skills/sync-agent-guidance" && ln -sfn "$(pwd)/skills/sync-agent-guidance" ~/.codex/skills/sync-agent-guidance
 test -d "$(pwd)/skills/sync-project-configs" && ln -sfn "$(pwd)/skills/sync-project-configs" ~/.codex/skills/sync-project-configs
+test -d "$(pwd)/skills/migrate-typescript" && ln -sfn "$(pwd)/skills/migrate-typescript" ~/.codex/skills/migrate-typescript
 ```
 
-Run the commands from the `code-kit` checkout. The `test -d` guard ensures the skill exists before linking it, and `$(pwd)` captures the absolute source path so Codex can resolve the skill directory later.
+### Claude Code
 
-After linking, start a new Codex session so the skills are discovered.
+```bash
+test -d "$(pwd)/skills/sync-agent-guidance" && ln -sfn "$(pwd)/skills/sync-agent-guidance" ~/.claude/skills/sync-agent-guidance
+test -d "$(pwd)/skills/sync-project-configs" && ln -sfn "$(pwd)/skills/sync-project-configs" ~/.claude/skills/sync-project-configs
+test -d "$(pwd)/skills/migrate-typescript" && ln -sfn "$(pwd)/skills/migrate-typescript" ~/.claude/skills/migrate-typescript
+```
+
+Run the commands from the `code-kit` checkout. The `test -d` guard ensures the skill exists before linking it, and `$(pwd)` captures the absolute source path so the agent runtime can resolve the skill directory later.
+
+Claude Code also supports project-local skills under `.claude/skills/`. For `code-kit`, the recommended model is to keep this repo as the source of truth and symlink selected skills into the runtime that should consume them.
+
+After linking, start a new agent session so the skills are discovered.
 
 ```text
 Use $sync-agent-guidance to sync AGENTS.md and mapped language guidance into this project.
 Use $sync-project-configs to sync shared config files into this project.
+Use $migrate-typescript to audit and migrate this project for TypeScript 6.0+ compatibility.
 ```
 
 Do not symlink shared config files directly by default. Use the skills to copy or merge `configs/`, `guidance/`, and `references/` into target projects so local project settings are preserved.
@@ -101,6 +118,16 @@ Use $sync-project-configs to sync shared config files into this project.
 ```
 
 The skill copies missing relevant configs, merges structured configs where possible, and preserves target-specific settings.
+
+### TypeScript Migration
+
+Use `migrate-typescript` for one-time TypeScript 6.0+ upgrade audits and migration fixes:
+
+```text
+Use $migrate-typescript to audit and migrate this project for TypeScript 6.0+ compatibility.
+```
+
+The skill checks deprecated compiler options, deprecated syntax, changed defaults, and project-local typecheck behavior without adding those cleanup steps to downstream `AGENTS.md` files.
 
 ### Gitmoji Reference
 
