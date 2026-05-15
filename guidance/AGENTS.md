@@ -13,6 +13,7 @@ Current mapping:
 
 - `C++.md`: C, C++, C/C++ headers, CMake/native libraries, general modern C++ code, and compiler/toolchain configs.
 - `Containers.md`: Dockerfiles, Compose files such as `compose.yml`, `compose.yaml`, `docker-compose.yml`, and override variants, `.dockerignore`, dev containers, container build scripts, Kubernetes manifests, Helm charts, and container-related CI config.
+- `IDA.md`: IDA Pro / Hex-Rays work, binary reverse engineering, decompiler-driven vendor dumps, recovered structs/types, and workflows where IDA is the source of truth.
 - `Python.md`: Python source, Python scripts, pyproject/packaging files, Python lockfiles and dependency manifests, Python CLIs/services, tests, notebooks, and Python tooling configs.
 - `Shell.md`: shell scripts, Bash, POSIX sh, zsh snippets, CI shell steps, Make recipes, install/setup scripts, and shell command orchestration.
 - `TypeScript.md`: TypeScript, JavaScript, JSX, TSX, all Node.js code, package manager and workspace files, JS/TS tool configs, frontend build tooling, and related web runtime code.
