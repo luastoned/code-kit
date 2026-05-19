@@ -35,6 +35,7 @@
 - 🧭 **Agent-ready guidance** — Store downstream `AGENTS.md` templates and language guides that can be adapted into project-specific instructions.
 - 🔧 **Shared tooling defaults** — Version common Oxc, TypeScript, and package script defaults without burying them in individual repos.
 - 🔁 **Sync workflows** — Use bundled skills to merge guidance and config into target projects while preserving local conventions.
+- 📚 **README polish** — Refactor project READMEs into friendly, accurate, emoji-accented documentation.
 - 🧪 **Migration checks** — Audit TypeScript projects for one-time upgrade issues without baking cleanup checklists into downstream guidance.
 
 ## 📦 Contents
@@ -70,6 +71,7 @@ Link the skills from the installed repo path into the runtime you want to use.
 test -d "$(pwd)/skills/sync-agent-guidance" && ln -sfn "$(pwd)/skills/sync-agent-guidance" ~/.codex/skills/sync-agent-guidance
 test -d "$(pwd)/skills/sync-project-configs" && ln -sfn "$(pwd)/skills/sync-project-configs" ~/.codex/skills/sync-project-configs
 test -d "$(pwd)/skills/migrate-typescript" && ln -sfn "$(pwd)/skills/migrate-typescript" ~/.codex/skills/migrate-typescript
+test -d "$(pwd)/skills/polish-readme" && ln -sfn "$(pwd)/skills/polish-readme" ~/.codex/skills/polish-readme
 ```
 
 ### Claude Code
@@ -78,6 +80,7 @@ test -d "$(pwd)/skills/migrate-typescript" && ln -sfn "$(pwd)/skills/migrate-typ
 test -d "$(pwd)/skills/sync-agent-guidance" && ln -sfn "$(pwd)/skills/sync-agent-guidance" ~/.claude/skills/sync-agent-guidance
 test -d "$(pwd)/skills/sync-project-configs" && ln -sfn "$(pwd)/skills/sync-project-configs" ~/.claude/skills/sync-project-configs
 test -d "$(pwd)/skills/migrate-typescript" && ln -sfn "$(pwd)/skills/migrate-typescript" ~/.claude/skills/migrate-typescript
+test -d "$(pwd)/skills/polish-readme" && ln -sfn "$(pwd)/skills/polish-readme" ~/.claude/skills/polish-readme
 ```
 
 Run the commands from the `code-kit` checkout. The `test -d` guard ensures the skill exists before linking it, and `$(pwd)` captures the absolute source path so the agent runtime can resolve the skill directory later.
@@ -90,6 +93,7 @@ After linking, start a new agent session so the skills are discovered.
 Use $sync-agent-guidance to sync AGENTS.md and mapped language guidance into this project.
 Use $sync-project-configs to sync shared config files into this project.
 Use $migrate-typescript to audit and migrate this project for TypeScript 6.0+ compatibility.
+Use $polish-readme to refresh this project's README.md.
 ```
 
 Do not symlink shared config files directly by default. Use the skills to copy or merge `configs/`, `guidance/`, and `references/` into target projects so local project settings are preserved.
@@ -128,6 +132,16 @@ Use $migrate-typescript to audit and migrate this project for TypeScript 6.0+ co
 ```
 
 The skill checks deprecated compiler options, deprecated syntax, changed defaults, and project-local typecheck behavior without adding those cleanup steps to downstream `AGENTS.md` files.
+
+### README Polish
+
+Use `polish-readme` when a project README should be created, refreshed, or refactored:
+
+```text
+Use $polish-readme to refresh this project's README.md.
+```
+
+The skill inspects the target repo first, then rewrites the README around real project contents, commands, links, and examples.
 
 ### Gitmoji Reference
 
