@@ -2,12 +2,13 @@
 
 Use this file as the entrypoint for repository engineering guidance.
 
-## Language Guides
+## Guide Selection
 
-1. Identify the primary language, runtime, or file type for the task.
-2. Load the matching guide below when one applies.
-3. If multiple languages are involved, follow the guide for the dominant part of the change and any other guide needed for files you edit.
-4. If no guide applies, follow the repository's existing patterns and keep changes minimal and explicit.
+1. Identify the repository shape, primary language, runtime, or file type for the task.
+2. Load `Repositories.md` for repository shape, root/nested guidance, ownership, commit boundaries, and validation scope.
+3. Load the matching language or runtime guide below when one applies.
+4. If multiple guides apply, follow the repository guide for ownership and tooling boundaries, then the language guide for files you edit.
+5. If no guide applies, follow the repository's existing patterns and keep changes minimal and explicit.
 
 Current mapping:
 
@@ -17,6 +18,7 @@ Current mapping:
 - `Python.md`: Python source, Python scripts, pyproject/packaging files, Python lockfiles and dependency manifests, Python CLIs/services, tests, notebooks, and Python tooling configs.
 - `Shell.md`: shell scripts, Bash, POSIX sh, zsh snippets, CI shell steps, Make recipes, install/setup scripts, and shell command orchestration.
 - `TypeScript.md`: TypeScript, JavaScript, JSX, TSX, all Node.js code, package manager and workspace files, JS/TS tool configs, frontend build tooling, and related web runtime code.
+- `Repositories.md`: repository shape, root/nested `AGENTS.md`, multi-project ownership, commit boundaries, repo-wide tooling, and validation scope.
 
 ## Private Guides
 
