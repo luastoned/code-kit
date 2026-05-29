@@ -45,3 +45,4 @@ Local-only private guides may exist under `guidance/private/`. These files are i
 
 - Language-specific guides refine this entrypoint and take precedence for code style decisions within their scope.
 - Reuse repository-local patterns before introducing new abstractions, even when a language guide suggests a general preference.
+- Treat named practices such as KISS, DRY, YAGNI, SOLID, and the Rule of Three as optional lenses, not automatic refactor mandates. Apply them explicitly only when they fit the task, and ask before making broad methodology-driven changes.
