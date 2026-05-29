@@ -21,7 +21,7 @@ For every function you identify:
 5. Set local variable types where the type is known or strongly supported by surrounding code.
 6. Re-decompile after the IDA changes.
 7. Copy or update the repository artifact from the post-rename, post-type IDA decompile.
-8. Record the binary/module, address, and any remaining uncertainty in the repository artifact or audit notes.
+8. Record the binary/module, build or version metadata, address, and any remaining uncertainty in the repository artifact or audit notes.
 
 Do not skip IDA renames just because a local vendor file already has a good manual name. Apply the name in IDA first, then regenerate or sync the dump.
 
@@ -44,8 +44,8 @@ When a struct is partial, name it anyway if it materially improves the analysis,
 
 - Use descriptive names based on observed behavior, call sites, strings, vtable slots, imports, RTTI, or known SDK/source equivalents.
 - Avoid overclaiming names that are only guesses. Prefer names such as `TraceCandidateSlotStore` over a precise engine class name if the class identity is not proven.
-- Include address comments or notes for recovered functions, especially when copied into `vendor/`.
-- Keep original address provenance visible enough that the function can be found again in IDA.
+- Include module/build/address comments or notes for recovered functions, especially when copied into `vendor/`.
+- Keep original module, build/version, and address provenance visible enough that the function can be found again in IDA.
 
 ## Decompiler Output
 
@@ -71,7 +71,8 @@ If repository behavior diverges from IDA, assume the repository is wrong until v
 
 For every recovered area, keep a short audit trail:
 
-- Function name, module, address, and size when available.
+- Function name, module, build/version metadata, address, and size when available.
+- For frequently updated game/client binaries, include patch version, client/server version, Steam build ID or depot manifest when available, binary timestamp/hash, and source path.
 - Structs created or refined in IDA.
 - Function prototypes and important argument meanings.
 - Which callers were re-decompiled after typing.
