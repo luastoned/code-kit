@@ -41,6 +41,7 @@ Check, in order:
 - Prefer `unknown` over `any` for untrusted values, then narrow safely.
 - Use runtime validation at trust boundaries when static types cannot prove the data shape.
 - Prefer `readonly` arrays and readonly object shapes at boundaries unless mutation is required.
+- Prefer explicit object property assignment over shorthand properties in persisted, serialized, API, schema, config, and cross-boundary objects.
 - Prefer literal unions, discriminated unions, and `as const` objects over `enum`.
 - Prefer `satisfies` for validating typed constants and config objects.
 - Prefer `const` type parameters and precise generics when they remove caller-side `as const` noise without making the API harder to read.
