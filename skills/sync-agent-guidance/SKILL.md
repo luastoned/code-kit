@@ -31,7 +31,9 @@ Adapt reusable agent guidance from a source directory containing `AGENTS.md`, pu
    - Include or reference mapped language guidance only when it fits the target project's actual languages and tooling.
    - Supported public guides currently include `C++.md`, `Containers.md`, `Python.md`, `Shell.md`, `TypeScript.md`, and `Repositories.md`; treat `AGENTS.md` as the source of truth if this list changes.
    - If `AGENTS.md` already exists, merge into that file or its referenced language guide. Preserve target-specific rules and add only useful missing guidance.
-   - Before editing, inventory every section from the relevant source guidance. Treat each section as intentional and decide whether it should be preserved, adapted, merged into another section, or omitted for a concrete target-specific reason.
+   - Before editing, inventory every `##` section from each relevant source guide. Treat each section as intentional.
+   - The final target guidance must make that inventory auditable: preserve each applicable source `##` section as an explicit target section, or state a concrete omission/move reason in the final response.
+   - Do not rely on silently merging multiple source `##` sections into one broad target section. Merging is allowed only when the destination section is obvious and the final response states the source section and destination.
 6. Edit manually with `apply_patch`. Review the final diff for duplicated or contradictory rules.
 
 ## Merge Rules
@@ -40,9 +42,10 @@ Adapt reusable agent guidance from a source directory containing `AGENTS.md`, pu
 - Preserve repo-wide rules at the repository root when a target has multiple projects. Do not bury commit style, CI, generated/vendor policy, or project boundary rules inside a single backend/frontend/package guide.
 - In multi-project repositories, make the root guidance explain how to identify the owning project, choose nearest commands/configs, group commits by boundary, and validate affected projects.
 - Prefer the target project's nearest formatter/linter configs over copied style rules.
-- Do not silently drop source sections. Preserve or adapt each section unless it clearly does not apply, duplicates a stronger local rule, or belongs in a different nested project guide.
-- If a source section is omitted or moved, be ready to state the omission or destination and the reason in the final response.
-- Do not duplicate sections with the same purpose. Combine them under the target's existing heading when possible.
+- Do not silently drop source sections. Preserve or adapt each relevant source `##` section unless it clearly does not apply, duplicates a stronger local rule, or belongs in a different nested project guide.
+- Prefer keeping relevant source `##` sections visible as target headings, adapted to the project. This makes the sync reviewable and prevents accidental omissions.
+- If a source `##` section is omitted, moved, or merged into a differently named target section, state the source section, destination or omission, and reason in the final response.
+- Do not duplicate sections with the same purpose. If combining with an existing target heading, keep the source section coverage explicit enough to audit.
 - Keep language-specific guidance concise. Inline only the parts of mapped language guides that are relevant to the target when a separate language guide is not appropriate.
 - If the target already references separate language guides, update the relevant guide instead of inlining a second copy.
 - Do not include private overlay guidance in a target project unless the user explicitly asks for it.
@@ -81,3 +84,5 @@ Use `rg --files` first. Read only the files needed to understand local conventio
 ## Output Expectations
 
 The final `AGENTS.md` should read as if it was written for the target project, not copied from the source. It should be short enough to follow, specific enough to be useful, and explicit where the target has real commands or constraints.
+
+Include a section-coverage summary in the final response for each relevant source guide: list preserved `##` sections, adapted/renamed sections, moved sections, and omitted sections with reasons.
