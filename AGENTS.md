@@ -33,6 +33,7 @@ This repository stores shared coding resources that are reused across other proj
 
 ## Skills
 
+- Always use `$skill-creator` when creating a new skill or making substantial updates to an existing skill.
 - Skill directories must include a `SKILL.md` with frontmatter `name` and `description`.
 - Keep skill workflows procedural and scoped to actions an agent can actually perform.
 - Store reusable agent prompts or metadata under the skill directory when they belong to that skill.
@@ -43,7 +44,7 @@ This repository stores shared coding resources that are reused across other proj
 - There is no project build by default.
 - For Markdown-only changes, review the rendered structure and check links or paths you changed.
 - For config changes, validate against the relevant tool when that tool is available locally.
-- For skill changes, read the full `SKILL.md` and make sure the workflow still matches the files in the skill directory.
+- For skill changes, read the full `SKILL.md`, make sure the workflow still matches the files in the skill directory, and run `$skill-creator` validation with `quick_validate.py`.
 
 ## Commit Messages
 

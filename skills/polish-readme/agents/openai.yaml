@@ -1,0 +1,4 @@
+interface:
+  display_name: "Polish README"
+  short_description: "Refresh project README files"
+  default_prompt: "Use $polish-readme to refresh this project's README.md."
