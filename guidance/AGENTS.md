@@ -6,9 +6,10 @@ Use this file as the entrypoint for repository engineering guidance.
 
 1. Identify the repository shape, primary language, runtime, or file type for the task.
 2. Load `Repositories.md` for repository shape, root/nested guidance, ownership, commit boundaries, and validation scope.
-3. Load the matching language or runtime guide below when one applies.
-4. If multiple guides apply, follow the repository guide for ownership and tooling boundaries, then the language guide for files you edit.
-5. If no guide applies, follow the repository's existing patterns and keep changes minimal and explicit.
+3. Load `Security.md` for security-sensitive, dual-use, reverse engineering, exploit-adjacent, or defensive security work.
+4. Load the matching language or runtime guide below when one applies.
+5. If multiple guides apply, follow the repository guide for ownership and tooling boundaries, then security guidance when relevant, then the language guide for files you edit.
+6. If no guide applies, follow the repository's existing patterns and keep changes minimal and explicit.
 
 Current mapping:
 
@@ -16,6 +17,7 @@ Current mapping:
 - `Containers.md`: Dockerfiles, Compose files such as `compose.yml`, `compose.yaml`, `docker-compose.yml`, and override variants, `.dockerignore`, dev containers, container build scripts, Kubernetes manifests, Helm charts, and container-related CI config.
 - `IDA.md`: IDA Pro / Hex-Rays work, binary reverse engineering, decompiler-driven vendor dumps, recovered structs/types, and workflows where IDA is the source of truth.
 - `Python.md`: Python source, Python scripts, pyproject/packaging files, Python lockfiles and dependency manifests, Python CLIs/services, tests, notebooks, and Python tooling configs.
+- `Security.md`: authorized defensive security, dual-use tooling, exploit-adjacent programming, web attack vectors, credential testing, reverse engineering, game mods/trainers, anti-cheat analysis, and related security research.
 - `Shell.md`: shell scripts, Bash, POSIX sh, zsh snippets, CI shell steps, Make recipes, install/setup scripts, and shell command orchestration.
 - `TypeScript.md`: TypeScript, JavaScript, JSX, TSX, all Node.js code, package manager and workspace files, JS/TS tool configs, frontend build tooling, and related web runtime code.
 - `Repositories.md`: repository shape, root/nested `AGENTS.md`, multi-project ownership, commit boundaries, repo-wide tooling, and validation scope.
@@ -29,6 +31,22 @@ Local-only private guides may exist under `guidance/private/`. These files are i
 - Load relevant private guides only when the user explicitly asks to include private, personal, or local guidance.
 - Private guides refine or extend the public mapping for the current machine; do not assume they exist in other checkouts.
 - Do not copy private guidance into public files unless the user explicitly asks to publish it.
+
+## Working style
+
+- Answer directly and precisely. Put the result first when a direct answer is enough.
+- Separate facts, conclusions, assumptions, and speculation.
+- For documents and external sources, cite relevant evidence before synthesis.
+- Break complex tasks into verifiable steps and state important intermediate results.
+- Ask at most one clarifying question, only when the task is blocked; otherwise proceed with a stated assumption.
+
+## Code changes
+
+- Prioritize correctness, minimality, readability, and consistency with the repository.
+- Change only what the task requires.
+- Add abstractions, indirection, dependencies, or optimizations only with concrete justification.
+- Make ownership, state, and error paths clear.
+- Use search to locate relevant code before reading large files, and verify only the changed areas needed after edits.
 
 ## Tooling source of truth
 

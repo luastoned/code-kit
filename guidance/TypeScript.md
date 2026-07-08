@@ -52,6 +52,8 @@ Check, in order:
 
 - Keep business logic separate from framework or transport details where practical.
 - Do not silently swallow errors. Preserve causes and relevant context when wrapping errors.
+- Make mutable state, ownership of long-lived resources, and error paths explicit at service, API, persistence, and process boundaries.
+- Avoid hidden module-level mutable state unless the surrounding code already uses that pattern and lifecycle.
 - Avoid unnecessary helpers, wrappers, dependencies, and abstractions.
 - The Rule of Three: do not extract shared helpers, utility modules, or base abstractions until the same pattern is repeated at least three times, unless the existing local design already establishes the abstraction.
 - Prefer small, single-purpose functions.

@@ -1,13 +1,13 @@
 ---
 name: sync-agent-guidance
-description: Adapt and merge reusable repository agent guidance into another project. Use when Codex needs to inspect a target project, create a project-specific AGENTS.md, merge mapped language guidance into existing agent instructions, or update guidance while preserving local rules and project conventions.
+description: Adapt and merge reusable repository agent guidance into another project. Use when Codex needs to inspect a target project, create a project-specific AGENTS.md, selectively merge mapped language guidance into existing agent instructions, or update guidance while preserving local rules and project conventions.
 ---
 
 # Sync Agent Guidance
 
 ## Overview
 
-Adapt reusable agent guidance from a source directory containing `AGENTS.md`, public mapped language guides, and optional private guides into a target project. This is a synthesis task: read the target project first, then write guidance that fits what is actually there.
+Adapt reusable agent guidance from a source directory containing `AGENTS.md`, public mapped guides, and optional private guides into a target project. This is a synthesis task: read the target project first, then write guidance that fits what is actually there.
 
 ## Workflow
 
@@ -16,7 +16,8 @@ Adapt reusable agent guidance from a source directory containing `AGENTS.md`, pu
 3. Read source guidance:
    - `AGENTS.md`
    - `Repositories.md` for repository shape, root coordination, ownership boundaries, commit policy, and validation scope
-   - Any language guides mapped or referenced by `AGENTS.md` that are relevant to the target project
+   - Primary language or runtime guides for languages that are central to normal development in the target project
+   - Asset-specific guides such as `Shell.md`, `Containers.md`, `Security.md`, or `IDA.md` only when those files or workflows are a meaningful maintained part of the target, or when the user explicitly targets them
    - Optional private guides under `guidance/private/` only when the user explicitly asks to include local or private guidance
    - Ignore `guidance/private/.gitkeep`
 4. Inspect the target project before editing:
@@ -28,8 +29,9 @@ Adapt reusable agent guidance from a source directory containing `AGENTS.md`, pu
 5. Decide the target shape:
    - If the target contains multiple projects, preserve or create a concise root `AGENTS.md` for repo-wide rules, and use nested project `AGENTS.md` files for backend/frontend/package-specific implementation rules.
    - If the target is a single-project repository and there is no `AGENTS.md`, create a concise project-specific `AGENTS.md` from the reusable entrypoint rules plus target-specific commands and conventions discovered locally.
-   - Include or reference mapped language guidance only when it fits the target project's actual languages and tooling.
-   - Supported public guides currently include `C++.md`, `Containers.md`, `Python.md`, `Shell.md`, `TypeScript.md`, and `Repositories.md`; treat `AGENTS.md` as the source of truth if this list changes.
+   - Include or reference mapped guidance only when it fits the target project's actual primary languages, maintained workflows, and tooling.
+   - Supported public guides currently include `C++.md`, `Containers.md`, `Python.md`, `Security.md`, `Shell.md`, `TypeScript.md`, and `Repositories.md`; treat `AGENTS.md` as the source of truth if this list changes.
+   - Do not include a guide just because a matching file exists incidentally.
    - If `AGENTS.md` already exists, merge into that file or its referenced language guide. Preserve target-specific rules and add only useful missing guidance.
    - Before editing, inventory every `##` section from each relevant source guide. Treat each section as intentional.
    - The final target guidance must make that inventory auditable: preserve each applicable source `##` section as an explicit target section, or state a concrete omission/move reason in the final response.
@@ -46,7 +48,7 @@ Adapt reusable agent guidance from a source directory containing `AGENTS.md`, pu
 - Prefer keeping relevant source `##` sections visible as target headings, adapted to the project. This makes the sync reviewable and prevents accidental omissions.
 - If a source `##` section is omitted, moved, or merged into a differently named target section, state the source section, destination or omission, and reason in the final response.
 - Do not duplicate sections with the same purpose. If combining with an existing target heading, keep the source section coverage explicit enough to audit.
-- Keep language-specific guidance concise. Inline only the parts of mapped language guides that are relevant to the target when a separate language guide is not appropriate.
+- Keep language-specific guidance concise. Inline only the parts of mapped guides that are relevant to the target when a separate guide is not appropriate.
 - If the target already references separate language guides, update the relevant guide instead of inlining a second copy.
 - Do not include private overlay guidance in a target project unless the user explicitly asks for it.
 - If private guidance is requested, read `guidance/private/AGENTS.md` first when it exists, then load only the private guides it maps or the user names.
@@ -56,7 +58,15 @@ Adapt reusable agent guidance from a source directory containing `AGENTS.md`, pu
 
 ## Language Guide Detection
 
-Use the source `AGENTS.md` language mapping as the source of truth for available language guides. Detect the target's relevant guides from files and configuration in the project.
+Use the source `AGENTS.md` mapping as the source of truth for available guides. Detect the target's relevant guides from files and configuration in the project, but apply a strict relevance gate before reading or merging each guide.
+
+Treat a guide as relevant when matching files are part of normal development, validation, deployment, security work, reverse-engineering work, or agent edits for the target. Do not treat a guide as relevant merely because one matching file, example, generated artifact, vendored file, or tool output exists.
+
+Guide categories:
+
+- Primary implementation guides: include for dominant languages and runtimes the project actively develops in, such as TypeScript, Python, or C++.
+- Maintained workflow guides: include for operational surfaces the project actively owns, such as containers, shell orchestration, security workflows, or IDA/reverse-engineering artifacts.
+- Incidental signals: detect but do not include by default, such as one-off helper scripts, examples, generated files, vendored code, copied snippets, CI shell fragments, or config files that are not normally edited.
 
 Common signals include:
 
@@ -64,6 +74,7 @@ Common signals include:
 - Language-specific config files, compiler configs, build files, and project manifests.
 - Package manifests and dependencies that identify the runtime, framework, or test tooling.
 - Existing `AGENTS.md` lookup rules or language-specific guides already present in the target.
+- User request scope, changed paths, and project docs that show which areas agents are expected to edit.
 
 Do not scan `node_modules`, `dist`, `build`, `.git`, or coverage directories for detection.
 

@@ -47,6 +47,8 @@ Check, in order:
 - Prefer explicit exceptions with useful context over bare `except` or silent failure.
 - Keep module-level side effects minimal, especially in importable library code.
 - Prefer dependency injection through simple parameters or constructors over global mutable state.
+- Make resource ownership, mutable state, and error paths explicit at CLI, service, file, network, database, and subprocess boundaries.
+- Avoid hidden global state and implicit conventions that make tests depend on machine-local state or import order.
 - Use dataclasses or small classes when they clarify cohesive state; use functions for simple stateless behavior.
 
 ## Async And IO

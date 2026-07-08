@@ -7,6 +7,7 @@ Use this guide when working from IDA, decompiled binaries, reverse-engineered ga
 - Treat IDA as the source of truth. Repository files such as `vendor/`, notes, or copied decompiler output are downstream artifacts.
 - Do not hand-clean a vendor dump first and leave IDA behind. Rename and type things in IDA, re-decompile, then update the repository copy from that decompile.
 - Preserve uncertainty explicitly. If a name, type, field, or behavior is inferred rather than proven, mark it as inferred in comments or notes.
+- Separate observed facts, inferred conclusions, assumptions, and speculation in notes and recovered-code comments.
 - Prefer mechanically faithful decompiler output over attractive pseudocode when the goal is parity with a binary.
 - Keep recovered code scoped to the functions and structures needed for the current investigation.
 
