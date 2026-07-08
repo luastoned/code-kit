@@ -37,6 +37,7 @@
 - 🔁 **Sync workflows** — Use bundled skills to merge guidance and config into target projects while preserving local conventions.
 - 🛠️ **Guided refactors** — Refactor selected files through the nearest `AGENTS.md` and mapped guidance.
 - 📚 **README polish** — Refactor project READMEs into friendly, accurate, emoji-accented documentation.
+- 🧵 **Session handoffs** — Save concise `AGENTS_STATE.md` handoffs and consume them at the start of the next session.
 - 🧪 **Migration checks** — Audit TypeScript projects for one-time upgrade issues without baking cleanup checklists into downstream guidance.
 
 ## 📦 Contents
@@ -69,21 +70,32 @@ Link the skills from the installed repo path into the runtime you want to use.
 ### Codex
 
 ```bash
+mkdir -p ~/.codex/skills
 test -d "$(pwd)/skills/sync-agent-guidance" && ln -sfn "$(pwd)/skills/sync-agent-guidance" ~/.codex/skills/sync-agent-guidance
 test -d "$(pwd)/skills/sync-project-configs" && ln -sfn "$(pwd)/skills/sync-project-configs" ~/.codex/skills/sync-project-configs
 test -d "$(pwd)/skills/migrate-typescript" && ln -sfn "$(pwd)/skills/migrate-typescript" ~/.codex/skills/migrate-typescript
 test -d "$(pwd)/skills/polish-readme" && ln -sfn "$(pwd)/skills/polish-readme" ~/.codex/skills/polish-readme
 test -d "$(pwd)/skills/refactor-code" && ln -sfn "$(pwd)/skills/refactor-code" ~/.codex/skills/refactor-code
+test -d "$(pwd)/skills/session-state" && ln -sfn "$(pwd)/skills/session-state" ~/.codex/skills/session-state
+```
+
+To install only the session handoff skill for testing:
+
+```bash
+mkdir -p ~/.codex/skills
+test -d "$(pwd)/skills/session-state" && ln -sfn "$(pwd)/skills/session-state" ~/.codex/skills/session-state
 ```
 
 ### Claude Code
 
 ```bash
+mkdir -p ~/.claude/skills
 test -d "$(pwd)/skills/sync-agent-guidance" && ln -sfn "$(pwd)/skills/sync-agent-guidance" ~/.claude/skills/sync-agent-guidance
 test -d "$(pwd)/skills/sync-project-configs" && ln -sfn "$(pwd)/skills/sync-project-configs" ~/.claude/skills/sync-project-configs
 test -d "$(pwd)/skills/migrate-typescript" && ln -sfn "$(pwd)/skills/migrate-typescript" ~/.claude/skills/migrate-typescript
 test -d "$(pwd)/skills/polish-readme" && ln -sfn "$(pwd)/skills/polish-readme" ~/.claude/skills/polish-readme
 test -d "$(pwd)/skills/refactor-code" && ln -sfn "$(pwd)/skills/refactor-code" ~/.claude/skills/refactor-code
+test -d "$(pwd)/skills/session-state" && ln -sfn "$(pwd)/skills/session-state" ~/.claude/skills/session-state
 ```
 
 Run the commands from the `code-kit` checkout. The `test -d` guard ensures the skill exists before linking it, and `$(pwd)` captures the absolute source path so the agent runtime can resolve the skill directory later.
@@ -98,6 +110,7 @@ Use $sync-project-configs to sync shared config files into this project.
 Use $migrate-typescript to audit and migrate this project for TypeScript 6.0+ compatibility.
 Use $polish-readme to refresh this project's README.md.
 Use $refactor-code on src/example.ts.
+Use $session-state to update AGENTS_STATE.md with the current session handoff.
 ```
 
 Do not symlink shared config files directly by default. Use the skills to copy or merge `configs/`, `guidance/`, and `references/` into target projects so local project settings are preserved.
@@ -156,6 +169,17 @@ Use $refactor-code on src/example.ts.
 ```
 
 The skill keeps behavior unchanged by default, follows local project rules, avoids broad rewrites, and runs the smallest relevant validation when practical.
+
+### Session State
+
+Use `session-state` when a session should leave or consume a short handoff:
+
+```text
+Use $session-state to update AGENTS_STATE.md with the current session handoff.
+Use $session-state to continue from AGENTS_STATE.md.
+```
+
+The skill writes dynamic state from the current conversation and repository context only. Read mode consumes the handoff by deleting `AGENTS_STATE.md` after a successful load unless you explicitly ask to keep it.
 
 ### Gitmoji Reference
 

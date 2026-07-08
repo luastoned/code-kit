@@ -20,6 +20,7 @@ pnpm-debug.log*
 !.env.example
 !.env.*.example
 .codex
+AGENTS_STATE.md
 guidance/private/*
 !guidance/private/.gitkeep
 

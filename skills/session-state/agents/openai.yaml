@@ -1,0 +1,4 @@
+interface:
+  display_name: "Session State"
+  short_description: "Save and restore session handoff context"
+  default_prompt: "Use $session-state to update AGENTS_STATE.md with the current session handoff."
