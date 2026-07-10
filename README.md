@@ -39,6 +39,7 @@
 - 📚 **README polish** — Refactor project READMEs into friendly, accurate, emoji-accented documentation.
 - 🧵 **Session handoffs** — Save concise `AGENTS_STATE.md` handoffs and consume them at the start of the next session.
 - 🧪 **Migration checks** — Audit TypeScript projects for one-time upgrade issues without baking cleanup checklists into downstream guidance.
+- ✅ **Repeatable validation** — Check skills, metadata, configs, formatting, references, links, and cross-file consistency with one command.
 
 ## 📦 Contents
 
@@ -48,6 +49,7 @@
 | `guidance/`   | Reusable downstream agent guidance, language guides, and local overlays.                             |
 | `references/` | Structured reference data reused across projects.                                                    |
 | `skills/`     | Shareable agent skills for syncs, refactors, README updates, session handoffs, and migration checks. |
+| `scripts/`    | Repository validation and collision-safe skill installation helpers.                                 |
 | `docs/`       | Notes, links, and conventions that do not belong in executable configs.                              |
 
 ## 📥 Install
@@ -90,6 +92,18 @@ test -d "$(pwd)/skills/polish-readme" && ln -sfn "$(pwd)/skills/polish-readme" ~
 test -d "$(pwd)/skills/refactor-code" && ln -sfn "$(pwd)/skills/refactor-code" ~/.claude/skills/refactor-code
 test -d "$(pwd)/skills/session-state" && ln -sfn "$(pwd)/skills/session-state" ~/.claude/skills/session-state
 ```
+
+### Optional Installer
+
+Keep using the manual commands above when you want direct control, or use the installer to link every skill or a selected subset:
+
+```bash
+./scripts/install-skills.sh codex
+./scripts/install-skills.sh claude session-state polish-readme
+./scripts/install-skills.sh all sync-agent-guidance sync-project-configs
+```
+
+The installer refreshes existing symlinks but refuses to overwrite real files or directories. Run `./scripts/install-skills.sh --help` for usage.
 
 Run the commands from the `code-kit` checkout. The `test -d` guard ensures the skill exists before linking it, and `$(pwd)` captures the absolute source path so the agent runtime can resolve the skill directory later.
 
@@ -181,13 +195,21 @@ The skill writes dynamic state from the current conversation and repository cont
 
 ## 🛠️ Maintenance
 
+Run the repository validator after changing shared resources:
+
+```bash
+python3 scripts/validate.py
+```
+
+The validator requires local `oxfmt`, `oxlint`, and the `$skill-creator` `quick_validate.py`; set `SKILL_VALIDATOR` when that script is installed in a non-standard location. It also runs ShellCheck when available.
+
 - Keep root `AGENTS.md` focused on working in this repo.
 - Keep downstream agent instructions in `guidance/`.
 - Keep private overlays in `guidance/private/`; do not publish sensitive or personal project guidance.
 - Keep reusable tooling defaults in `configs/`.
 - Keep structured lookup data in `references/`.
 - Keep skill workflows concise and procedural in `skills/*/SKILL.md`.
-- Validate JSON after editing config or reference files.
+- Keep the validator passing after editing configs, references, guidance, skills, metadata, or installation instructions.
 
 ## 📄 License
 

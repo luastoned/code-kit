@@ -9,6 +9,7 @@ This repository stores shared coding resources that are reused across other proj
 - `guidance/private/`: local-only overlays and guidance that should not be published.
 - `skills/`: shareable agent skills and their support files.
 - `references/`: structured lookup data reused by tooling and agent workflows.
+- `scripts/`: repository maintenance helpers for validation and skill installation.
 - `docs/`: reference notes and links that do not belong in executable config.
 
 ## Working In This Repo
@@ -20,6 +21,7 @@ This repository stores shared coding resources that are reused across other proj
 - Update `configs/AGENTS.md` when adding, removing, or changing the intended use of files in `configs/`.
 - Keep personal, sensitive, or project-specific private overlays under `guidance/private/`; only `.gitkeep` should be tracked there.
 - Update `skills/sync-agent-guidance/` when changing how guidance is adapted into target projects.
+- Keep scripts non-interactive, safe around existing files, and runnable from any working directory.
 - Update `configs/` only for tooling behavior that should become a shared default or reusable fragment.
 - Keep `README.md` focused on what this repo contains and how other locations consume it.
 - Keep docs in `docs/` when the information is reference material rather than an instruction agents must follow.
@@ -43,6 +45,7 @@ This repository stores shared coding resources that are reused across other proj
 ## Validation
 
 - There is no project build by default.
+- Run `python3 scripts/validate.py` for repository-wide changes.
 - For Markdown-only changes, review the rendered structure and check links or paths you changed.
 - For config changes, validate against the relevant tool when that tool is available locally.
 - For skill changes, read the full `SKILL.md`, make sure the workflow still matches the files in the skill directory, and run `$skill-creator` validation with `quick_validate.py`.
