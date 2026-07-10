@@ -1,5 +1,5 @@
 {
-  "$schema": "https://gitmoji.dev/api/gitmojis",
+  "$schema": "https://gitmoji.dev/api/gitmojis/schema",
   "gitmojis": [
     {
       "emoji": "🎨",
@@ -67,7 +67,7 @@
     },
     {
       "emoji": "💄",
-      "entity": "&#ff99cc;",
+      "entity": "&#x1f484;",
       "code": ":lipstick:",
       "description": "Add or update the UI and style files.",
       "name": "lipstick",
@@ -139,7 +139,7 @@
     },
     {
       "emoji": "⬇️",
-      "entity": "⬇️",
+      "entity": "&#x2b07;",
       "code": ":arrow_down:",
       "description": "Downgrade dependencies.",
       "name": "arrow-down",
@@ -147,7 +147,7 @@
     },
     {
       "emoji": "⬆️",
-      "entity": "⬆️",
+      "entity": "&#x2b06;",
       "code": ":arrow_up:",
       "description": "Upgrade dependencies.",
       "name": "arrow-up",
@@ -227,7 +227,7 @@
     },
     {
       "emoji": "✏️",
-      "entity": "&#59161;",
+      "entity": "&#x270f;",
       "code": ":pencil2:",
       "description": "Fix typos.",
       "name": "pencil2",
@@ -235,7 +235,7 @@
     },
     {
       "emoji": "💩",
-      "entity": "&#58613;",
+      "entity": "&#x1f4a9;",
       "code": ":poop:",
       "description": "Write bad code that needs to be improved.",
       "name": "poop",
@@ -259,7 +259,7 @@
     },
     {
       "emoji": "📦️",
-      "entity": "&#1F4E6;",
+      "entity": "&#x1f4e6;",
       "code": ":package:",
       "description": "Add or update compiled files or packages.",
       "name": "package",
@@ -267,7 +267,7 @@
     },
     {
       "emoji": "👽️",
-      "entity": "&#1F47D;",
+      "entity": "&#x1f47d;",
       "code": ":alien:",
       "description": "Update code due to external API changes.",
       "name": "alien",
@@ -275,7 +275,7 @@
     },
     {
       "emoji": "🚚",
-      "entity": "&#1F69A;",
+      "entity": "&#x1f69a;",
       "code": ":truck:",
       "description": "Move or rename resources (e.g.: files, paths, routes).",
       "name": "truck",
@@ -283,7 +283,7 @@
     },
     {
       "emoji": "📄",
-      "entity": "&#1F4C4;",
+      "entity": "&#x1f4c4;",
       "code": ":page_facing_up:",
       "description": "Add or update license.",
       "name": "page-facing-up",
@@ -299,7 +299,7 @@
     },
     {
       "emoji": "🍱",
-      "entity": "&#1F371",
+      "entity": "&#x1f371;",
       "code": ":bento:",
       "description": "Add or update assets.",
       "name": "bento",
@@ -379,7 +379,7 @@
     },
     {
       "emoji": "🏗️",
-      "entity": "&#1f3d7;",
+      "entity": "&#x1f3d7;",
       "code": ":building_construction:",
       "description": "Make architectural changes.",
       "name": "building-construction",
@@ -411,7 +411,7 @@
     },
     {
       "emoji": "🙈",
-      "entity": "&#8bdfe7;",
+      "entity": "&#x1f648;",
       "code": ":see_no_evil:",
       "description": "Add or update a .gitignore file.",
       "name": "see-no-evil",
@@ -595,7 +595,7 @@
     },
     {
       "emoji": "🦖",
-      "entity": "&#x2708;",
+      "entity": "&#x1f996;",
       "code": ":t-rex:",
       "description": "Code that adds backwards compatibility.",
       "name": "t-rex",

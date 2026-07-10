@@ -1,4 +1,4 @@
 interface:
-  display_name: "Migrate TypeScript"
-  short_description: "Audit and migrate TypeScript projects"
-  default_prompt: "Use $migrate-typescript to audit this project for TypeScript 6.0+ migration issues."
+  display_name: 'Migrate TypeScript'
+  short_description: 'Audit and migrate TypeScript projects'
+  default_prompt: 'Use $migrate-typescript to audit this project for TypeScript 6.0+ migration issues.'

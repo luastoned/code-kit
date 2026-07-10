@@ -1,6 +1,6 @@
 ---
 name: refactor-code
-description: Refactor selected files according to the nearest AGENTS.md and applicable mapped guidance while preserving behavior. Use when Codex should improve code structure, readability, maintainability, or consistency without broad rewrites or behavior changes.
+description: Refactor selected files according to the nearest AGENTS.md and applicable mapped guidance while preserving behavior. Use when an agent should improve code structure, readability, maintainability, or consistency without broad rewrites or behavior changes.
 ---
 
 # Refactor Code
@@ -26,7 +26,7 @@ Refactor one or more selected files using the target repository's own guidance a
    - Prefer readability, local consistency, clearer boundaries, and removal of incidental complexity.
    - Avoid broad architecture changes, cross-module rewrites, or dependency changes unless the user requested them.
    - Do not introduce a new abstraction unless it removes real repeated complexity or matches an established local pattern.
-5. Edit with `apply_patch`.
+5. Edit with the runtime's patch or structured edit tool.
 6. Run the smallest relevant validation when practical:
    - Targeted tests for the touched area.
    - Project-local typecheck, lint, format check, or build command when relevant.

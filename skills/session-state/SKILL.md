@@ -1,6 +1,6 @@
 ---
 name: session-state
-description: Save or restore current-session handoff context through an AGENTS_STATE.md file. Use when Codex needs to write a concise handoff before ending a session, read/consume a previous handoff at the start of a new session, continue work from saved agent state, or update the local session state for a repository without reading Codex history logs.
+description: Save, restore, or consume current-session handoff context through an AGENTS_STATE.md file. Use when an agent needs to write a concise handoff before ending a session, read or consume a previous handoff at the start of a new session, continue work from saved agent state, or update local repository session state without reading runtime history logs.
 ---
 
 # Session State
@@ -9,12 +9,13 @@ description: Save or restore current-session handoff context through an AGENTS_S
 
 Use `AGENTS_STATE.md` as a short-lived handoff file for agent context that should survive between sessions. The file is dynamic, local working state for the current repository or project, not source documentation.
 
-This skill only uses the current conversation, repository state, and an existing `AGENTS_STATE.md` when present. Do not read `~/.codex/history.jsonl`, `~/.codex/session_index.jsonl`, or `~/.codex/sessions/*` for this skill.
+This skill only uses the current conversation, repository state, and an existing `AGENTS_STATE.md` when present. Do not inspect agent-runtime history or session logs, including `~/.codex/history.jsonl`, `~/.codex/session_index.jsonl`, or `~/.codex/sessions/*`.
 
 ## Mode Selection
 
 - **Write mode**: Use when the user says to save, write, update, persist, or prepare session state, handoff, or continuation notes.
-- **Read mode**: Use when the user says to read, load, restore, consume, continue from, or resume session state.
+- **Read mode**: Use when the user says to read, load, restore, continue from, or resume session state. Keep the file after reading.
+- **Consume mode**: Use when the user explicitly says to consume, remove, or delete session state after loading it.
 - If the request is ambiguous, infer from context:
   - Existing `AGENTS_STATE.md` plus "continue" means read mode.
   - End-of-session wording means write mode.
@@ -22,10 +23,10 @@ This skill only uses the current conversation, repository state, and an existing
 
 ## File Location
 
-1. Use the repository or project root as the default location.
-2. If the user gives a folder, use that folder.
-3. If a nearer `AGENTS.md` clearly owns the active work area, place `AGENTS_STATE.md` next to that `AGENTS.md`.
-4. Do not create nested state files unless the user is explicitly working in a nested project with its own guidance.
+1. If the user gives a folder, use that folder.
+2. Otherwise use the repository root from `git rev-parse --show-toplevel` when available, or the current project root discovered from its manifest and guidance files.
+3. Use a nested project root only when the user is explicitly working in that project and it has its own manifest or `AGENTS.md`.
+4. Do not create nested state files merely because a nearer guidance file exists.
 
 ## Read Mode
 
@@ -38,7 +39,7 @@ This skill only uses the current conversation, repository state, and an existing
    - validation state
    - open questions
    - next steps
-3. Delete `AGENTS_STATE.md` after a successful read unless the user explicitly says to keep it.
+3. Keep `AGENTS_STATE.md` after a successful read. Delete it only in consume mode or when the user explicitly asks for deletion after loading.
 4. If the file is absent, say that no saved agent state exists and continue from the visible repository context.
 5. Do not treat stale state as authoritative when it conflicts with current files, git status, or direct user instructions.
 
@@ -62,28 +63,36 @@ Use this structure:
 # Agent State
 
 ## Scope
+
 - Repository/project/folder this state applies to.
 
 ## Current Goal
+
 - The task the next session should continue.
 
 ## Status
+
 - What is done, in progress, paused, or blocked.
 
 ## Decisions
+
 - Important decisions that should not be rediscovered.
 
 ## Changed Files
+
 - Files changed or expected to be changed, with short reasons.
 
 ## Validation
+
 - Commands run and results.
 - Anything relevant that was not verified.
 
 ## Open Questions
+
 - Only blockers or unresolved choices.
 
 ## Next Steps
+
 - Concrete continuation steps in order.
 ```
 
@@ -97,5 +106,5 @@ Use this structure:
 ## Output Expectations
 
 - In write mode, report the path written and the main continuation point.
-- In read mode, report the loaded handoff summary and whether the file was deleted.
+- In read or consume mode, report the loaded handoff summary and whether the file was kept or deleted.
 - If the skill cannot determine the correct project root, state the assumed root and proceed.

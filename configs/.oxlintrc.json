@@ -1,21 +1,11 @@
 {
-  "$schema": "/usr/local/share/.config/yarn/global/node_modules/oxlint/configuration_schema.json",
-  "ignorePatterns": [
-    "/build",
-    "/coverage",
-    "/dist",
-    "/node_modules"
-  ],
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "ignorePatterns": ["/build", "/coverage", "/dist", "/node_modules"],
   "env": {
     "builtin": true,
     "node": true
   },
-  "plugins": [
-    "typescript",
-    "unicorn",
-    "oxc",
-    "jsdoc"
-  ],
+  "plugins": ["typescript", "unicorn", "oxc", "jsdoc"],
   "categories": {
     "correctness": "error"
   },

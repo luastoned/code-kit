@@ -1,4 +1,4 @@
 interface:
-  display_name: "Refactor Code"
-  short_description: "Refactor files using AGENTS.md"
-  default_prompt: "Use $refactor-code on the selected file while preserving behavior."
+  display_name: 'Refactor Code'
+  short_description: 'Refactor files using AGENTS.md'
+  default_prompt: 'Use $refactor-code on the selected file while preserving behavior.'

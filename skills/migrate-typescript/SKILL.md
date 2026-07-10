@@ -1,6 +1,6 @@
 ---
 name: migrate-typescript
-description: Audit and migrate TypeScript projects for TypeScript 6.0+ compatibility. Use when Codex needs to check deprecated compiler options or syntax, update tsconfig files for modern TypeScript, validate a TypeScript upgrade, or prepare a repository for TypeScript 7.0.
+description: Audit and migrate TypeScript projects for TypeScript 6.0+ compatibility. Use when an agent needs to check deprecated compiler options or syntax, update tsconfig files for modern TypeScript, validate a TypeScript upgrade, or prepare a repository for TypeScript 7.0.
 ---
 
 # Migrate TypeScript
@@ -32,6 +32,9 @@ Audit a target TypeScript project for TypeScript 6.0 deprecations, default chang
    - Missing explicit `types` when the project relies on Node, test runner, or runtime globals.
    - Missing explicit `rootDir` when source lives under `src/` and emitted output should not include `dist/src/...`.
    - Reliance on the old `strict: false` default.
+   - Reliance on the old `module` or `target` defaults when emitted syntax or module format matters.
+   - Reliance on the old `noUncheckedSideEffectImports: false` default.
+   - Reliance on the old `libReplacement: true` default in projects that replace built-in library declaration files.
    - Package scripts or docs that run `tsc some-file.ts` in a directory with `tsconfig.json`.
 5. Search source and docs for deprecated syntax:
    - Legacy namespace declarations written as `module Name {}`. Ambient `declare module "pkg"` declarations remain valid.

@@ -1,6 +1,6 @@
 ---
 name: sync-agent-guidance
-description: Adapt and merge reusable repository agent guidance into another project. Use when Codex needs to inspect a target project, create a project-specific AGENTS.md, selectively merge mapped language guidance into existing agent instructions, or update guidance while preserving local rules and project conventions.
+description: Adapt and merge reusable repository agent guidance into another project. Use when an agent needs to inspect a target project, create a project-specific AGENTS.md, selectively merge mapped language guidance into existing agent instructions, or update guidance while preserving local rules and project conventions.
 ---
 
 # Sync Agent Guidance
@@ -11,7 +11,10 @@ Adapt reusable agent guidance from a source directory containing `AGENTS.md`, pu
 
 ## Workflow
 
-1. Identify the source directory. Default to the `guidance/` directory in this code-kit repo when the user does not provide another source.
+1. Identify the source directory:
+   - Use the source path provided by the user when present.
+   - Otherwise locate this skill through the runtime's loaded-skill path or its standard personal skills directory, resolve the physical directory with symlinks followed, and use `guidance/` from the code-kit root two directories above it.
+   - Confirm the resolved directory contains `AGENTS.md` and `Repositories.md`. If it does not, ask for the code-kit or guidance path instead of substituting a target-local directory.
 2. Identify the target project directory from the user request or current working directory.
 3. Read source guidance:
    - `AGENTS.md`
@@ -30,13 +33,12 @@ Adapt reusable agent guidance from a source directory containing `AGENTS.md`, pu
    - If the target contains multiple projects, preserve or create a concise root `AGENTS.md` for repo-wide rules, and use nested project `AGENTS.md` files for backend/frontend/package-specific implementation rules.
    - If the target is a single-project repository and there is no `AGENTS.md`, create a concise project-specific `AGENTS.md` from the reusable entrypoint rules plus target-specific commands and conventions discovered locally.
    - Include or reference mapped guidance only when it fits the target project's actual primary languages, maintained workflows, and tooling.
-   - Supported public guides currently include `C++.md`, `Containers.md`, `Python.md`, `Security.md`, `Shell.md`, `TypeScript.md`, and `Repositories.md`; treat `AGENTS.md` as the source of truth if this list changes.
+   - Use the source `AGENTS.md` mapping as the only authoritative list of public guides; do not maintain a separate hardcoded list.
    - Do not include a guide just because a matching file exists incidentally.
    - If `AGENTS.md` already exists, merge into that file or its referenced language guide. Preserve target-specific rules and add only useful missing guidance.
-   - Before editing, inventory every `##` section from each relevant source guide. Treat each section as intentional.
-   - The final target guidance must make that inventory auditable: preserve each applicable source `##` section as an explicit target section, or state a concrete omission/move reason in the final response.
-   - Do not rely on silently merging multiple source `##` sections into one broad target section. Merging is allowed only when the destination section is obvious and the final response states the source section and destination.
-6. Edit manually with `apply_patch`. Review the final diff for duplicated or contradictory rules.
+   - Before editing, inventory the `##` sections from each relevant source guide and decide which concepts apply.
+   - Keep the result auditable without forcing identical headings: preserve applicable concepts in clear target sections, and record concrete reasons for omitted, moved, or combined source sections.
+6. Edit with the runtime's patch or structured edit tool. Review the final diff for duplicated or contradictory rules.
 
 ## Merge Rules
 
@@ -44,10 +46,9 @@ Adapt reusable agent guidance from a source directory containing `AGENTS.md`, pu
 - Preserve repo-wide rules at the repository root when a target has multiple projects. Do not bury commit style, CI, generated/vendor policy, or project boundary rules inside a single backend/frontend/package guide.
 - In multi-project repositories, make the root guidance explain how to identify the owning project, choose nearest commands/configs, group commits by boundary, and validate affected projects.
 - Prefer the target project's nearest formatter/linter configs over copied style rules.
-- Do not silently drop source sections. Preserve or adapt each relevant source `##` section unless it clearly does not apply, duplicates a stronger local rule, or belongs in a different nested project guide.
-- Prefer keeping relevant source `##` sections visible as target headings, adapted to the project. This makes the sync reviewable and prevents accidental omissions.
-- If a source `##` section is omitted, moved, or merged into a differently named target section, state the source section, destination or omission, and reason in the final response.
-- Do not duplicate sections with the same purpose. If combining with an existing target heading, keep the source section coverage explicit enough to audit.
+- Do not silently drop applicable source concepts. Omit them only when they do not apply, duplicate a stronger local rule, or belong in a different nested project guide.
+- Prefer clear project-specific headings over copying the source outline mechanically. When combining sections, keep the source coverage explicit enough to audit.
+- State the source section, destination or omission, and reason when a section is omitted, moved, or combined under a differently named target section.
 - Keep language-specific guidance concise. Inline only the parts of mapped guides that are relevant to the target when a separate guide is not appropriate.
 - If the target already references separate language guides, update the relevant guide instead of inlining a second copy.
 - Do not include private overlay guidance in a target project unless the user explicitly asks for it.
@@ -56,7 +57,7 @@ Adapt reusable agent guidance from a source directory containing `AGENTS.md`, pu
 - Remove source rules that clearly do not fit the target runtime, framework, package manager, or language mix.
 - Surface conflicts explicitly in the final response, especially commit format, tooling source of truth, test commands, module system, or stricter typing rules.
 
-## Language Guide Detection
+## Guide Detection
 
 Use the source `AGENTS.md` mapping as the source of truth for available guides. Detect the target's relevant guides from files and configuration in the project, but apply a strict relevance gate before reading or merging each guide.
 
@@ -96,4 +97,4 @@ Use `rg --files` first. Read only the files needed to understand local conventio
 
 The final `AGENTS.md` should read as if it was written for the target project, not copied from the source. It should be short enough to follow, specific enough to be useful, and explicit where the target has real commands or constraints.
 
-Include a section-coverage summary in the final response for each relevant source guide: list preserved `##` sections, adapted/renamed sections, moved sections, and omitted sections with reasons.
+Include a concise section-coverage summary for each relevant source guide: list preserved concepts and any adapted, moved, combined, or omitted sections that need explanation.

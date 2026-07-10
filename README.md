@@ -31,7 +31,7 @@
 
 ## ✨ Features
 
-- 🎯 **Single source of truth** — Keep reusable guidance, formatter defaults, references, and Codex skills in one place.
+- 🎯 **Single source of truth** — Keep reusable guidance, formatter defaults, references, and portable agent skills in one place.
 - 🧭 **Agent-ready guidance** — Store downstream `AGENTS.md` templates and language guides that can be adapted into project-specific instructions.
 - 🔧 **Shared tooling defaults** — Version common Oxc, TypeScript, and package script defaults without burying them in individual repos.
 - 🔁 **Sync workflows** — Use bundled skills to merge guidance and config into target projects while preserving local conventions.
@@ -42,13 +42,13 @@
 
 ## 📦 Contents
 
-| Path          | Purpose                                                                 |
-| ------------- | ----------------------------------------------------------------------- |
-| `configs/`    | Shared config fragments for Oxc, TypeScript path aliases, and package scripts. |
-| `guidance/`   | Reusable downstream agent guidance, language guides, and local overlays. |
-| `references/` | Structured reference data reused across projects.                       |
-| `skills/`     | Shareable Codex skills for syncing guidance, project configs, and migration checks. |
-| `docs/`       | Notes, links, and conventions that do not belong in executable configs. |
+| Path          | Purpose                                                                                              |
+| ------------- | ---------------------------------------------------------------------------------------------------- |
+| `configs/`    | Shared config fragments for Oxc, TypeScript path aliases, and package scripts.                       |
+| `guidance/`   | Reusable downstream agent guidance, language guides, and local overlays.                             |
+| `references/` | Structured reference data reused across projects.                                                    |
+| `skills/`     | Shareable agent skills for syncs, refactors, README updates, session handoffs, and migration checks. |
+| `docs/`       | Notes, links, and conventions that do not belong in executable configs.                              |
 
 ## 📥 Install
 
@@ -79,13 +79,6 @@ test -d "$(pwd)/skills/refactor-code" && ln -sfn "$(pwd)/skills/refactor-code" ~
 test -d "$(pwd)/skills/session-state" && ln -sfn "$(pwd)/skills/session-state" ~/.codex/skills/session-state
 ```
 
-To install only the session handoff skill for testing:
-
-```bash
-mkdir -p ~/.codex/skills
-test -d "$(pwd)/skills/session-state" && ln -sfn "$(pwd)/skills/session-state" ~/.codex/skills/session-state
-```
-
 ### Claude Code
 
 ```bash
@@ -102,7 +95,7 @@ Run the commands from the `code-kit` checkout. The `test -d` guard ensures the s
 
 Claude Code also supports project-local skills under `.claude/skills/`. For `code-kit`, the recommended model is to keep this repo as the source of truth and symlink selected skills into the runtime that should consume them.
 
-After linking, start a new agent session so the skills are discovered.
+After linking, start a new Codex session so the skills are discovered. Claude Code detects changes in an existing skills directory during the current session; restart it only when the top-level skills directory was created after the session began.
 
 ```text
 Use $sync-agent-guidance to sync AGENTS.md and mapped language guidance into this project.
@@ -113,7 +106,7 @@ Use $refactor-code on src/example.ts.
 Use $session-state to update AGENTS_STATE.md with the current session handoff.
 ```
 
-Do not symlink shared config files directly by default. Use the skills to copy or merge `configs/`, `guidance/`, and `references/` into target projects so local project settings are preserved.
+Do not symlink shared config files directly by default. Use the sync skills to copy or merge `configs/` and `guidance/` into target projects so local project settings are preserved. Copy files from `references/` intentionally when a target workflow needs them.
 
 ## 💡 Usage
 
@@ -177,13 +170,14 @@ Use `session-state` when a session should leave or consume a short handoff:
 ```text
 Use $session-state to update AGENTS_STATE.md with the current session handoff.
 Use $session-state to continue from AGENTS_STATE.md.
+Use $session-state to consume AGENTS_STATE.md and delete it after loading.
 ```
 
-The skill writes dynamic state from the current conversation and repository context only. Read mode consumes the handoff by deleting `AGENTS_STATE.md` after a successful load unless you explicitly ask to keep it.
+The skill writes dynamic state from the current conversation and repository context only. Reading or continuing from a handoff keeps the file by default; consuming it deletes the file after a successful load.
 
 ### Gitmoji Reference
 
-`references/gitmojis.json` is a structured lookup file for commit tooling and agent workflows that need a local gitmoji reference.
+`references/gitmojis.json` follows the [Gitmoji API](https://gitmoji.dev/api/gitmojis) shape and provides a local lookup for commit tooling and agent workflows.
 
 ## 🛠️ Maintenance
 
@@ -197,4 +191,4 @@ The skill writes dynamic state from the current conversation and repository cont
 
 ## 📄 License
 
-[MIT](./LICENSE) License © 2024-PRESENT [LuaStoned](https://github.com/luastoned)
+[MIT](./LICENSE) License © 2026 [Gregor Steiner](https://github.com/luastoned)

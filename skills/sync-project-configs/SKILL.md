@@ -1,6 +1,6 @@
 ---
 name: sync-project-configs
-description: Apply or merge shared project configuration files from code-kit into another repository, folder, or project. Use when Codex needs to sync formatter, linter, TypeScript, or other files from a source configs directory while preserving target-specific settings and documenting conflicts.
+description: Apply or merge shared project configuration files from code-kit into another repository, folder, or project. Use when an agent needs to sync formatter, linter, TypeScript, or other files from a source configs directory while preserving target-specific settings and documenting conflicts.
 ---
 
 # Sync Project Configs
@@ -11,7 +11,10 @@ Apply shared config fragments and defaults from a source `configs/` directory in
 
 ## Workflow
 
-1. Identify the source configs directory. Default to the `configs/` directory in this code-kit repo when the user does not provide another source.
+1. Identify the source configs directory:
+   - Use the source path provided by the user when present.
+   - Otherwise locate this skill through the runtime's loaded-skill path or its standard personal skills directory, resolve the physical directory with symlinks followed, and use `configs/` from the code-kit root two directories above it.
+   - Confirm the resolved directory contains `AGENTS.md`. If it does not, ask for the code-kit or configs path instead of substituting a target-local directory.
 2. Identify the target project directory from the user request or current working directory.
 3. List source config files, including dotfiles, and matching target files before editing. Use `find`, `rg --files`, or `ls -A`; do not rely on plain `ls`, because it hides files such as `.oxfmtrc.json` and `.oxlintrc.json`.
    - Read `configs/AGENTS.md` when present; it describes how to apply the config files.
@@ -26,7 +29,7 @@ Apply shared config fragments and defaults from a source `configs/` directory in
    - Merge when the target file exists and both files use a structured format.
    - Skip when the config is clearly irrelevant to the target.
    - Ask only when applying the config could break an established target convention.
-6. Edit manually with `apply_patch`. Do not overwrite target files wholesale unless they are absent or the user explicitly requested replacement.
+6. Edit with the runtime's patch or structured edit tool. Do not overwrite target files wholesale unless they are absent or the user explicitly requested replacement.
 7. Validate changed files with the relevant parser or tool when available.
 
 ## Merge Rules

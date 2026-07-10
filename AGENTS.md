@@ -7,7 +7,8 @@ This repository stores shared coding resources that are reused across other proj
 - `configs/`: shared tooling defaults.
 - `guidance/`: reusable agent guidance that can be copied, linked, or adapted into target projects.
 - `guidance/private/`: local-only overlays and guidance that should not be published.
-- `skills/`: shareable Codex skills and their support files.
+- `skills/`: shareable agent skills and their support files.
+- `references/`: structured lookup data reused by tooling and agent workflows.
 - `docs/`: reference notes and links that do not belong in executable config.
 
 ## Working In This Repo

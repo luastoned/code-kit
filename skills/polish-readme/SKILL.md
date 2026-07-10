@@ -1,6 +1,6 @@
 ---
 name: polish-readme
-description: Create, update, or refactor a repository README.md into a polished, friendly, emoji-accented project overview. Use when Codex should inspect a repo or folder, infer what it contains, and improve the root README.md or a provided README path while preserving factual accuracy.
+description: Create, update, or refactor a repository README.md into a polished, friendly, emoji-accented project overview. Use when an agent should inspect a repo or folder, infer what it contains, and improve the root README.md or a provided README path while preserving factual accuracy.
 ---
 
 # Polish README
@@ -29,7 +29,7 @@ Optional inspiration reference: https://github.com/matiassingers/awesome-readme.
    - Primary language/runtime and package manager.
    - Real install, quick-start, dev, test, build, and usage commands.
 4. Plan the README structure around what the project actually needs.
-5. Edit the README with `apply_patch`. Preserve accurate existing content and links; remove stale, duplicated, or overly verbose material.
+5. Edit the README with the runtime's patch or structured edit tool. Preserve accurate existing content and links; remove stale, duplicated, or overly verbose material.
 6. Validate:
    - Check headings and local links you changed.
    - Ensure code fences have appropriate language tags.
@@ -60,11 +60,17 @@ Use this shape when it fits the project:
 <br>
 
 ## ✨ Features
+
 ## 📦 Install
+
 ## 🚀 Quick Start
+
 ## 💡 Usage
+
 ## 📚 Documentation
+
 ## 🛠️ Development
+
 ## 📄 License
 ```
 
@@ -91,6 +97,7 @@ tool-name [options]
 ```
 
 ## 📦 Installation
+
 ## ⚙️ Configuration Options
 ````
 
