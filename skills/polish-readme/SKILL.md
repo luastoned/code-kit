@@ -21,6 +21,7 @@ Optional inspiration reference: https://github.com/matiassingers/awesome-readme.
    - Otherwise use `README.md` in the current working directory.
 2. Inspect before editing:
    - Existing README, if present.
+   - Established branding, voice, structure, and externally sourced project facts in the existing README.
    - `package.json`, pyproject, Cargo.toml, go.mod, Makefile, Dockerfile, compose files, lockfiles, and other manifest/build files.
    - `src/`, `docs/`, `examples/`, `test*/`, config files, and CLI entrypoints where relevant.
    - License file and repository/package name.
@@ -28,7 +29,7 @@ Optional inspiration reference: https://github.com/matiassingers/awesome-readme.
    - Library, app, service, CLI, template/starter, docs/resources repo, plugin, config bundle, or mixed workspace.
    - Primary language/runtime and package manager.
    - Real install, quick-start, dev, test, build, and usage commands.
-4. Plan the README structure around what the project actually needs.
+4. Plan the README structure around what the project actually needs. Preserve deliberate branding, voice, and document structure unless the user requests a redesign or the existing structure is clearly unusable.
 5. Edit the README with the runtime's patch or structured edit tool. Preserve accurate existing content and links; remove stale, duplicated, or overly verbose material.
 6. Validate:
    - Check headings and local links you changed.
@@ -123,6 +124,7 @@ For libraries or tools with multiple adoption paths, split usage by scenario ins
 - Include alternate package managers in a collapsed `<details>` block when useful.
 - Use Markdown tables for contents, modules, commands, or docs indexes when they improve scanability.
 - Preserve useful existing examples, but refresh formatting and surrounding text.
+- Preserve externally sourced project facts unless local evidence contradicts them. Treat facts that cannot be verified from the repository as unverified rather than false, and call them out instead of silently deleting them when they materially affect the rewrite.
 - Keep local links relative and verify referenced files exist.
 - Avoid empty sections, fake roadmaps, generic badges, exaggerated claims, and unsupported “production-ready” language.
 

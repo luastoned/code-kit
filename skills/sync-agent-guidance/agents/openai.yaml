@@ -1,4 +1,4 @@
 interface:
   display_name: 'Sync Agent Guidance'
-  short_description: 'Sync AGENTS.md language guidance'
-  default_prompt: 'Use $sync-agent-guidance to sync AGENTS.md and mapped language guidance into this project.'
+  short_description: 'Adapt reusable AGENTS.md guidance'
+  default_prompt: 'Use $sync-agent-guidance to adapt mapped language and repository guidance to this project.'

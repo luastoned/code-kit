@@ -112,7 +112,7 @@ Claude Code also supports project-local skills under `.claude/skills/`. For `cod
 After linking, start a new Codex session so the skills are discovered. Claude Code detects changes in an existing skills directory during the current session; restart it only when the top-level skills directory was created after the session began.
 
 ```text
-Use $sync-agent-guidance to sync AGENTS.md and mapped language guidance into this project.
+Use $sync-agent-guidance to adapt mapped language and repository guidance to this project.
 Use $sync-project-configs to sync shared config files into this project.
 Use $migrate-typescript to audit and migrate this project for TypeScript 6.0+ compatibility.
 Use $polish-readme to refresh this project's README.md.
@@ -132,7 +132,7 @@ Private or personal overlays can live under `guidance/private/`. Files there are
 Use `sync-agent-guidance` when a project needs local `AGENTS.md` instructions derived from this repo:
 
 ```text
-Use $sync-agent-guidance to sync AGENTS.md and mapped language guidance into this project.
+Use $sync-agent-guidance to adapt mapped language and repository guidance to this project.
 ```
 
 The skill inspects the target first, then adapts the reusable guidance instead of copying it blindly.

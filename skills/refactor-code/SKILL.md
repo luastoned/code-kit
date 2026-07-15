@@ -17,6 +17,7 @@ Refactor one or more selected files using the target repository's own guidance a
    - Root `AGENTS.md` when it applies.
    - Any mapped guide referenced by `AGENTS.md` for the file type, language, runtime, or repository shape.
    - Private/local guidance only when explicitly requested or already active for the repository.
+   - For implementation decisions, prioritize the applicable language or runtime guide, then the nearest tooling configuration, then repository-level rules. Use repository guidance first only to determine scope, ownership, and project boundaries.
 3. Inspect local context:
    - Existing neighboring code, imports, helpers, types, tests, and module boundaries.
    - Nearest formatter, linter, typechecker, test, and build configs.
@@ -35,7 +36,7 @@ Refactor one or more selected files using the target repository's own guidance a
 ## Refactor Rules
 
 - Preserve public APIs, serialized shapes, persisted data, environment names, route paths, config keys, and cross-boundary behavior unless the user explicitly requests changes.
-- Keep commits and edits within the requested file/project boundary when possible.
+- Keep changes within the requested file or project boundary when possible.
 - Prefer simple, explicit code over cleverness.
 - Remove duplication only when the repeated pattern is stable enough to justify it.
 - Prefer existing helpers, types, modules, and conventions before creating new ones.

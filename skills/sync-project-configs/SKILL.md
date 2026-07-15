@@ -13,24 +13,24 @@ Apply shared config fragments and defaults from a source `configs/` directory in
 
 1. Identify the source configs directory:
    - Use the source path provided by the user when present.
-   - Otherwise locate this skill through the runtime's loaded-skill path or its standard personal skills directory, resolve the physical directory with symlinks followed, and use `configs/` from the code-kit root two directories above it.
-   - Confirm the resolved directory contains `AGENTS.md`. If it does not, ask for the code-kit or configs path instead of substituting a target-local directory.
+   - Otherwise resolve this skill's physical directory with symlinks followed and use `configs/` from the code-kit root two directories above it.
+   - Confirm the directory contains `AGENTS.md`. Ask for the source path if it does not.
 2. Identify the target project directory from the user request or current working directory.
-3. List source config files, including dotfiles, and matching target files before editing. Use `find`, `rg --files`, or `ls -A`; do not rely on plain `ls`, because it hides files such as `.oxfmtrc.json` and `.oxlintrc.json`.
-   - Read `configs/AGENTS.md` when present; it describes how to apply the config files.
+3. Read source `AGENTS.md` as the authoritative inventory and file-specific application guidance.
+4. List source config files, including dotfiles, and matching target files before editing. Use `find`, `rg --files --hidden`, or `ls -A`; do not use plain `rg --files` or `ls`, because both can hide dotfiles.
    - Do not sync `configs/AGENTS.md` itself into the target project.
-4. Inspect the target project:
+5. Inspect the target project:
    - Existing matching config files.
    - Hidden config files and dotfiles in the target root.
    - Project manifests, lockfiles, workspace files, and README/developer docs when relevant.
    - Tooling actually used by the project, so unrelated configs are not added blindly.
-5. Decide the action for each source file:
+6. Decide the action for each documented source file:
    - Copy when the target file is missing and the tool is relevant to the target.
    - Merge when the target file exists and both files use a structured format.
    - Skip when the config is clearly irrelevant to the target.
    - Ask only when applying the config could break an established target convention.
-6. Edit with the runtime's patch or structured edit tool. Do not overwrite target files wholesale unless they are absent or the user explicitly requested replacement.
-7. Validate changed files with the relevant parser or tool when available.
+7. Edit with the runtime's patch or structured edit tool. Do not overwrite target files wholesale unless they are absent or the user explicitly requested replacement.
+8. Validate changed files with the relevant parser or tool when available.
 
 ## Merge Rules
 
@@ -44,12 +44,11 @@ Apply shared config fragments and defaults from a source `configs/` directory in
 - Never invent target-specific commands or package dependencies just because a shared config exists.
 - Treat partial files as fragments. For example, merge `package.json` scripts into the target manifest instead of replacing the manifest.
 
-## File Guidance
+## Source File Guidance
 
-- `.oxfmtrc.json`: merge formatter defaults. Preserve target-specific ignores and overrides. Let the shared config provide common print, quote, import-sorting, JSDoc, newline, and package sorting defaults unless the target already has a deliberate value.
-- `.oxlintrc.json`: merge linter plugins, categories, rules, environment, and ignore patterns. Preserve target rule overrides. Union plugin and ignore arrays.
-- `package.json`: merge relevant shared scripts into the target `package.json` only when the corresponding tools are installed or intentionally being adopted. Preserve existing scripts unless the user explicitly asks to replace them.
-- `tsconfig.json`: merge only when the target is a JavaScript, TypeScript, Node.js, or related web project. Preserve existing compiler options, includes, excludes, references, framework plugins, and module settings. For TypeScript 6.0 compatibility, remove deprecated `baseUrl` when it only prefixes `paths`; move that prefix into each `paths` entry instead. Preserve old lookup-root behavior only when the target truly depends on it, by replacing it with an explicit catch-all path mapping. If the user asks for a TypeScript 6.0+ upgrade audit or broader migration cleanup, use the `migrate-typescript` skill after the config sync.
+- Treat source `AGENTS.md` as the sole source of truth for available configs and their intended use. Do not duplicate its file mapping in this skill.
+- Apply each file only under the conditions documented there. Inspect undocumented source files, but do not sync them until their intended use is clear.
+- When source guidance delegates broader migration or cleanup to another skill, keep the config sync scoped and use that skill only when the user request includes the additional work.
 
 ## Validation
 

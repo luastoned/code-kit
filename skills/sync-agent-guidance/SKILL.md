@@ -1,100 +1,73 @@
 ---
 name: sync-agent-guidance
-description: Adapt and merge reusable repository agent guidance into another project. Use when an agent needs to inspect a target project, create a project-specific AGENTS.md, selectively merge mapped language guidance into existing agent instructions, or update guidance while preserving local rules and project conventions.
+description: Adapt reusable AGENTS.md and mapped language, repository, and workflow guidance to a target project. Use when an agent needs to create or update root or nested agent instructions while preserving local rules, ownership boundaries, tooling, and project conventions.
 ---
 
 # Sync Agent Guidance
 
 ## Overview
 
-Adapt reusable agent guidance from a source directory containing `AGENTS.md`, public mapped guides, and optional private guides into a target project. This is a synthesis task: read the target project first, then write guidance that fits what is actually there.
+Adapt the public guidance from code-kit into instructions that fit a target project. Inspect established projects before writing. Weight the result in this order: primary language guidance, applicable tooling or workflow guidance, then a compact repository baseline. For a single-project repository, make the primary language guide the organizing structure and main source of actionable guidance.
 
 ## Workflow
 
-1. Identify the source directory:
-   - Use the source path provided by the user when present.
-   - Otherwise locate this skill through the runtime's loaded-skill path or its standard personal skills directory, resolve the physical directory with symlinks followed, and use `guidance/` from the code-kit root two directories above it.
-   - Confirm the resolved directory contains `AGENTS.md` and `Repositories.md`. If it does not, ask for the code-kit or guidance path instead of substituting a target-local directory.
-2. Identify the target project directory from the user request or current working directory.
-3. Read source guidance:
-   - `AGENTS.md`
-   - `Repositories.md` for repository shape, root coordination, ownership boundaries, commit policy, and validation scope
-   - Primary language or runtime guides for languages that are central to normal development in the target project
-   - Asset-specific guides such as `Shell.md`, `Containers.md`, `Security.md`, or `IDA.md` only when those files or workflows are a meaningful maintained part of the target, or when the user explicitly targets them
-   - Optional private guides under `guidance/private/` only when the user explicitly asks to include local or private guidance
-   - Ignore `guidance/private/.gitkeep`
-4. Inspect the target project before editing:
-   - Existing root and nested `AGENTS.md` files, plus any language-specific guides they reference
-   - Package manifests, lockfiles, workspace files, language/toolchain configs, formatter/linter configs, test configs, build configs, and README/developer docs when present
-   - Commit-message tooling such as `.commitlintrc*`, `commitlint.config.*`, package `commitlint` config, and commit hooks
-   - Project ownership boundaries, including which folders have their own commands, configs, CI jobs, deployment targets, or release flows
-   - Source layout and dominant languages using `rg --files`, excluding generated/vendor directories
-5. Decide the target shape:
-   - If the target contains multiple projects, preserve or create a concise root `AGENTS.md` for repo-wide rules, and use nested project `AGENTS.md` files for backend/frontend/package-specific implementation rules.
-   - If the target is a single-project repository and there is no `AGENTS.md`, create a concise project-specific `AGENTS.md` from the reusable entrypoint rules plus target-specific commands and conventions discovered locally.
-   - Include or reference mapped guidance only when it fits the target project's actual primary languages, maintained workflows, and tooling.
-   - Use the source `AGENTS.md` mapping as the only authoritative list of public guides; do not maintain a separate hardcoded list.
-   - Do not include a guide just because a matching file exists incidentally.
-   - If `AGENTS.md` already exists, merge into that file or its referenced language guide. Preserve target-specific rules and add only useful missing guidance.
-   - Before editing, inventory the `##` sections from each relevant source guide and decide which concepts apply.
-   - Keep the result auditable without forcing identical headings: preserve applicable concepts in clear target sections, and record concrete reasons for omitted, moved, or combined source sections.
-6. Edit with the runtime's patch or structured edit tool. Review the final diff for duplicated or contradictory rules.
+1. Resolve the source guidance directory:
+   - Use a source path supplied by the user.
+   - Otherwise resolve this skill's physical directory with symlinks followed and use `guidance/` from the code-kit root two directories above it.
+   - Confirm the directory contains `AGENTS.md` and `Repositories.md`. Ask for the source path if it does not.
+2. Resolve the target project from the request or current working directory.
+3. Read source `AGENTS.md`, `Repositories.md`, and the guides selected under [Guide Selection](#guide-selection). Read private guidance only when explicitly requested.
+4. Inspect the target using [Target Inspection](#target-inspection).
+5. Decide the guidance shape:
+   - Use root guidance for repository-wide rules and nested guidance for project-specific implementation rules.
+   - For a single-project repository, organize `AGENTS.md` around the primary language guide. Follow it with applicable tooling guidance, then concise repository rules.
+   - For a new or sparse repository, include the broadly applicable sections from the known primary language guide even when framework, runtime, package-manager, and tooling details are not established.
+   - Include the source commit policy and other durable repository defaults even when `.git`, hooks, CI, or repository tooling have not been initialized. Treat missing setup as unknown or planned, not evidence that the guidance is irrelevant.
+   - Merge with existing instructions and referenced language guides instead of creating duplicate guidance.
+6. Before editing, inventory the `##` sections in each selected guide and map applicable sections to cohesive target sections. Record only non-obvious omissions, moves, or combinations that will need explanation.
+7. Edit with the runtime's patch or structured-edit tool, then review the diff for missing, duplicated, or contradictory rules.
+
+## Guide Selection
+
+Use source `AGENTS.md` as the authoritative guide mapping; do not maintain a second hardcoded mapping in this skill.
+
+- Always read `Repositories.md` to determine guidance shape, ownership, commit boundaries, and validation scope. Carry forward its durable defaults, including commit guidance, while keeping them secondary to language and tooling content.
+- Use the primary language guide when the language is known from the user request, target source, or project metadata. This is sufficient evidence for a new or sparse project: a new TypeScript repository should receive a TypeScript-driven baseline even before its framework, runtime, package manager, or tooling is known.
+- Give the primary language guide content priority. In a single-language project, its applicable sections should dominate the resulting guidance rather than being condensed beneath broad repository or working-style sections.
+- Use additional language guides when those languages are maintained parts of normal development, not merely incidental files.
+- Use workflow or specialty guides for maintained operational surfaces such as containers, shell orchestration, security work, or reverse-engineering artifacts, or when the user explicitly targets that work.
+- Treat framework, dependency, manifest, and tooling signals as refinements to language guidance rather than prerequisites for it.
+- Treat the absence of `.git`, commit hooks, CI, or tool configuration as a lack of local overrides. Use the source default where one exists, but do not invent commands or name unselected tools.
+- Ignore one-off helpers, examples, generated artifacts, vendored code, copied snippets, CI fragments, and tool output unless agents are expected to maintain them.
+- Exclude `node_modules`, `dist`, `build`, `.git`, and coverage directories from detection.
+
+## Target Inspection
+
+Use `rg --files` first and read only what is needed to establish local conventions:
+
+- Root and nested `AGENTS.md` files and any guides they reference.
+- Repository shape, ownership boundaries, and source layout.
+- Manifests, lockfiles, workspace files, and language or toolchain configs.
+- Existing commands for formatting, linting, typechecking, testing, building, and development.
+- Nearest formatter, linter, test, build, and compiler configs.
+- Commit-message config and hooks; use recent history only as a fallback or sanity check.
+- README or developer docs that define workflows agents must follow.
+
+Do not invent a framework, runtime, package manager, command, or project convention when a new repository has not established one.
 
 ## Merge Rules
 
-- Preserve local rules that mention project architecture, commands, deployment, testing, security, data handling, or ownership.
-- Preserve repo-wide rules at the repository root when a target has multiple projects. Do not bury commit style, CI, generated/vendor policy, or project boundary rules inside a single backend/frontend/package guide.
-- In multi-project repositories, make the root guidance explain how to identify the owning project, choose nearest commands/configs, group commits by boundary, and validate affected projects.
-- Prefer the target project's nearest formatter/linter configs over copied style rules.
-- Do not silently drop applicable source concepts. Omit them only when they do not apply, duplicate a stronger local rule, or belong in a different nested project guide.
-- Prefer clear project-specific headings over copying the source outline mechanically. When combining sections, keep the source coverage explicit enough to audit.
-- State the source section, destination or omission, and reason when a section is omitted, moved, or combined under a differently named target section.
-- Keep language-specific guidance concise. Inline only the parts of mapped guides that are relevant to the target when a separate guide is not appropriate.
-- If the target already references separate language guides, update the relevant guide instead of inlining a second copy.
-- Do not include private overlay guidance in a target project unless the user explicitly asks for it.
-- If private guidance is requested, read `guidance/private/AGENTS.md` first when it exists, then load only the private guides it maps or the user names.
-- Prefer project-specific commands discovered from manifests, task files, or docs over generic commands.
-- Remove source rules that clearly do not fit the target runtime, framework, package manager, or language mix.
-- Surface conflicts explicitly in the final response, especially commit format, tooling source of truth, test commands, module system, or stricter typing rules.
-
-## Guide Detection
-
-Use the source `AGENTS.md` mapping as the source of truth for available guides. Detect the target's relevant guides from files and configuration in the project, but apply a strict relevance gate before reading or merging each guide.
-
-Treat a guide as relevant when matching files are part of normal development, validation, deployment, security work, reverse-engineering work, or agent edits for the target. Do not treat a guide as relevant merely because one matching file, example, generated artifact, vendored file, or tool output exists.
-
-Guide categories:
-
-- Primary implementation guides: include for dominant languages and runtimes the project actively develops in, such as TypeScript, Python, or C++.
-- Maintained workflow guides: include for operational surfaces the project actively owns, such as containers, shell orchestration, security workflows, or IDA/reverse-engineering artifacts.
-- Incidental signals: detect but do not include by default, such as one-off helper scripts, examples, generated files, vendored code, copied snippets, CI shell fragments, or config files that are not normally edited.
-
-Common signals include:
-
-- File extensions in source files.
-- Language-specific config files, compiler configs, build files, and project manifests.
-- Package manifests and dependencies that identify the runtime, framework, or test tooling.
-- Existing `AGENTS.md` lookup rules or language-specific guides already present in the target.
-- User request scope, changed paths, and project docs that show which areas agents are expected to edit.
-
-Do not scan `node_modules`, `dist`, `build`, `.git`, or coverage directories for detection.
-
-## Target Inspection Checklist
-
-Use `rg --files` first. Read only the files needed to understand local conventions.
-
-- Package manager: infer from lockfiles, manifests, and project docs.
-- Repository shape: detect whether the target is a single-project or multi-project repository from nested manifests, workspace config, root orchestration files, and nested `AGENTS.md` files.
-- Commands: prefer existing scripts for format, lint, typecheck, test, build, and dev.
-- Tooling: check nearest formatter, linter, test, build, and compiler configs.
-- Commit style: use commitlint/hook config when present; otherwise prefer explicit target docs or source guidance. Treat recent history as a sanity check or fallback only.
-- Commit boundaries: inspect changed path groups and preserve project/root boundaries when staging or recommending commits.
-- Language configs: read relevant language-specific config files before adding strictness, module, runtime, or compiler guidance.
-- Framework/runtime: identify runtimes, frameworks, CLIs, libraries, services, apps, or monorepos.
-- Existing docs: keep project-specific workflows from README or developer docs when they affect agent behavior.
+- Preserve local architecture, commands, deployment, testing, security, data-handling, ownership, and commit rules.
+- Keep repository-wide rules at the root. In multi-project repositories, explain how to find the owning project, select the nearest commands and configs, group commits by boundary, and validate affected projects.
+- Prefer the target project's nearest tooling configs and discovered commands over copied style rules or generic commands.
+- Treat each source guide's `##` sections as intentional, cohesive units. Keep an applicable section together under the same or a clearly adapted heading instead of scattering its bullets across unrelated target sections.
+- Combine sections only when their subjects form a coherent target section. Omit a section only when it does not apply, duplicates a stronger local rule, or belongs in another nested guide.
+- Preserve the source guide's conceptual coverage without mechanically copying its headings or irrelevant details.
+- Keep language guidance concise. If the target references separate language guides, update the relevant guide; otherwise include the applicable sections in the nearest `AGENTS.md`.
+- Keep repository guidance compact but durable. Preserve source commit conventions, change boundaries, validation principles, and safety rules unless the target explicitly overrides them; expand repository sections only for concrete project constraints.
+- Include private overlays only when explicitly requested. Read `guidance/private/AGENTS.md` first when present, then only the guides it maps or the user names.
+- Surface unresolved conflicts, especially around commit format, tooling sources of truth, test commands, module systems, or typing rules.
 
 ## Output Expectations
 
-The final `AGENTS.md` should read as if it was written for the target project, not copied from the source. It should be short enough to follow, specific enough to be useful, and explicit where the target has real commands or constraints.
-
-Include a concise section-coverage summary for each relevant source guide: list preserved concepts and any adapted, moved, combined, or omitted sections that need explanation.
+The result should read as guidance written for the target project, not as a copy of code-kit. For a single-language project, a reader should immediately recognize the primary language guide as the focus; repository details should appear only as brief supporting constraints. Report the files changed, guides applied, unresolved conflicts, and any non-obvious source sections that were moved, combined, or omitted.
