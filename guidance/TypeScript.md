@@ -27,7 +27,8 @@ Check, in order:
 - Use `node:` specifiers for Node.js built-in modules.
 - Use `import type` for type-only imports where supported.
 - Follow the repository's module-resolution and runtime convention for local imports. Do not add or remove file extensions unless the project setup requires it.
-- For new package-internal aliases, prefer standard package `imports` such as `#/...` when the project/runtime supports them; otherwise follow the existing alias convention.
+- Prefer the project's configured internal alias over deep relative imports. When establishing an alias, use `~/*` mapped to the primary source root, matching the shared TypeScript config; preserve another alias only when the project already relies on it or the runtime requires it.
+- Ensure the runtime, build, and test pipeline resolves `~/*` consistently. Keep the alias and surface missing resolver support instead of falling back to deep relative imports.
 - Use import attributes with `with`, not deprecated import assertions with `assert`.
 - Prefer named exports over default exports unless a framework or tool requires a default export.
 
