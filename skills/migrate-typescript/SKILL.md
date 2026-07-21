@@ -1,6 +1,6 @@
 ---
 name: migrate-typescript
-description: Audit and migrate TypeScript projects for TypeScript 6.0+ compatibility. Use when an agent needs to check deprecated compiler options or syntax, update tsconfig files for modern TypeScript, validate a TypeScript upgrade, or prepare a repository for TypeScript 7.0.
+description: Audit and migrate TypeScript projects for TypeScript 6.0+ compatibility. Use only when the user explicitly invokes `$migrate-typescript` or names the `migrate-typescript` skill.
 ---
 
 # Migrate TypeScript
@@ -19,7 +19,11 @@ Audit a target TypeScript project for TypeScript 6.0 deprecations, default chang
    - Build/runtime path: bundled app, direct Node execution, library emit, framework-managed build, browser app, Bun, or mixed workspace.
    - JavaScript inputs and `allowJs` or `checkJs` when TypeScript 7 preparation is in scope.
    - Existing typecheck/build scripts and CI commands.
-3. Check config files for TypeScript 6.0 deprecations:
+3. Establish the version-specific source of truth before applying the checklist:
+   - Prefer the installed or requested compiler's diagnostics and behavior for the target version.
+   - Verify version-specific claims against current official TypeScript release notes or compiler documentation when they are reachable.
+   - Treat the checks below as a focused starting point, not a substitute for current compiler evidence. Follow official documentation and observed compiler behavior when they differ, and report any stale checklist item.
+4. Check config files for TypeScript 6.0 deprecations:
    - `target: "ES5"`.
    - `downlevelIteration`.
    - `moduleResolution: "node"`, `"node10"`, or `"classic"`.
@@ -28,7 +32,7 @@ Audit a target TypeScript project for TypeScript 6.0 deprecations, default chang
    - `esModuleInterop: false` or `allowSyntheticDefaultImports: false`.
    - `alwaysStrict: false`.
    - `outFile`.
-4. Check for TypeScript 6.0 behavior changes:
+5. Check for TypeScript 6.0 behavior changes:
    - Missing explicit `types` when the project relies on Node, test runner, or runtime globals.
    - Missing explicit `rootDir` when source lives under `src/` and emitted output should not include `dist/src/...`.
    - Reliance on the old `strict: false` default.
@@ -37,13 +41,13 @@ Audit a target TypeScript project for TypeScript 6.0 deprecations, default chang
    - Reliance on the old `libReplacement: true` default in projects that replace built-in library declaration files.
    - Package scripts or docs that run `tsc some-file.ts` in a directory with `tsconfig.json`.
    - `ignoreDeprecations: "6.0"`; treat it as a temporary compatibility bridge and a blocker for TypeScript 7 preparation, not as a deprecated option itself.
-5. Search source and docs for deprecated syntax:
+6. Search source and docs for deprecated syntax:
    - Legacy namespace declarations written as `module Name {}`. Ambient `declare module "pkg"` declarations remain valid.
    - Import assertions using `assert` instead of import attributes using `with`.
    - `/// <reference no-default-lib="true" />`.
-6. When TypeScript 7 preparation is in scope and the project includes JavaScript inputs, inspect JavaScript and JSDoc diagnostics with the TypeScript 7 compiler when available. Fix reported compatibility issues instead of applying broad speculative JSDoc rewrites.
-7. Make scoped fixes when the correct migration is clear. Ask only when the target runtime/build model is ambiguous or the migration could change published output.
-8. Validate:
+7. When TypeScript 7 preparation is in scope and the project includes JavaScript inputs, inspect JavaScript and JSDoc diagnostics with the TypeScript 7 compiler when available. Fix reported compatibility issues instead of applying broad speculative JSDoc rewrites.
+8. Make scoped fixes when the correct migration is clear. Ask only when the target runtime/build model is ambiguous or the migration could change published output.
+9. Validate:
    - Parse changed JSON files.
    - Run the project-local typecheck script when available.
    - Otherwise run the most appropriate local TypeScript check, usually `tsc --noEmit` or `tsc -p tsconfig.json --noEmit`.

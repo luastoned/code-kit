@@ -1,6 +1,6 @@
 ---
 name: session-state
-description: Save, restore, or consume current-session handoff context through an AGENTS_STATE.md file. Use when an agent needs to write a concise handoff before ending a session, read or consume a previous handoff at the start of a new session, continue work from saved agent state, or update local repository session state without reading runtime history logs.
+description: Save, restore, or consume current-session handoff context through an AGENTS_STATE.md file. Use only when the user explicitly invokes `$session-state` or names the `session-state` skill.
 ---
 
 # Session State

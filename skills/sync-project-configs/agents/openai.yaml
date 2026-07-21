@@ -2,3 +2,5 @@ interface:
   display_name: 'Sync Project Configs'
   short_description: 'Sync shared project config files'
   default_prompt: 'Use $sync-project-configs to sync shared config files into this project.'
+policy:
+  allow_implicit_invocation: false

@@ -1,6 +1,6 @@
 ---
 name: polish-readme
-description: Create, update, or refactor a repository README.md into a polished, friendly, emoji-accented project overview. Use when an agent should inspect a repo or folder, infer what it contains, and improve the root README.md or a provided README path while preserving factual accuracy.
+description: Create, update, or refactor a repository README.md into a polished, friendly, emoji-accented project overview. Use only when the user explicitly invokes `$polish-readme` or names the `polish-readme` skill.
 ---
 
 # Polish README

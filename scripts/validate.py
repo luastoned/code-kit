@@ -81,6 +81,52 @@ def parse_quoted_yaml_scalar(value: str, path: Path, key: str) -> str:
     raise ValidationError(f'{path}: {key} must be a quoted string')
 
 
+def parse_skill_metadata_sections(lines: list[str], path: Path) -> dict[str, list[str]]:
+    supported_sections = {'interface', 'dependencies', 'policy'}
+    sections: dict[str, list[str]] = {}
+    current_section: str | None = None
+
+    for line in lines:
+        if not line.strip():
+            continue
+        if not line.startswith(' '):
+            match = re.fullmatch(r'([a-z_]+):', line)
+            if match is None:
+                raise ValidationError(f'{path}: unsupported top-level metadata line: {line}')
+            current_section = match.group(1)
+            if current_section not in supported_sections:
+                raise ValidationError(f'{path}: unsupported metadata section: {current_section}')
+            if current_section in sections:
+                raise ValidationError(f'{path}: duplicate metadata section: {current_section}')
+            sections[current_section] = []
+            continue
+        if current_section is None:
+            raise ValidationError(f'{path}: metadata value appears before a section: {line}')
+        sections[current_section].append(line)
+
+    if not sections or next(iter(sections)) != 'interface':
+        raise ValidationError(f'{path}: expected interface as the first metadata section')
+    return sections
+
+
+def parse_invocation_policy(lines: list[str], path: Path) -> bool:
+    policy: dict[str, bool] = {}
+    for line in lines:
+        match = re.fullmatch(r'  ([a-z_]+): (true|false)', line)
+        if match is None:
+            raise ValidationError(f'{path}: unsupported policy line: {line}')
+        key, raw_value = match.groups()
+        if key != 'allow_implicit_invocation':
+            raise ValidationError(f'{path}: unsupported policy key: {key}')
+        if key in policy:
+            raise ValidationError(f'{path}: duplicate policy key: {key}')
+        policy[key] = raw_value == 'true'
+
+    if 'allow_implicit_invocation' not in policy:
+        raise ValidationError(f'{path}: policy must define allow_implicit_invocation')
+    return policy['allow_implicit_invocation']
+
+
 def validate_skill_metadata() -> None:
     for skill_directory in skill_directories():
         path = skill_directory / 'agents/openai.yaml'
@@ -88,13 +134,10 @@ def validate_skill_metadata() -> None:
             raise ValidationError(f'Missing skill metadata: {path}')
 
         lines = path.read_text(encoding='utf-8').splitlines()
-        if not lines or lines[0] != 'interface:':
-            raise ValidationError(f'{path}: expected an interface mapping')
+        sections = parse_skill_metadata_sections(lines, path)
 
         values: dict[str, str] = {}
-        for line in lines[1:]:
-            if line and not line.startswith(' '):
-                break
+        for line in sections['interface']:
             match = re.fullmatch(r'  ([a-z_]+): (.+)', line)
             if match is None:
                 raise ValidationError(f'{path}: unsupported metadata line: {line}')
@@ -111,6 +154,17 @@ def validate_skill_metadata() -> None:
             raise ValidationError(f'{path}: short_description must contain 25-64 characters')
         if f'${skill_directory.name}' not in values['default_prompt']:
             raise ValidationError(f'{path}: default_prompt must mention ${skill_directory.name}')
+
+        policy_lines = sections.get('policy')
+        if policy_lines is None:
+            raise ValidationError(f'{path}: missing explicit invocation policy')
+
+        if not parse_invocation_policy(policy_lines, path):
+            skill_text = (skill_directory / 'SKILL.md').read_text(encoding='utf-8')
+            description_match = re.search(r'^description: (.+)$', skill_text, re.MULTILINE)
+            description = description_match.group(1) if description_match else ''
+            if 'explicit' not in description.lower() or f'${skill_directory.name}' not in description:
+                raise ValidationError(f'{path}: explicit-only policy must match the SKILL.md description')
 
 
 def validate_json() -> None:
@@ -182,13 +236,12 @@ def validate_markdown() -> None:
 def validate_cross_file_consistency() -> None:
     readme = (ROOT / 'README.md').read_text(encoding='utf-8')
     skills = {path.name for path in skill_directories()}
-    for heading in ('Codex', 'Claude Code'):
-        match = re.search(rf'### {re.escape(heading)}\n\n```bash\n(.*?)\n```', readme, re.DOTALL)
-        if match is None:
-            raise ValidationError(f'README is missing the {heading} manual installation block')
-        linked = set(re.findall(r'skills/([a-z0-9-]+)', match.group(1)))
-        if linked != skills:
-            raise ValidationError(f'README {heading} skill coverage differs: missing={sorted(skills - linked)}, extra={sorted(linked - skills)}')
+    catalog_match = re.search(r'^## 🧭 Skill Catalog\n\n(.*?)(?=^## )', readme, re.MULTILINE | re.DOTALL)
+    if catalog_match is None:
+        raise ValidationError('README is missing the skill catalog')
+    cataloged = set(re.findall(r'^\| `\$([a-z0-9-]+)`\s+\|', catalog_match.group(1), re.MULTILINE))
+    if cataloged != skills:
+        raise ValidationError(f'README skill catalog coverage differs: missing={sorted(skills - cataloged)}, extra={sorted(cataloged - skills)}')
 
     entrypoint = (ROOT / 'guidance/AGENTS.md').read_text(encoding='utf-8')
     mapped = set(re.findall(r'^- `([^`]+\.md)`:', entrypoint, re.MULTILINE))

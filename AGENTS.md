@@ -38,6 +38,8 @@ This repository stores shared coding resources that are reused across other proj
 
 - Always use `$skill-creator` when creating a new skill or making substantial updates to an existing skill.
 - Skill directories must include a `SKILL.md` with frontmatter `name` and `description`.
+- Make task-oriented skills explicit-only by default: set `policy.allow_implicit_invocation: false` in `agents/openai.yaml` and align the frontmatter description with explicit invocation.
+- Enable implicit invocation only for safe, read-only assistance that does not redirect the user's workflow, and make that exception deliberate in metadata and wording.
 - Keep skill workflows procedural and scoped to actions an agent can actually perform.
 - Store reusable agent prompts or metadata under the skill directory when they belong to that skill.
 - Avoid adding generated or machine-local files to skills.

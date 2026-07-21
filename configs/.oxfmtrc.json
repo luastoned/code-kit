@@ -18,5 +18,5 @@
     "lineWrappingStyle": "balance",
     "preferCodeFences": true
   },
-  "sortPackageJson": false
+  "sortPackageJson": true
 }

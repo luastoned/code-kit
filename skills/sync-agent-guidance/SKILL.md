@@ -1,6 +1,6 @@
 ---
 name: sync-agent-guidance
-description: Adapt reusable AGENTS.md and mapped language, repository, and workflow guidance to a target project. Use when an agent needs to create or update root or nested agent instructions while preserving local rules, ownership boundaries, tooling, and project conventions.
+description: Adapt reusable AGENTS.md and mapped language, repository, and workflow guidance to a target project. Use only when the user explicitly invokes `$sync-agent-guidance` or names the `sync-agent-guidance` skill.
 ---
 
 # Sync Agent Guidance

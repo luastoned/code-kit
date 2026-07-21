@@ -1,6 +1,6 @@
 ---
 name: sync-project-configs
-description: Apply or merge shared project configuration files from code-kit into another repository, folder, or project. Use when an agent needs to sync formatter, linter, TypeScript, or other files from a source configs directory while preserving target-specific settings and documenting conflicts.
+description: Apply or merge shared project configuration files from code-kit into another repository, folder, or project. Use only when the user explicitly invokes `$sync-project-configs` or names the `sync-project-configs` skill.
 ---
 
 # Sync Project Configs

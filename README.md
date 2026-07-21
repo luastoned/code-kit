@@ -22,7 +22,7 @@
   <a href="#-features">Features</a> •
   <a href="#-contents">Contents</a> •
   <a href="#-install">Install</a> •
-  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-skill-catalog">Skill Catalog</a> •
   <a href="#-usage">Usage</a> •
   <a href="#-maintenance">Maintenance</a>
 </p>
@@ -37,20 +37,22 @@
 - 🔁 **Sync workflows** — Use bundled skills to merge guidance and config into target projects while preserving local conventions.
 - 🛠️ **Guided refactors** — Refactor selected files through the nearest `AGENTS.md` and mapped guidance.
 - 📚 **README polish** — Refactor project READMEs into friendly, accurate, emoji-accented documentation.
+- 🎨 **Design-system extraction** — Create a structured `DESIGN.md` from a webpage or a concise design brief.
+- 💬 **Intent interviews** — Clarify consequential requests before committing to plans, specifications, or implementation.
 - 🧵 **Session handoffs** — Save concise `AGENTS_STATE.md` handoffs and consume them at the start of the next session.
 - 🧪 **Migration checks** — Audit TypeScript projects for one-time upgrade issues without baking cleanup checklists into downstream guidance.
 - ✅ **Repeatable validation** — Check skills, metadata, configs, formatting, references, links, and cross-file consistency with one command.
 
 ## 📦 Contents
 
-| Path          | Purpose                                                                                              |
-| ------------- | ---------------------------------------------------------------------------------------------------- |
-| `configs/`    | Shared config fragments for Oxc, TypeScript path aliases, and package scripts.                       |
-| `guidance/`   | Reusable downstream agent guidance, language guides, and local overlays.                             |
-| `references/` | Structured reference data reused across projects.                                                    |
-| `skills/`     | Shareable agent skills for syncs, refactors, README updates, session handoffs, and migration checks. |
-| `scripts/`    | Repository validation and collision-safe skill installation helpers.                                 |
-| `docs/`       | Notes, links, and conventions that do not belong in executable configs.                              |
+| Path          | Purpose                                                                                                |
+| ------------- | ------------------------------------------------------------------------------------------------------ |
+| `configs/`    | Shared config fragments for Oxc, TypeScript path aliases, and package scripts.                         |
+| `guidance/`   | Reusable downstream agent guidance, language guides, and local overlays.                               |
+| `references/` | Structured reference data reused across projects.                                                      |
+| `skills/`     | Shareable agent skills for syncs, refactors, design docs, intent interviews, handoffs, and migrations. |
+| `scripts/`    | Repository validation and collision-safe skill installation helpers.                                   |
+| `docs/`       | Notes, links, and conventions that do not belong in executable configs.                                |
 
 ## 📥 Install
 
@@ -63,123 +65,61 @@ cd code-kit
 
 `code-kit` is not installed as a project dependency. Its files are copied, merged, or symlinked into local tooling where needed.
 
-## 🚀 Quick Start
+### Install Skills
 
-The `skills/` directory is the source of truth. Each skill is a directory with a `SKILL.md` entrypoint and YAML frontmatter, which keeps the files portable across agent runtimes that support this shape.
+The `skills/` directory is the source of truth. Each skill is a directory with a `SKILL.md` entrypoint and YAML frontmatter, which keeps the files portable across agent runtimes that support this shape. Bundled task skills are explicit-only: invoke one by name, usually with `$skill-name`, rather than expecting installation alone to activate it.
 
-Link the skills from the installed repo path into the runtime you want to use.
-
-### Codex
-
-```bash
-mkdir -p ~/.codex/skills
-test -d "$(pwd)/skills/sync-agent-guidance" && ln -sfn "$(pwd)/skills/sync-agent-guidance" ~/.codex/skills/sync-agent-guidance
-test -d "$(pwd)/skills/sync-project-configs" && ln -sfn "$(pwd)/skills/sync-project-configs" ~/.codex/skills/sync-project-configs
-test -d "$(pwd)/skills/migrate-typescript" && ln -sfn "$(pwd)/skills/migrate-typescript" ~/.codex/skills/migrate-typescript
-test -d "$(pwd)/skills/polish-readme" && ln -sfn "$(pwd)/skills/polish-readme" ~/.codex/skills/polish-readme
-test -d "$(pwd)/skills/refactor-code" && ln -sfn "$(pwd)/skills/refactor-code" ~/.codex/skills/refactor-code
-test -d "$(pwd)/skills/session-state" && ln -sfn "$(pwd)/skills/session-state" ~/.codex/skills/session-state
-```
-
-### Claude Code
-
-```bash
-mkdir -p ~/.claude/skills
-test -d "$(pwd)/skills/sync-agent-guidance" && ln -sfn "$(pwd)/skills/sync-agent-guidance" ~/.claude/skills/sync-agent-guidance
-test -d "$(pwd)/skills/sync-project-configs" && ln -sfn "$(pwd)/skills/sync-project-configs" ~/.claude/skills/sync-project-configs
-test -d "$(pwd)/skills/migrate-typescript" && ln -sfn "$(pwd)/skills/migrate-typescript" ~/.claude/skills/migrate-typescript
-test -d "$(pwd)/skills/polish-readme" && ln -sfn "$(pwd)/skills/polish-readme" ~/.claude/skills/polish-readme
-test -d "$(pwd)/skills/refactor-code" && ln -sfn "$(pwd)/skills/refactor-code" ~/.claude/skills/refactor-code
-test -d "$(pwd)/skills/session-state" && ln -sfn "$(pwd)/skills/session-state" ~/.claude/skills/session-state
-```
-
-### Optional Installer
-
-Keep using the manual commands above when you want direct control, or use the installer to link every skill or a selected subset:
+Run the installer from the `code-kit` checkout to link every skill into one or both supported runtimes:
 
 ```bash
 ./scripts/install-skills.sh codex
-./scripts/install-skills.sh claude session-state polish-readme
+./scripts/install-skills.sh claude
+./scripts/install-skills.sh all
+```
+
+Pass skill names after the runtime to install only a selected set:
+
+```bash
+./scripts/install-skills.sh codex session-state interview-me create-design-md
 ./scripts/install-skills.sh all sync-agent-guidance sync-project-configs
 ```
 
-The installer refreshes existing symlinks but refuses to overwrite real files or directories. Run `./scripts/install-skills.sh --help` for usage.
+The installer creates the runtime skills directory when needed, refreshes existing links, and refuses to overwrite real files or directories. Run `./scripts/install-skills.sh --help` for usage. Start a new session if the runtime does not discover newly linked skills immediately.
 
-Run the commands from the `code-kit` checkout. The `test -d` guard ensures the skill exists before linking it, and `$(pwd)` captures the absolute source path so the agent runtime can resolve the skill directory later.
+## 🧭 Skill Catalog
 
-Claude Code also supports project-local skills under `.claude/skills/`. For `code-kit`, the recommended model is to keep this repo as the source of truth and symlink selected skills into the runtime that should consume them.
+| Skill                   | Purpose                                                                                            |
+| ----------------------- | -------------------------------------------------------------------------------------------------- |
+| `$sync-agent-guidance`  | Adapt language-first `AGENTS.md` guidance while preserving project rules and ownership boundaries. |
+| `$sync-project-configs` | Merge shared formatter, linter, TypeScript, and package defaults into a target project.            |
+| `$migrate-typescript`   | Audit and migrate a project for TypeScript 6.0+ compatibility and TypeScript 7 preparation.        |
+| `$polish-readme`        | Create or refresh a friendly, accurate, emoji-accented project README.                             |
+| `$refactor-code`        | Conservatively refactor selected files using the nearest project guidance.                         |
+| `$session-state`        | Save, restore, or consume a concise `AGENTS_STATE.md` session handoff.                             |
+| `$create-design-md`     | Create or update a `DESIGN.md` system from a webpage, project evidence, or design brief.           |
+| `$interview-me`         | Clarify consequential intent through a focused interview before planning or implementation.        |
 
-After linking, start a new Codex session so the skills are discovered. Claude Code detects changes in an existing skills directory during the current session; restart it only when the top-level skills directory was created after the session began.
-
-```text
-Use $sync-agent-guidance to adapt mapped language and repository guidance to this project.
-Use $sync-project-configs to sync shared config files into this project.
-Use $migrate-typescript to audit and migrate this project for TypeScript 6.0+ compatibility.
-Use $polish-readme to refresh this project's README.md.
-Use $refactor-code on src/example.ts.
-Use $session-state to update AGENTS_STATE.md with the current session handoff.
-```
-
-Do not symlink shared config files directly by default. Use the sync skills to copy or merge `configs/` and `guidance/` into target projects so local project settings are preserved. Copy files from `references/` intentionally when a target workflow needs them.
+Invoke a skill explicitly in the request, for example: `Use $refactor-code on src/example.ts.`
 
 ## 💡 Usage
 
-### Agent Guidance
+### Guidance and Configs
 
 `guidance/AGENTS.md` is the downstream entrypoint. It maps languages and runtimes to the reusable guides in `guidance/`.
 Private or personal overlays can live under `guidance/private/`. Files there are ignored by git, so local mappings and non-public guidance stay local.
 
-Use `sync-agent-guidance` when a project needs local `AGENTS.md` instructions derived from this repo:
+Invoke the sync skills to adapt these resources into a target project instead of symlinking shared guidance or configs directly:
 
 ```text
 Use $sync-agent-guidance to adapt mapped language and repository guidance to this project.
-```
-
-The skill inspects the target first, then adapts the reusable guidance instead of copying it blindly.
-
-### Project Configs
-
-Use `sync-project-configs` when a project should receive shared defaults from `configs/`:
-
-```text
 Use $sync-project-configs to sync shared config files into this project.
 ```
 
-The skill copies missing relevant configs, merges structured configs where possible, and preserves target-specific settings.
-
-### TypeScript Migration
-
-Use `migrate-typescript` for one-time TypeScript 6.0+ upgrade audits and migration fixes:
-
-```text
-Use $migrate-typescript to audit and migrate this project for TypeScript 6.0+ compatibility.
-```
-
-The skill checks deprecated compiler options, deprecated syntax, changed defaults, and project-local typecheck behavior without adding those cleanup steps to downstream `AGENTS.md` files.
-
-### README Polish
-
-Use `polish-readme` when a project README should be created, refreshed, or refactored:
-
-```text
-Use $polish-readme to refresh this project's README.md.
-```
-
-The skill inspects the target repo first, then rewrites the README around real project contents, commands, links, and examples.
-
-### Code Refactors
-
-Use `refactor-code` when selected files should be cleaned up according to the nearest `AGENTS.md` and mapped guidance:
-
-```text
-Use $refactor-code on src/example.ts.
-```
-
-The skill keeps behavior unchanged by default, follows local project rules, avoids broad rewrites, and runs the smallest relevant validation when practical.
+Both workflows inspect the target first, preserve local conventions, and report conflicts instead of replacing project-specific choices blindly.
 
 ### Session State
 
-Use `session-state` when a session should leave or consume a short handoff:
+Invoke `$session-state` with the intended mode. Reading keeps the handoff by default; consuming deletes it only after a successful load:
 
 ```text
 Use $session-state to update AGENTS_STATE.md with the current session handoff.
@@ -187,11 +127,10 @@ Use $session-state to continue from AGENTS_STATE.md.
 Use $session-state to consume AGENTS_STATE.md and delete it after loading.
 ```
 
-The skill writes dynamic state from the current conversation and repository context only. Reading or continuing from a handoff keeps the file by default; consuming it deletes the file after a successful load.
-
-### Gitmoji Reference
+### References
 
 `references/gitmojis.json` follows the [Gitmoji API](https://gitmoji.dev/api/gitmojis) shape and provides a local lookup for commit tooling and agent workflows.
+Copy files from `references/` intentionally when a target workflow needs them.
 
 ## 🛠️ Maintenance
 

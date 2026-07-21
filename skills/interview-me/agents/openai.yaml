@@ -1,0 +1,6 @@
+interface:
+  display_name: 'Interview Me'
+  short_description: 'Explore intent before costly work begins'
+  default_prompt: 'Use $interview-me to interview me about this request before planning or implementation.'
+policy:
+  allow_implicit_invocation: false

@@ -1,6 +1,6 @@
 ---
 name: refactor-code
-description: Refactor selected files according to the nearest AGENTS.md and applicable mapped guidance while preserving behavior. Use when an agent should improve code structure, readability, maintainability, or consistency without broad rewrites or behavior changes.
+description: Refactor selected files according to the nearest AGENTS.md and applicable mapped guidance while preserving behavior. Use only when the user explicitly invokes `$refactor-code` or names the `refactor-code` skill. Do not activate for generic implementation, cleanup, review, bug-fix, or code-quality requests.
 ---
 
 # Refactor Code
