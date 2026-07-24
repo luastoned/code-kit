@@ -1,13 +1,19 @@
 ---
 name: sync-agent-guidance
-description: Adapt reusable AGENTS.md and mapped language, repository, and workflow guidance to a target project. Use only when the user explicitly invokes `$sync-agent-guidance` or names the `sync-agent-guidance` skill.
+description: Audit or adapt reusable AGENTS.md and mapped language, repository, and workflow guidance for a target project. Use only when the user explicitly invokes `$sync-agent-guidance` or names the `sync-agent-guidance` skill.
 ---
 
 # Sync Agent Guidance
 
 ## Overview
 
-Adapt the public guidance from code-kit into instructions that fit a target project. Inspect established projects before writing. Weight the result in this order: primary language guidance, applicable tooling or workflow guidance, then a compact repository baseline. For a single-project repository, make the primary language guide the organizing structure and main source of actionable guidance.
+Audit a target project's instructions against the current public guidance from code-kit, or adapt that guidance into instructions that fit the project. Audit without writing when the user wants to know whether resynchronization is needed. When synchronizing, inspect established projects before writing and weight the result in this order: primary language guidance, applicable tooling or workflow guidance, then a compact repository baseline.
+
+## Mode Selection
+
+- Use audit mode when the user asks whether guidance is current, needs resynchronization, or has drifted. Audit mode is read-only.
+- Use sync mode when the user asks to create, update, adapt, or resynchronize guidance.
+- Do not add version stamps, provenance comments, lock files, or other tracking metadata to the target project.
 
 ## Workflow
 
@@ -18,14 +24,15 @@ Adapt the public guidance from code-kit into instructions that fit a target proj
 2. Resolve the target project from the request or current working directory.
 3. Read source `AGENTS.md`, `Repositories.md`, and the guides selected under [Guide Selection](#guide-selection). Read private guidance only when explicitly requested.
 4. Inspect the target using [Target Inspection](#target-inspection).
-5. Decide the guidance shape:
+5. In audit mode, follow [Audit Mode](#audit-mode), report the result, and stop without editing.
+6. In sync mode, decide the guidance shape:
    - Use root guidance for repository-wide rules and nested guidance for project-specific implementation rules.
    - For a single-project repository, organize `AGENTS.md` around the primary language guide. Follow it with applicable tooling guidance, then concise repository rules.
    - For a new or sparse repository, include the broadly applicable sections from the known primary language guide even when framework, runtime, package-manager, and tooling details are not established.
    - Include the source commit policy and other durable repository defaults even when `.git`, hooks, CI, or repository tooling have not been initialized. Treat missing setup as unknown or planned, not evidence that the guidance is irrelevant.
    - Merge with existing instructions and referenced language guides instead of creating duplicate guidance.
-6. Before editing, inventory the `##` sections in each selected guide and map applicable sections to cohesive target sections. Record only non-obvious omissions, moves, or combinations that will need explanation.
-7. Edit with the runtime's patch or structured-edit tool, then review the diff for missing, duplicated, or contradictory rules.
+7. Before editing, inventory the `##` sections in each selected guide and map applicable sections to cohesive target sections. Record only non-obvious omissions, moves, or combinations that will need explanation.
+8. Edit with the runtime's patch or structured-edit tool, then review the diff for missing, duplicated, or contradictory rules.
 
 ## Guide Selection
 
@@ -55,6 +62,20 @@ Use `rg --files` first and read only what is needed to establish local conventio
 
 Do not invent a framework, runtime, package manager, command, or project convention when a new repository has not established one.
 
+## Audit Mode
+
+1. Inventory the target's root and applicable nested instructions, including any guides they reference.
+2. Build a checklist from the applicable sections of each selected source guide.
+3. Compare meaning rather than wording. Classify each applicable source rule as:
+   - covered by equivalent target guidance
+   - intentionally replaced by a more specific local rule
+   - missing, stale, or contradicted
+   - not applicable to the target
+4. Report `current` when there is no material guidance drift. Report `resync recommended` when an applicable rule or cohesive section is missing, stale, contradicted without a clear local reason, or newly applicable because the project changed.
+5. Lead with the status and list only material drift, relevant local overrides, and the guides checked. Do not enumerate every matching rule unless requested.
+
+Do not use textual differences, heading order, prose condensation, timestamps, Git history, or absent version metadata as evidence of drift by themselves. Do not edit, create, format, or otherwise mutate target files in audit mode.
+
 ## Merge Rules
 
 - Preserve local architecture, commands, deployment, testing, security, data-handling, ownership, and commit rules.
@@ -70,4 +91,4 @@ Do not invent a framework, runtime, package manager, command, or project convent
 
 ## Output Expectations
 
-The result should read as guidance written for the target project, not as a copy of code-kit. For a single-language project, a reader should immediately recognize the primary language guide as the focus; repository details should appear only as brief supporting constraints. Report the files changed, guides applied, unresolved conflicts, and any non-obvious source sections that were moved, combined, or omitted.
+In audit mode, report whether resynchronization is recommended, the guides checked, and the material reasons. In sync mode, the result should read as guidance written for the target project, not as a copy of code-kit. For a single-language project, a reader should immediately recognize the primary language guide as the focus; repository details should appear only as brief supporting constraints. Report the files changed, guides applied, unresolved conflicts, and any non-obvious source sections that were moved, combined, or omitted.

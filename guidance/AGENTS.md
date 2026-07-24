@@ -46,6 +46,8 @@ Local-only private guides may exist under `guidance/private/`. These files are i
 - Change only what the task requires.
 - Add abstractions, indirection, dependencies, or optimizations only with concrete justification.
 - Make ownership, state, and error paths clear.
+- Write comments to explain intent, constraints, or non-obvious trade-offs. Do not narrate what the code already expresses, and remove stale comments when behavior changes.
+- Add a blank line after a statement that spans multiple lines before the next sibling statement, including an assignment whose value is a multiline function call. Omit the blank line only when the statements are parts of the same syntactic construct, such as `if`/`else` or `try`/`catch`/`finally`.
 - Use search to locate relevant code before reading large files, and verify only the changed areas needed after edits.
 
 ## Tooling source of truth

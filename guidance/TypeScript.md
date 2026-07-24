@@ -31,6 +31,7 @@ Check, in order:
 - Ensure the runtime, build, and test pipeline resolves `~/*` consistently. Keep the alias and surface missing resolver support instead of falling back to deep relative imports.
 - Use import attributes with `with`, not deprecated import assertions with `assert`.
 - Prefer named exports over default exports unless a framework or tool requires a default export.
+- Avoid barrel files when they obscure module ownership, make dependencies harder to trace, or introduce import cycles. Prefer direct module imports by default.
 
 ## Typing and boundaries
 

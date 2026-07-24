@@ -1,6 +1,6 @@
 interface:
   display_name: 'Sync Agent Guidance'
-  short_description: 'Adapt reusable AGENTS.md guidance'
-  default_prompt: 'Use $sync-agent-guidance to adapt mapped language and repository guidance to this project.'
+  short_description: 'Audit or adapt reusable AGENTS.md guidance'
+  default_prompt: 'Use $sync-agent-guidance to audit this project against the current mapped guidance and report whether it needs resynchronization.'
 policy:
   allow_implicit_invocation: false
