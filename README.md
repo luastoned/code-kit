@@ -23,6 +23,7 @@
   <a href="#-contents">Contents</a> •
   <a href="#-install">Install</a> •
   <a href="#-skill-catalog">Skill Catalog</a> •
+  <a href="#-agent-native-workflows">Agent-Native Workflows</a> •
   <a href="#-usage">Usage</a> •
   <a href="#-maintenance">Maintenance</a>
 </p>
@@ -39,7 +40,7 @@
 - 📚 **README polish** — Refactor project READMEs into friendly, accurate, emoji-accented documentation.
 - 🎨 **Design-system extraction** — Create a structured `DESIGN.md` from a webpage or a concise design brief.
 - 💬 **Intent interviews** — Clarify consequential requests before committing to plans, specifications, or implementation.
-- 🪶 **Change-shaped workflow** — Audit or adopt lightweight coordination based on ambiguity, blast radius, irreversibility, and verification.
+- 🪶 **[ChangeShape](./docs/workflows/change-shape.md)** — Audit or adopt lightweight coordination based on ambiguity, blast radius, irreversibility, and verification.
 - 🧵 **Session handoffs** — Save concise `AGENTS_STATE.md` handoffs and consume them at the start of the next session.
 - 🧪 **Migration checks** — Audit TypeScript projects for one-time upgrade issues without baking cleanup checklists into downstream guidance.
 - ✅ **Repeatable validation** — Check skills, metadata, configs, formatting, references, links, and cross-file consistency with one command.
@@ -53,7 +54,7 @@
 | `references/` | Structured reference data reused across projects.                                                        |
 | `skills/`     | Shareable agent skills for workflow adoption, syncs, refactors, design docs, interviews, and migrations. |
 | `scripts/`    | Repository validation and collision-safe skill installation helpers.                                     |
-| `docs/`       | Notes, links, and conventions that do not belong in executable configs.                                  |
+| `docs/`       | Agent-native workflows, notes, links, and conventions that do not belong in executable configs.          |
 
 ## 📥 Install
 
@@ -78,6 +79,14 @@ Run the installer from the `code-kit` checkout to link every skill into one or b
 ./scripts/install-skills.sh all
 ```
 
+On Windows, run the equivalent PowerShell installer:
+
+```powershell
+.\scripts\install-skills.ps1 codex
+.\scripts\install-skills.ps1 claude
+.\scripts\install-skills.ps1 all
+```
+
 Pass skill names after the runtime to install only a selected set:
 
 ```bash
@@ -85,7 +94,9 @@ Pass skill names after the runtime to install only a selected set:
 ./scripts/install-skills.sh all sync-agent-guidance sync-project-configs
 ```
 
-The installer creates the runtime skills directory when needed, refreshes existing links, and refuses to overwrite real files or directories. Run `./scripts/install-skills.sh --help` for usage. Start a new session if the runtime does not discover newly linked skills immediately.
+The PowerShell installer accepts the same runtime and optional skill arguments.
+
+The installers create the runtime skills directory when needed, refresh existing links, and refuse to overwrite real files or directories. Windows symbolic links may require Developer Mode or an elevated PowerShell session. Run `./scripts/install-skills.sh --help` or `Get-Help .\scripts\install-skills.ps1` for usage. Start a new session if the runtime does not discover newly linked skills immediately.
 
 ## 🧭 Skill Catalog
 
@@ -102,6 +113,16 @@ The installer creates the runtime skills directory when needed, refreshes existi
 | `$interview-me`         | Clarify consequential intent through a focused interview before planning or implementation.        |
 
 Invoke a skill explicitly in the request, for example: `Use $refactor-code on src/example.ts.`
+
+## 🤖 Agent-Native Workflows
+
+Agent-native workflows preserve human product authority while accounting for the speed, parallelism, and coordination patterns of AI-assisted implementation. They are standalone methods: projects can adopt them directly or use a bundled skill to adapt them to existing conventions.
+
+### ChangeShape
+
+[ChangeShape](./docs/workflows/change-shape.md) is an agent-native method for classifying and coordinating software changes. It evaluates ambiguity, blast radius, irreversibility, coordination, and verification instead of estimating effort from time, story points, or file count.
+
+Direct and Scoped work stay lightweight. Shaped work records only the boundaries and decisions that must survive. Initiatives remain strategic direction and are delivered through independently valuable Shaped slices. Use `$adopt-change-shape` to audit a repository or adapt the workflow without imposing fixed filenames or a generic documentation tree.
 
 ## 💡 Usage
 

@@ -260,6 +260,8 @@ def validate_text_files() -> None:
         if not relative_path:
             continue
         path = ROOT / relative_path
+        if not path.is_file():
+            continue
         data = path.read_bytes()
         if not data or b'\0' in data:
             continue

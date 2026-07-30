@@ -1,6 +1,10 @@
 # ChangeShape
 
-ChangeShape is a lightweight operating system for a product owner/developer working with AI agents. It classifies work by the shape of the change rather than estimated human effort.
+> An agent-native method for classifying and coordinating software changes.
+>
+> Version 1.0.0
+
+ChangeShape is a lightweight workflow for a product owner/developer working with AI agents. It classifies work by the shape of the change rather than estimated human effort.
 
 Its purpose is to make product decisions, review, integration, and verification explicit without creating a second implementation history in documentation.
 
@@ -23,7 +27,7 @@ ChangeShape uses those constraints to decide how work should be executed and whe
 ## Principles
 
 1. **Classify before planning.** Determine the change shape before choosing artifacts or process.
-2. **One outcome, one integration owner.** Parallel assistance does not create parallel product authority.
+2. **One active Shaped outcome, one integration owner.** A single product owner/developer should not carry competing integration streams; parallel assistance does not create parallel product authority.
 3. **Prefer bounded execution.** Use the smallest coherent, independently valuable change.
 4. **Persist only what must survive.** Conversation handles disposable planning; documents preserve durable truth and necessary cross-session decisions.
 5. **Separate direction from execution.** An Initiative is not an agent task.
@@ -45,11 +49,11 @@ Evaluate work across five dimensions:
 
 Classification is qualitative. Do not total scores or translate dimensions into estimated time.
 
-## Work Classes
+## Executable Shapes
 
 ### Direct
 
-Use Direct when the outcome is clear, the implementation is conventional, and there is no material product or architecture choice.
+Use Direct when ambiguity, blast radius, irreversibility, coordination, and verification difficulty are all low. The outcome is clear, the implementation is conventional and local, and there is no material product or architecture choice.
 
 Typical examples:
 
@@ -61,7 +65,13 @@ Typical examples:
 
 Execution:
 
-`inspect -> implement -> verify -> commit`
+`inspect -> implement -> verify -> integrate`
+
+Verification:
+
+- perform the smallest relevant check during the current interaction
+- report the command as run and its result
+- when a command is not applicable, directly inspect or exercise the observable result and report that evidence
 
 Coordination:
 
@@ -71,7 +81,7 @@ Coordination:
 
 ### Scoped
 
-Use Scoped when several connected files or behaviors are involved but the work remains inside one ownership area, has one clear approach, and can be reviewed as one coherent outcome.
+Use Scoped when ambiguity and irreversibility remain low, but blast radius or verification crosses several connected parts. The work remains inside one ownership area, has one clear approach, and can be reviewed as one coherent outcome.
 
 Typical examples:
 
@@ -83,7 +93,13 @@ Typical examples:
 
 Execution:
 
-`inspect -> brief disposable plan -> implement -> verify -> commit`
+`inspect -> brief disposable plan -> implement -> verify -> integrate`
+
+Verification:
+
+- exercise the integrated outcome through the actual application flow, request path, CLI path, build artifact, repository-wide check, or nearest faithful environment
+- run relevant automated checks and report the commands as run and their results
+- do not treat an isolated unit suite as sufficient evidence when the outcome crosses connected parts
 
 Coordination:
 
@@ -93,16 +109,16 @@ Coordination:
 
 ### Shaped
 
-Use Shaped when the work contains a material decision, crosses a durable boundary, changes high-consequence state, or needs several independently reviewable slices.
+Use Shaped when ambiguity, blast radius, irreversibility, coordination, or verification difficulty is materially high. The work contains a consequential decision, crosses a durable boundary, changes high-consequence state, or needs several independently reviewable slices.
 
-Any of these normally triggers Shaped work:
+Any of these normally triggers Shaped work when the change alters semantics, ownership, contracts, persisted state, or risk. Merely touching code in one of these areas does not:
 
 - multiple reasonable product interpretations
 - a new domain or state model
 - persisted-data migration
 - frontend/backend or other runtime contract
-- authentication, authorization, privacy, location, or security
-- public API, plugin, or contributor contract
+- authentication, authorization, privacy, location, or security semantics or controls
+- public API, plugin, or contributor contract semantics
 - an irreversible or costly dependency decision
 - coordination that must survive sessions
 - several slices that must preserve shared invariants
@@ -111,7 +127,13 @@ Any of these normally triggers Shaped work:
 
 Execution:
 
-`investigate -> decide boundaries -> record essential shape -> implement slices -> integrate -> verify -> accept`
+`investigate -> decide boundaries -> record essential shape -> implement and assemble slices -> verify -> integrate -> accept`
+
+Verification:
+
+- satisfy the recorded verification conditions item by item before acceptance
+- exercise affected boundaries in every required environment or faithful substitute
+- report the evidence actually observed and identify every failed or unverified condition
 
 Coordination:
 
@@ -119,6 +141,8 @@ Coordination:
 - create one temporary work spec only when the index cannot safely preserve the decisions, boundaries, risks, and acceptance
 - merge durable outcomes into canonical documentation
 - remove the completed work entry and temporary spec; retain history in version control when present
+
+## Strategic Direction
 
 ### Initiative
 
@@ -142,20 +166,37 @@ Coordination:
 
 ## Classification Decision
 
-Use this decision order:
+The questions below operationalize the five change dimensions. Use them in this order:
 
-1. Does the request contain more than one independently valuable outcome?
-   - Yes: classify it as an Initiative and select a Shaped slice.
-2. Does it change product meaning, durable contracts, persisted data, security, privacy, identity, or runtime ownership?
+1. **Coordination:** Does the request contain more than one independently valuable outcome?
+   - Yes, and they share one coherent strategic direction: classify the direction as an Initiative and select one independently valuable Shaped slice.
+   - Yes, but they are unrelated: split them and classify each outcome separately.
+2. **Ambiguity, blast radius, and irreversibility:** Does it alter product meaning, durable contracts, persisted data, security, privacy, identity, or runtime ownership?
    - Yes: classify it as Shaped.
-3. Must decisions or invariants survive several sessions, slices, or independent contributors?
+3. **Verification and irreversibility:** Does acceptance or recovery require migrations, multiple environments or devices, substantial manual judgment, or a difficult rollback?
    - Yes: classify it as Shaped.
-4. Is there one clear approach inside one ownership area?
+4. **Coordination:** Must decisions or invariants survive several sessions, slices, or independent contributors?
+   - Yes: classify it as Shaped.
+5. **Ambiguity, blast radius, and verification:** Is there one clear approach inside one ownership area?
    - Yes, local and obvious: Direct.
    - Yes, with several connected parts: Scoped.
    - No: Shaped.
 
-When uncertain between two classes, choose the lighter class only if a failed assumption is cheap to reverse and easy to detect.
+When uncertain between two shapes, choose the lighter shape only if a failed assumption is cheap to reverse and easy to detect.
+
+## Interaction Protocol
+
+1. Inspect enough context to classify the outcome before implementation.
+2. Announce the classification and reason in one concise line, for example: `Scoped: one ownership area; the integrated request path must be exercised.`
+3. Omit the announcement only for a typo-level, single-file edit with no behavior change.
+4. Let the human owner raise the classification directly. Before accepting a lower classification, state which safety, coordination, or verification consequence the downgrade would discard.
+5. Treat classification as provisional. When implementation or verification reveals a different change shape, pause before expanding scope or integrating, announce the new classification and reason, and adopt its verification and coordination requirements.
+6. Report verification with one of these states:
+   - `verified`: the command was run or the behavior was directly exercised, and the observed result supports acceptance
+   - `failed`: verification was performed and did not satisfy acceptance
+   - `unverified`: verification could not be performed; state why and name the remaining risk
+7. Treat `failed` and `unverified` as blocking integration by default. Proceed only when the human owner explicitly accepts the named failure or residual risk. Acceptance permits integration but does not change the verification state to `verified`.
+8. Keep classifications, commands, results, and overrides observable during the active interaction and disposable after integration. Preserve them only when they change canonical truth or a consequential decision must remain understandable.
 
 ## Coordination Artifacts
 
@@ -179,10 +220,12 @@ Treat the work index as a role, not a required repository file. An existing issu
 
 Keep:
 
-- at most one active outcome
+- at most one active Shaped outcome per repository
 - at most two or three deliberately queued candidates
 - an outcome and next decision or trigger for each item
 - a link to a temporary spec only when one exists
+
+Direct or Scoped work may interrupt the active outcome only when it is inexpensive and does not create a competing integration stream or displace the owner's integration attention.
 
 Do not use it as:
 
@@ -193,6 +236,14 @@ Do not use it as:
 - a mirror of an issue tracker
 
 Strategic direction belongs in the canonical product guide, not as deeply specified future work.
+
+## Decision Records
+
+Use a decision record only when a consequential choice and its rationale must remain understandable after the active work is complete. Typical candidates include data ownership, identity, transport, security, persistence, public contracts, and major framework boundaries.
+
+Keep the record brief: capture the context, decision, significant ramifications, and any condition that should trigger reconsideration. Preserve accepted records as history and link to a superseding decision instead of rewriting them when the choice changes.
+
+Use the repository's Architecture Decision Record (ADR) convention when one exists; do not impose a location or naming scheme.
 
 ## Minimal Shaped Spec
 
@@ -230,13 +281,16 @@ Do not add progress percentages, session notes, implementation diaries, complete
 
 ## Agent Coordination
 
-- Keep product priority and irreversible decisions with the human owner.
-- Assign one primary agent as integration owner for the active outcome.
-- Use additional agents for independent research, review, tests, or non-overlapping implementation slices.
+- Keep priority, product meaning, irreversible decisions, and final acceptance with the human product owner/developer.
+- Assign one primary agent as integration owner. It coordinates implementation, integration, and verification within the authority the human owner granted.
+- Use additional agents only for independent research, review, verification, or non-overlapping implementation when the primary agent and human owner have capacity to review and integrate the results. Unused agent capacity is not a reason to parallelize.
 - Give every agent an outcome, scope, exclusions, acceptance, verification, and mutation authority.
 - Do not let independent agents modify the same ownership area concurrently without an explicit integration plan.
+- Require subagents to stop and report when they encounter product ambiguity, overlapping ownership, an irreversible decision, or a necessary scope expansion.
 - Treat agent plans and reports as disposable unless they change durable truth.
 - Require the integration owner to inspect the combined diff and run risk-proportionate verification.
+- When an active Shaped outcome must cross sessions, allow at most one shared, short-lived handoff in its existing work index or temporary spec.
+- Do not create separate planning, progress, state, or handoff documents for individual agents.
 
 ## Documentation Rules
 
@@ -262,14 +316,15 @@ Mechanical breadth does not imply Shaped work. A formatter migration across one 
 
 1. Capture the request without expanding it into a backlog.
 2. Inspect enough context to classify its change shape.
-3. Resolve material ambiguity before implementation.
-4. Select the lightest justified execution and coordination path.
-5. Implement one coherent outcome through small integrated slices.
-6. Verify according to blast radius, irreversibility, and environment.
-7. Obtain human acceptance for product meaning and experience.
-8. Merge durable truth into canonical docs.
-9. Remove temporary coordination artifacts and completed work entries.
-10. Reconsider the next candidate using what was learned.
+3. Announce the classification and resolve material ambiguity before implementation.
+4. Select the lightest justified execution, verification, and coordination path.
+5. Implement one coherent outcome through small integrated slices, reclassifying when evidence changes its shape.
+6. Verify according to the shape's contract, blast radius, irreversibility, and environment.
+7. Resolve failed or unverified conditions before integration unless the human owner explicitly accepts the named risk.
+8. Obtain human acceptance for product meaning and experience.
+9. Merge durable truth into canonical docs.
+10. Remove temporary coordination artifacts and completed work entries.
+11. Reconsider the next candidate using what was learned.
 
 ## Influences
 
