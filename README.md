@@ -39,20 +39,21 @@
 - 📚 **README polish** — Refactor project READMEs into friendly, accurate, emoji-accented documentation.
 - 🎨 **Design-system extraction** — Create a structured `DESIGN.md` from a webpage or a concise design brief.
 - 💬 **Intent interviews** — Clarify consequential requests before committing to plans, specifications, or implementation.
+- 🪶 **Change-shaped workflow** — Audit or adopt lightweight coordination based on ambiguity, blast radius, irreversibility, and verification.
 - 🧵 **Session handoffs** — Save concise `AGENTS_STATE.md` handoffs and consume them at the start of the next session.
 - 🧪 **Migration checks** — Audit TypeScript projects for one-time upgrade issues without baking cleanup checklists into downstream guidance.
 - ✅ **Repeatable validation** — Check skills, metadata, configs, formatting, references, links, and cross-file consistency with one command.
 
 ## 📦 Contents
 
-| Path          | Purpose                                                                                                |
-| ------------- | ------------------------------------------------------------------------------------------------------ |
-| `configs/`    | Shared config fragments for Oxc, TypeScript path aliases, and package scripts.                         |
-| `guidance/`   | Reusable downstream agent guidance, language guides, and local overlays.                               |
-| `references/` | Structured reference data reused across projects.                                                      |
-| `skills/`     | Shareable agent skills for syncs, refactors, design docs, intent interviews, handoffs, and migrations. |
-| `scripts/`    | Repository validation and collision-safe skill installation helpers.                                   |
-| `docs/`       | Notes, links, and conventions that do not belong in executable configs.                                |
+| Path          | Purpose                                                                                                  |
+| ------------- | -------------------------------------------------------------------------------------------------------- |
+| `configs/`    | Shared config fragments for Oxc, TypeScript path aliases, and package scripts.                           |
+| `guidance/`   | Reusable downstream agent guidance, language guides, and local overlays.                                 |
+| `references/` | Structured reference data reused across projects.                                                        |
+| `skills/`     | Shareable agent skills for workflow adoption, syncs, refactors, design docs, interviews, and migrations. |
+| `scripts/`    | Repository validation and collision-safe skill installation helpers.                                     |
+| `docs/`       | Notes, links, and conventions that do not belong in executable configs.                                  |
 
 ## 📥 Install
 
@@ -90,6 +91,7 @@ The installer creates the runtime skills directory when needed, refreshes existi
 
 | Skill                   | Purpose                                                                                            |
 | ----------------------- | -------------------------------------------------------------------------------------------------- |
+| `$adopt-change-shape`   | Audit or adopt a change-shaped, low-documentation project workflow.                                |
 | `$sync-agent-guidance`  | Adapt language-first `AGENTS.md` guidance while preserving project rules and ownership boundaries. |
 | `$sync-project-configs` | Merge shared formatter, linter, TypeScript, and package defaults into a target project.            |
 | `$migrate-typescript`   | Audit and migrate a project for TypeScript 6.0+ compatibility and TypeScript 7 preparation.        |

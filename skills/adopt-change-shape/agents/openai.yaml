@@ -1,0 +1,6 @@
+interface:
+  display_name: 'Adopt ChangeShape'
+  short_description: 'Adopt risk-shaped, low-churn project workflow'
+  default_prompt: 'Use $adopt-change-shape to adapt ChangeShape to this repository.'
+policy:
+  allow_implicit_invocation: false
