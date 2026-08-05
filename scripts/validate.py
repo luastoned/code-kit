@@ -19,7 +19,7 @@ class ValidationError(RuntimeError):
     pass
 
 
-def run(command: list[str], *, capture: bool = False) -> str:
+def run(command: list[str], *, capture: bool = False, expected_exit_codes: tuple[int, ...] = (0,)) -> str:
     result = subprocess.run(
         command,
         cwd=ROOT,
@@ -28,7 +28,7 @@ def run(command: list[str], *, capture: bool = False) -> str:
         stdout=subprocess.PIPE if capture else None,
         stderr=subprocess.PIPE if capture else None,
     )
-    if result.returncode != 0:
+    if result.returncode not in expected_exit_codes:
         detail = result.stderr.strip() if capture else ''
         raise ValidationError(f"Command failed ({result.returncode}): {' '.join(command)}{f': {detail}' if detail else ''}")
     return result.stdout if capture else ''
@@ -285,6 +285,17 @@ def validate_tools() -> None:
         run([shellcheck, 'scripts/install-skills.sh'])
     else:
         print('SKIP: shellcheck is unavailable')
+
+    powershell = shutil.which('pwsh') or shutil.which('powershell')
+    if powershell is not None:
+        run([powershell, '-NoLogo', '-NoProfile', '-NonInteractive', '-File', 'scripts/install-skills.ps1', '--help'])
+        run(
+            [powershell, '-NoLogo', '-NoProfile', '-NonInteractive', '-File', 'scripts/install-skills.ps1'],
+            capture=True,
+            expected_exit_codes=(2,),
+        )
+    else:
+        print('SKIP: PowerShell is unavailable')
 
 
 def main() -> int:

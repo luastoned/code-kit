@@ -102,7 +102,7 @@ Pass skill names after the runtime to install only a selected set:
 
 The PowerShell installer accepts the same runtime and optional skill arguments.
 
-The installers create the runtime skills directory when needed, refresh existing links, and refuse to overwrite real files or directories. Windows symbolic links may require Developer Mode or an elevated PowerShell session. Run `./scripts/install-skills.sh --help` or `Get-Help .\scripts\install-skills.ps1` for usage. Start a new session if the runtime does not discover newly linked skills immediately.
+The installers create the runtime skills directory when needed, refresh existing links, and refuse to overwrite real files or directories. Windows symbolic links may require Developer Mode or an elevated PowerShell session. Run `./scripts/install-skills.sh --help`, `.\scripts\install-skills.ps1 --help`, or `Get-Help .\scripts\install-skills.ps1` for usage. Start a new session if the runtime does not discover newly linked skills immediately.
 
 ## 🧭 Skill Catalog
 
@@ -169,7 +169,7 @@ Run the repository validator after changing shared resources:
 python3 scripts/validate.py
 ```
 
-The validator requires local `oxfmt`, `oxlint`, and the `$skill-creator` `quick_validate.py`; set `SKILL_VALIDATOR` when that script is installed in a non-standard location. It also runs ShellCheck when available.
+The validator requires local `oxfmt`, `oxlint`, and the `$skill-creator` `quick_validate.py`; set `SKILL_VALIDATOR` when that script is installed in a non-standard location. It also runs ShellCheck and checks the PowerShell installer help path when those tools are available.
 
 - Keep root `AGENTS.md` focused on working in this repo.
 - Keep downstream agent instructions in `guidance/`.

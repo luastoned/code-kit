@@ -2,6 +2,20 @@
 .SYNOPSIS
 Links code-kit skills into Codex, Claude, or both runtimes.
 
+.DESCRIPTION
+Installs every available skill when no skill names are provided. Installs only
+the named skills when one or more skill names are provided. Refreshes existing
+symbolic links and refuses to overwrite real files or directories.
+
+.PARAMETER Runtime
+Selects codex, claude, or all. This parameter is required.
+
+.PARAMETER Skill
+Selects one or more skills. Omit this parameter to install all skills.
+
+.PARAMETER Help
+Shows command usage and exits.
+
 .EXAMPLE
 .\scripts\install-skills.ps1 codex
 
@@ -15,23 +29,64 @@ Links code-kit skills into Codex, Claude, or both runtimes.
 [CmdletBinding()]
 param(
   [Parameter(Position = 0)]
-  [ValidateSet('codex', 'claude', 'all')]
-  [string] $Runtime = 'codex',
+  [string] $Runtime,
 
   [Parameter(Position = 1, ValueFromRemainingArguments)]
-  [ValidatePattern('^[a-z0-9-]+$')]
-  [string[]] $Skill
+  [string[]] $Skill,
+
+  [Alias('h')]
+  [switch] $Help
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+function Show-Usage {
+  $Usage = @'
+Usage: .\scripts\install-skills.ps1 <codex|claude|all> [skill ...]
+
+Install every skill when no skill names are provided, or install only the
+named skills. Existing symbolic links are refreshed. Real files and directories
+are never overwritten.
+
+Examples:
+  .\scripts\install-skills.ps1 codex
+  .\scripts\install-skills.ps1 claude session-state polish-readme
+  .\scripts\install-skills.ps1 all sync-agent-guidance sync-project-configs
+
+Help:
+  .\scripts\install-skills.ps1 -Help
+  .\scripts\install-skills.ps1 -h
+  .\scripts\install-skills.ps1 --help
+'@
+
+  Write-Host $Usage
+}
+
+if ($Help -or $Runtime -eq '--help') {
+  Show-Usage
+  exit 0
+}
+
+if ([string]::IsNullOrWhiteSpace($Runtime)) {
+  Show-Usage
+  exit 2
+}
+
+$SupportedRuntimes = @('codex', 'claude', 'all')
+if ($Runtime -notin $SupportedRuntimes) {
+  Show-Usage
+  throw "Unsupported runtime: $Runtime"
+}
+
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $SkillsRoot = Join-Path $RepoRoot 'skills'
 
-if (@($Skill).Count -gt 0) {
-  $SelectedSkills = @($Skill)
-} else {
+$SelectedSkills = @(
+  @($Skill) | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+)
+
+if ($SelectedSkills.Count -eq 0) {
   $SelectedSkills = @(
     Get-ChildItem -LiteralPath $SkillsRoot -Directory |
       Where-Object { Test-Path -LiteralPath (Join-Path $_.FullName 'SKILL.md') -PathType Leaf } |
@@ -65,6 +120,10 @@ function Install-ForRuntime {
   New-Item -ItemType Directory -Path $TargetRoot -Force | Out-Null
 
   foreach ($SkillName in $SelectedSkills) {
+    if ($SkillName -notmatch '^[a-z0-9-]+$') {
+      throw "Invalid skill name: $SkillName"
+    }
+
     $SourcePath = Join-Path $SkillsRoot $SkillName
     $SkillEntrypoint = Join-Path $SourcePath 'SKILL.md'
 
