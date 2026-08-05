@@ -29,6 +29,7 @@ Audit a target project's instructions against the current public guidance from c
    - Use root guidance for repository-wide rules and nested guidance for project-specific implementation rules.
    - For a single-project repository, organize `AGENTS.md` around the primary language guide. Follow it with applicable tooling guidance, then concise repository rules.
    - For a new or sparse repository, include the broadly applicable sections from the known primary language guide even when framework, runtime, package-manager, and tooling details are not established.
+   - Carry forward the general technical-writing, response, and code-comment rules as compact supporting guidance when the target does not provide a stronger local convention.
    - Include the source commit policy and other durable repository defaults even when `.git`, hooks, CI, or repository tooling have not been initialized. Treat missing setup as unknown or planned, not evidence that the guidance is irrelevant.
    - Merge with existing instructions and referenced language guides instead of creating duplicate guidance.
 7. Before editing, inventory the `##` sections in each selected guide and map applicable sections to cohesive target sections. Record only non-obvious omissions, moves, or combinations that will need explanation.
@@ -84,6 +85,7 @@ Do not use textual differences, heading order, prose condensation, timestamps, G
 - Treat each source guide's `##` sections as intentional, cohesive units. Keep an applicable section together under the same or a clearly adapted heading instead of scattering its bullets across unrelated target sections.
 - Combine sections only when their subjects form a coherent target section. Omit a section only when it does not apply, duplicates a stronger local rule, or belongs in another nested guide.
 - Preserve the source guide's conceptual coverage without mechanically copying its headings or irrelevant details.
+- Preserve clear technical-writing behavior by meaning: concise result-first responses, short active instructions, consistent terminology, conditions before dependent actions, and intent-focused comments. Do not claim ASD-STE100 compliance unless the target explicitly requires and validates it.
 - Keep language guidance concise. If the target references separate language guides, update the relevant guide; otherwise include the applicable sections in the nearest `AGENTS.md`.
 - Keep repository guidance compact but durable. Preserve source commit conventions, change boundaries, validation principles, and safety rules unless the target explicitly overrides them; expand repository sections only for concrete project constraints.
 - Include private overlays only when explicitly requested. Read `guidance/private/AGENTS.md` first when present, then only the guides it maps or the user names.
@@ -91,4 +93,4 @@ Do not use textual differences, heading order, prose condensation, timestamps, G
 
 ## Output Expectations
 
-In audit mode, report whether resynchronization is recommended, the guides checked, and the material reasons. In sync mode, the result should read as guidance written for the target project, not as a copy of code-kit. For a single-language project, a reader should immediately recognize the primary language guide as the focus; repository details should appear only as brief supporting constraints. Report the files changed, guides applied, unresolved conflicts, and any non-obvious source sections that were moved, combined, or omitted.
+In audit mode, report whether resynchronization is recommended, the guides checked, and the material reasons. In sync mode, the result should read as guidance written for the target project, not as a copy of code-kit. For a single-language project, a reader should immediately recognize the primary language guide as the focus; repository details should appear only as brief supporting constraints. Report the result first, then the files changed, guides applied, unresolved conflicts, and any non-obvious source sections that were moved, combined, or omitted. Do not repeat the request or workflow.

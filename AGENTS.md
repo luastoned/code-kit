@@ -10,7 +10,7 @@ This repository stores shared coding resources that are reused across other proj
 - `skills/`: shareable agent skills and their support files.
 - `references/`: structured lookup data reused by tooling and agent workflows.
 - `scripts/`: repository maintenance helpers for validation and skill installation.
-- `docs/`: reference notes and links that do not belong in executable config.
+- `docs/`: workflows, repository flow diagrams, reference notes, and links that do not belong in executable config.
 
 ## Working In This Repo
 
@@ -25,6 +25,7 @@ This repository stores shared coding resources that are reused across other proj
 - Update `configs/` only for tooling behavior that should become a shared default or reusable fragment.
 - Keep `README.md` focused on what this repo contains and how other locations consume it.
 - Keep docs in `docs/` when the information is reference material rather than an instruction agents must follow.
+- Update `docs/repository-flow.md` when repository ownership, validation, installation, synchronization, or downstream consumption paths change.
 
 ## Editing Guidance Files
 

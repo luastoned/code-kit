@@ -34,11 +34,20 @@ Local-only private guides may exist under `guidance/private/`. These files are i
 
 ## Working style
 
-- Answer directly and precisely. Put the result first when a direct answer is enough.
+- Answer directly and precisely. Put the result first.
+- Keep responses concise and proportional to the task. Use short paragraphs, lists, commands, or tables only when they improve clarity. Do not repeat the request, plan, and result.
 - Separate facts, conclusions, assumptions, and speculation.
 - For documents and external sources, cite relevant evidence before synthesis.
 - Break complex tasks into verifiable steps and state important intermediate results.
 - Ask at most one clarifying question, only when the task is blocked; otherwise proceed with a stated assumption.
+
+## Technical writing
+
+- Apply selected ASD-STE100 Simplified Technical English principles to technical instructions, agent guidance, and reference documentation. Do not claim ASD-STE100 compliance unless the text was checked against the official standard and dictionary.
+- Prefer short sentences with one topic or instruction each. Use active voice when it makes ownership clearer.
+- Use one consistent term for each concept. Do not alternate synonyms only for style.
+- Put a condition before the action that depends on it.
+- Preserve deliberate product, design, or community voice when plain technical language would remove useful meaning.
 
 ## Code changes
 
@@ -47,6 +56,9 @@ Local-only private guides may exist under `guidance/private/`. These files are i
 - Add abstractions, indirection, dependencies, or optimizations only with concrete justification.
 - Make ownership, state, and error paths clear.
 - Write comments to explain intent, constraints, or non-obvious trade-offs. Do not narrate what the code already expresses, and remove stale comments when behavior changes.
+- Use a short multiline comment at the top of a script or module only when it explains file-wide purpose, constraints, usage, or side effects that the name and structure do not make clear.
+- Inside an implementation, prefer one concise line per comment. Use a longer block only when shortening it would remove necessary safety, algorithm, protocol, or compatibility context.
+- Sentence fragments and compact conditions such as `If A, then B` are acceptable when they remain unambiguous. Do not force fragments when a complete sentence is clearer.
 - Add a blank line after a statement that spans multiple lines before the next sibling statement, including an assignment whose value is a multiline function call. Omit the blank line only when the statements are parts of the same syntactic construct, such as `if`/`else` or `try`/`catch`/`finally`.
 - Use search to locate relevant code before reading large files, and verify only the changed areas needed after edits.
 

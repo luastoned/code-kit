@@ -21,6 +21,7 @@
 <p align="center">
   <a href="#-features">Features</a> •
   <a href="#-contents">Contents</a> •
+  <a href="#-repository-flow">Repository Flow</a> •
   <a href="#-install">Install</a> •
   <a href="#-skill-catalog">Skill Catalog</a> •
   <a href="#-agent-native-workflows">Agent-Native Workflows</a> •
@@ -33,6 +34,7 @@
 ## ✨ Features
 
 - 🎯 **Single source of truth** — Keep reusable guidance, formatter defaults, references, and portable agent skills in one place.
+- 🔀 **Repository flow** — See how canonical resources are maintained, installed, synchronized, and adapted into downstream projects.
 - 🧭 **Agent-ready guidance** — Store downstream `AGENTS.md` templates and language guides that can be adapted into project-specific instructions.
 - 🔧 **Shared tooling defaults** — Version common Oxc, TypeScript, and package script defaults without burying them in individual repos.
 - 🔁 **Sync workflows** — Use bundled skills to merge guidance and config into target projects while preserving local conventions.
@@ -54,7 +56,11 @@
 | `references/` | Structured reference data reused across projects.                                                        |
 | `skills/`     | Shareable agent skills for workflow adoption, syncs, refactors, design docs, interviews, and migrations. |
 | `scripts/`    | Repository validation and collision-safe skill installation helpers.                                     |
-| `docs/`       | Agent-native workflows, notes, links, and conventions that do not belong in executable configs.          |
+| `docs/`       | Agent-native workflows, repository flow diagrams, links, and other durable reference material.           |
+
+## 🔀 Repository Flow
+
+[Repository Flow](./docs/repository-flow.md) shows how shared changes move through formatting, validation, and review. It also shows how guidance, configs, skills, workflows, and references connect to agent runtimes and downstream repositories.
 
 ## 📥 Install
 

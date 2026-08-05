@@ -62,6 +62,7 @@ Let the user answer with partial information or “propose the rest.” Do not r
 ## Design Rules
 
 - Lead the Overview with one specific visual reference, the audience, and the desired emotional effect. Explain what the interface should feel like and why.
+- Use concise, unambiguous technical language for tokens, application rules, and constraints. Preserve specific, evocative language when it carries design intent.
 - Prefer a small coherent system over a census of every observed value. Include repeated or semantically important tokens and explain their roles.
 - Keep evidence and inference honest. Do not present guessed colors, font metrics, breakpoints, shadows, or interaction states as observed facts.
 - Describe negative constraints that protect the design's character. Use a focused list of meaningful do's and don'ts instead of generic quality advice.

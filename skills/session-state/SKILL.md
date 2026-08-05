@@ -56,6 +56,7 @@ This skill only uses the current conversation, repository state, and an existing
 4. Do not include raw chat transcripts, tool dumps, hidden reasoning, secrets, credentials, tokens, or unrelated personal context.
 5. Mark uncertainty explicitly when a fact was inferred.
 6. Prefer short bullets. Keep the file small enough to read at session start.
+7. Keep one fact, decision, or action per bullet. Use active voice and one consistent term for each concept.
 
 Use this structure:
 

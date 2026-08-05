@@ -118,6 +118,8 @@ For libraries or tools with multiple adoption paths, split usage by scenario ins
 - Prefer flat-square Shields badges. Use only badges that are true for the project, such as package version, license, CI, docs, or project status.
 - Use short, scannable feature bullets: `- 🎯 **Feature** — Practical description.`
 - Keep prose concise. Prefer examples, commands, and tables over long paragraphs.
+- Use clear technical English for installation, usage, configuration, and development instructions. Prefer short sentences, active voice, one instruction per sentence, consistent terms, and conditions before dependent actions.
+- Preserve deliberate product, design, or community voice where plain technical wording would remove useful meaning. Do not claim ASD-STE100 compliance unless the README was checked against the official standard and dictionary.
 - Lead with concrete proof when the repo has it: screenshots, test output, benchmark results, live links, or published package stats.
 - Use animated GIFs or screenshots for CLI/app demos when suitable assets already exist.
 - Use repository-specific commands from manifests instead of generic placeholders.
@@ -130,4 +132,4 @@ For libraries or tools with multiple adoption paths, split usage by scenario ins
 
 ## Output Expectations
 
-Summarize what changed, any assumptions made, and any README links or commands that could not be verified.
+Lead with the completed README result. Briefly state what changed, any assumptions made, and any README links or commands that could not be verified. Do not repeat the workflow.

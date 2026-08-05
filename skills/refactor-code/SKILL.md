@@ -20,6 +20,7 @@ Refactor one or more selected files using the target repository's own guidance a
    - For implementation decisions, prioritize the applicable language or runtime guide, then the nearest tooling configuration, then repository-level rules. Use repository guidance first only to determine scope, ownership, and project boundaries.
 3. Inspect local context:
    - Existing neighboring code, imports, helpers, types, tests, and module boundaries.
+   - Existing file-header and inline-comment conventions.
    - Nearest formatter, linter, typechecker, test, and build configs.
    - Existing abstractions before adding a new one.
 4. Decide the refactor scope:
@@ -40,10 +41,13 @@ Refactor one or more selected files using the target repository's own guidance a
 - Prefer simple, explicit code over cleverness.
 - Remove duplication only when the repeated pattern is stable enough to justify it.
 - Prefer existing helpers, types, modules, and conventions before creating new ones.
+- Preserve useful comments and remove stale narration. Add a short multiline file comment only when file-wide purpose, constraints, usage, or side effects are not clear from the file itself.
+- Inside the implementation, prefer one concise line per comment. Use a longer block only when one line would lose necessary safety, algorithm, protocol, or compatibility context.
+- Allow clear sentence fragments or compact conditions such as `If A, then B`; do not force fragments when a complete sentence is clearer.
 - Let formatter/linter tooling own formatting details such as import ordering, quote style, semicolons, and spacing.
 - Do not use named practices such as KISS, DRY, YAGNI, SOLID, or the Rule of Three as automatic rewrite mandates; use them as lenses when they fit the task.
 - If the best refactor requires a larger design change, stop and explain the recommended larger change instead of quietly expanding scope.
 
 ## Output Expectations
 
-Summarize what was refactored, what behavior was preserved, which guidance was applied, and which validation ran. If validation could not run, say why.
+Lead with the refactor result. Briefly state what changed, what behavior was preserved, which guidance was applied, and which validation ran. If validation could not run, say why. Do not repeat the plan.
