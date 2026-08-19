@@ -1,0 +1,6 @@
+interface:
+  display_name: 'Refine Technical Writing'
+  short_description: 'Clarify technical prose without changing meaning'
+  default_prompt: 'Use $refine-technical-writing to improve the clarity and consistency of this technical prose.'
+policy:
+  allow_implicit_invocation: false
