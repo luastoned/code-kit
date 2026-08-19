@@ -7,24 +7,21 @@
 <h4 align="center">Shared coding resources for agents, projects, and local tooling</h4>
 
 <p align="center">
-  <a href="./LICENSE" target="_blank">
+  <a href="./LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License">
   </a>
-  <a href="https://github.com/luastoned/code-kit" target="_blank">
+  <a href="https://github.com/luastoned/code-kit">
     <img src="https://img.shields.io/badge/resources-shared-success.svg?style=flat-square" alt="Shared resources">
-  </a>
-  <a href="https://github.com/luastoned/code-kit" target="_blank">
-    <img src="https://img.shields.io/badge/agents-ready-blueviolet.svg?style=flat-square" alt="Agent ready">
   </a>
 </p>
 
 <p align="center">
   <a href="#-features">Features</a> •
+  <a href="#-agent-native-workflows">Agent-Native Workflows</a> •
   <a href="#-contents">Contents</a> •
   <a href="#-repository-flow">Repository Flow</a> •
   <a href="#-install">Install</a> •
   <a href="#-skill-catalog">Skill Catalog</a> •
-  <a href="#-agent-native-workflows">Agent-Native Workflows</a> •
   <a href="#-usage">Usage</a> •
   <a href="#-maintenance">Maintenance</a>
 </p>
@@ -33,30 +30,85 @@
 
 ## ✨ Features
 
-- 🎯 **Single source of truth** — Keep reusable guidance, formatter defaults, references, and portable agent skills in one place.
-- 🔀 **Repository flow** — See how canonical resources are maintained, installed, synchronized, and adapted into downstream projects.
+- 🎯 **Canonical home** — Keep reusable guidance, formatter defaults, references, and portable agent skills in one place.
 - 🧭 **Agent-ready guidance** — Store downstream `AGENTS.md` templates and language guides that can be adapted into project-specific instructions.
-- 🔧 **Shared tooling defaults** — Version common Oxc, TypeScript, and package script defaults without burying them in individual repos.
-- 🔁 **Sync workflows** — Use bundled skills to merge guidance and config into target projects while preserving local conventions.
-- 🛠️ **Guided refactors** — Refactor selected files through the nearest `AGENTS.md` and mapped guidance.
-- 📚 **README polish** — Refactor project READMEs into friendly, accurate, emoji-accented documentation.
-- 🎨 **Design-system extraction** — Create a structured `DESIGN.md` from a webpage or a concise design brief.
-- 💬 **Intent interviews** — Clarify consequential requests before committing to plans, specifications, or implementation.
-- 🪶 **[ChangeShape](./docs/workflows/change-shape.md)** — Audit or adopt lightweight coordination based on ambiguity, blast radius, irreversibility, and verification.
-- 🧵 **Session handoffs** — Save concise `AGENTS_STATE.md` handoffs and consume them at the start of the next session.
-- 🧪 **Migration checks** — Audit TypeScript projects for one-time upgrade issues without baking cleanup checklists into downstream guidance.
+- 🔧 **Shared tooling defaults** — Version common Oxc, TypeScript, and package script defaults without duplicating them across individual repositories.
+- 🤖 **Agent-native workflows** — Use OutcomeFlow, ChangeShape, and EvidenceProbe together or as independent methods.
+- 🧩 **Portable skills** — Reuse explicit workflows for synchronization, refactoring, documentation, design systems, interviews, session handoffs, and migrations.
+- 🔁 **Safe synchronization** — Merge guidance and configuration into target projects while preserving local conventions.
+- 🔀 **Repository flow** — See how canonical resources are maintained, validated, installed, synchronized, and adapted into downstream projects.
 - ✅ **Repeatable validation** — Check skills, metadata, configs, formatting, references, links, and cross-file consistency with one command.
+
+## 🤖 Agent-Native Workflows
+
+Agent-native delivery preserves human product authority while accounting for the speed, parallelism, and coordination patterns of AI-assisted implementation.
+
+OutcomeFlow guides the choice of what to deliver next. EvidenceProbe resolves consequential uncertainty. ChangeShape governs production-change execution. EvidenceProbe and ChangeShape can each be used independently.
+
+Projects can adopt these methods directly or use the bundled skills. Adoption skills adapt durable workflow behavior to an existing project; run skills apply a method to the current decision or task.
+
+### When to Use Each Workflow
+
+| Situation                                          | Use                                                             |
+| -------------------------------------------------- | --------------------------------------------------------------- |
+| Choose and sequence product outcomes               | OutcomeFlow                                                     |
+| Implement an already selected software change      | ChangeShape                                                     |
+| Resolve one consequential uncertainty              | EvidenceProbe                                                   |
+| Uncertainty blocks OutcomeFlow or ChangeShape      | EvidenceProbe, then return to the originating workflow          |
+| Make a trivial change with no meaningful ambiguity | No extra ceremony; ChangeShape treats it as Direct when adopted |
+
+OutcomeFlow and ChangeShape are normally adopted once and then followed through ordinary project requests. EvidenceProbe is invoked when a specific consequential decision needs bounded evidence.
+
+### Example Usage
+
+Adopt OutcomeFlow for ongoing product delivery and its supporting methods:
+
+```text
+Use $adopt-outcome-flow to adapt this project to OutcomeFlow.
+```
+
+Adopt ChangeShape without the broader product-delivery framework:
+
+```text
+Use $adopt-change-shape to add ChangeShape to this repository.
+```
+
+Run EvidenceProbe for one blocked decision:
+
+```text
+Use $run-evidence-probe to determine whether the current storage model can safely support offline synchronization.
+```
+
+### OutcomeFlow
+
+[OutcomeFlow](./docs/workflows/outcome-flow.md) is a draft agent-native product delivery framework for one person acting as product owner and developer. It guides outcome selection, routes blocked decisions through EvidenceProbe, delegates production execution to ChangeShape, and uses observed effects to reconsider direction.
+
+OutcomeFlow limits execution concurrency by human attention and integration capacity rather than agent availability. Delivered outcomes can await delayed evidence through explicit decision triggers without blocking independent delivery. Initiatives remain optional. The framework avoids comprehensive backlogs and task trees and separates canonical, coordination, and operational state.
+
+OutcomeFlow remains in code-kit during its `0.x` incubation. Use `$adopt-outcome-flow` to audit or adapt the framework without imposing a generic roadmap or document tree.
+
+### ChangeShape
+
+[ChangeShape](./docs/workflows/change-shape.md) is the execution method used by OutcomeFlow and can also be adopted independently. It evaluates ambiguity, blast radius, recovery risk, coordination, and verification instead of estimating effort from time, story points, or file count.
+
+Direct and Scoped work stay lightweight. Shaped work records only the boundaries and decisions that must survive. Initiatives remain strategic direction and are delivered through independently valuable Shaped slices. Use `$adopt-change-shape` to audit a repository or adapt the workflow without imposing fixed filenames or a generic documentation tree.
+
+### EvidenceProbe
+
+[EvidenceProbe](./docs/workflows/evidence-probe.md) is a draft agent-native method for resolving consequential uncertainty with bounded evidence. It frames one decision, selects the smallest discriminating probe, reports observed evidence and residual uncertainty, and leaves the consequential choice with the human owner.
+
+EvidenceProbe ends with decision-ready evidence or an explicit inconclusive result, not production integration. It can operate independently, resolve a decision that blocks OutcomeFlow selection or reconsideration, or investigate ambiguity before ChangeShape. The method remains in code-kit during its `0.x` incubation. Use `$run-evidence-probe` to apply it to one consequential uncertainty.
 
 ## 📦 Contents
 
-| Path          | Purpose                                                                                                  |
-| ------------- | -------------------------------------------------------------------------------------------------------- |
-| `configs/`    | Shared config fragments for Oxc, TypeScript path aliases, and package scripts.                           |
-| `guidance/`   | Reusable downstream agent guidance, language guides, and local overlays.                                 |
-| `references/` | Structured reference data reused across projects.                                                        |
-| `skills/`     | Shareable agent skills for workflow adoption, syncs, refactors, design docs, interviews, and migrations. |
-| `scripts/`    | Repository validation and collision-safe skill installation helpers.                                     |
-| `docs/`       | Agent-native workflows, repository flow diagrams, links, and other durable reference material.           |
+| Path          | Purpose                                                                                                                     |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `configs/`    | Shared config fragments for Oxc, TypeScript path aliases, and package scripts.                                              |
+| `guidance/`   | Reusable downstream agent guidance, language guides, and local overlays.                                                    |
+| `references/` | Structured reference data reused across projects.                                                                           |
+| `skills/`     | Shareable agent skills for workflow adoption, syncs, refactors, technical writing, design docs, interviews, and migrations. |
+| `scripts/`    | Repository validation and collision-safe skill installation helpers.                                                        |
+| `docs/`       | Agent-native workflows, repository flow diagrams, links, and other durable reference material.                              |
 
 ## 🔀 Repository Flow
 
@@ -75,7 +127,9 @@ cd code-kit
 
 ### Install Skills
 
-The `skills/` directory is the source of truth. Each skill is a directory with a `SKILL.md` entrypoint and YAML frontmatter, which keeps the files portable across agent runtimes that support this shape. Bundled task skills are explicit-only: invoke one by name, usually with `$skill-name`, rather than expecting installation alone to activate it.
+The `skills/` directory is the canonical home for bundled skills. Each skill is a directory with a `SKILL.md` entrypoint and YAML frontmatter. This structure is portable across agent runtimes that support it.
+
+Bundled task skills are explicit-only. Invoke one by name, usually with `$skill-name`; installation alone does not activate it.
 
 Run the installer from the `code-kit` checkout to link every skill into one or both supported runtimes:
 
@@ -102,33 +156,34 @@ Pass skill names after the runtime to install only a selected set:
 
 The PowerShell installer accepts the same runtime and optional skill arguments.
 
-The installers create the runtime skills directory when needed, refresh existing links, and refuse to overwrite real files or directories. Windows symbolic links may require Developer Mode or an elevated PowerShell session. Run `./scripts/install-skills.sh --help`, `.\scripts\install-skills.ps1 --help`, or `Get-Help .\scripts\install-skills.ps1` for usage. Start a new session if the runtime does not discover newly linked skills immediately.
+The installers:
+
+- create the runtime skills directory when needed
+- refresh existing links
+- refuse to overwrite non-symlink files or directories
+
+On Windows, enable Developer Mode or use an elevated PowerShell session if symbolic-link creation requires permission.
+
+For usage, run `./scripts/install-skills.sh --help`, `.\scripts\install-skills.ps1 --help`, or `Get-Help .\scripts\install-skills.ps1`. If the runtime does not discover a linked skill, start a new session.
 
 ## 🧭 Skill Catalog
 
-| Skill                   | Purpose                                                                                            |
-| ----------------------- | -------------------------------------------------------------------------------------------------- |
-| `$adopt-change-shape`   | Audit or adopt a change-shaped, low-documentation project workflow.                                |
-| `$sync-agent-guidance`  | Adapt language-first `AGENTS.md` guidance while preserving project rules and ownership boundaries. |
-| `$sync-project-configs` | Merge shared formatter, linter, TypeScript, and package defaults into a target project.            |
-| `$migrate-typescript`   | Audit and migrate a project for TypeScript 6.0+ compatibility and TypeScript 7 preparation.        |
-| `$polish-readme`        | Create or refresh a friendly, accurate, emoji-accented project README.                             |
-| `$refactor-code`        | Conservatively refactor selected files using the nearest project guidance.                         |
-| `$session-state`        | Save, restore, or consume a concise `AGENTS_STATE.md` session handoff.                             |
-| `$create-design-md`     | Create or update a `DESIGN.md` system from a webpage, project evidence, or design brief.           |
-| `$interview-me`         | Clarify consequential intent through a focused interview before planning or implementation.        |
+| Skill                       | Purpose                                                                                            |
+| --------------------------- | -------------------------------------------------------------------------------------------------- |
+| `$adopt-outcome-flow`       | Audit or adopt OutcomeFlow with EvidenceProbe decisions and ChangeShape execution.                 |
+| `$adopt-change-shape`       | Audit or adopt a change-shaped, low-documentation project workflow.                                |
+| `$run-evidence-probe`       | Resolve one consequential decision through the smallest trustworthy evidence.                      |
+| `$sync-agent-guidance`      | Adapt language-first `AGENTS.md` guidance while preserving project rules and ownership boundaries. |
+| `$sync-project-configs`     | Merge shared formatter, linter, TypeScript, and package defaults into a target project.            |
+| `$migrate-typescript`       | Audit and migrate a project for TypeScript 6.0+ compatibility and TypeScript 7 preparation.        |
+| `$polish-readme`            | Create or refresh a friendly, accurate, emoji-accented project README.                             |
+| `$refine-technical-writing` | Audit or rewrite technical prose without changing its meaning or established voice.                |
+| `$refactor-code`            | Conservatively refactor selected files using the nearest project guidance.                         |
+| `$session-state`            | Save, restore, or consume a concise handoff without duplicating workflow state.                    |
+| `$create-design-md`         | Create or update a `DESIGN.md` system from a webpage, project evidence, or design brief.           |
+| `$interview-me`             | Clarify consequential intent through a focused interview before planning or implementation.        |
 
 Invoke a skill explicitly in the request, for example: `Use $refactor-code on src/example.ts.`
-
-## 🤖 Agent-Native Workflows
-
-Agent-native workflows preserve human product authority while accounting for the speed, parallelism, and coordination patterns of AI-assisted implementation. They are standalone methods: projects can adopt them directly or use a bundled skill to adapt them to existing conventions.
-
-### ChangeShape
-
-[ChangeShape](./docs/workflows/change-shape.md) is an agent-native method for classifying and coordinating software changes. It evaluates ambiguity, blast radius, irreversibility, coordination, and verification instead of estimating effort from time, story points, or file count.
-
-Direct and Scoped work stay lightweight. Shaped work records only the boundaries and decisions that must survive. Initiatives remain strategic direction and are delivered through independently valuable Shaped slices. Use `$adopt-change-shape` to audit a repository or adapt the workflow without imposing fixed filenames or a generic documentation tree.
 
 ## 💡 Usage
 
@@ -144,17 +199,19 @@ Use $sync-agent-guidance to adapt mapped language and repository guidance to thi
 Use $sync-project-configs to sync shared config files into this project.
 ```
 
-Both workflows inspect the target first, preserve local conventions, and report conflicts instead of replacing project-specific choices blindly.
+Both workflows inspect the target first, preserve local conventions, and report conflicts. They keep project-specific choices until those choices have been evaluated.
 
 ### Session State
 
-Invoke `$session-state` with the intended mode. Reading keeps the handoff by default; consuming deletes it only after a successful load:
+Invoke `$session-state` with the intended mode. It reuses established workflow coordination when applicable. For `AGENTS_STATE.md`, reading keeps the handoff by default, while consuming deletes it only after a successful load:
 
 ```text
 Use $session-state to update AGENTS_STATE.md with the current session handoff.
 Use $session-state to continue from AGENTS_STATE.md.
 Use $session-state to consume AGENTS_STATE.md and delete it after loading.
 ```
+
+When OutcomeFlow or ChangeShape already provides persistent coordination for active work, reuse that coordination state instead of creating a parallel `AGENTS_STATE.md` file.
 
 ### References
 

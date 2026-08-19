@@ -28,7 +28,7 @@ flowchart TD
   diff --> commit["Commit one coherent change"]
 ```
 
-Choose one canonical home for each rule or resource. Update related files only when they are consumers, indexes, metadata, or validation surfaces for that source.
+Choose one canonical home for each rule or resource. Update related files only when they consume, index, describe, or validate that source.
 
 ## Downstream Consumption
 
@@ -55,9 +55,12 @@ flowchart LR
   skills --> syncConfigs
   syncConfigs --> targetConfigs["Target formatter, linter,<br/>TypeScript, and package configs"]
 
-  workflows --> adoptWorkflow["Workflow adoption skill"]
+  workflows --> directWorkflow["Read or adapt workflow directly"]
+  directWorkflow --> targetWorkflow["Target workflow or<br/>agent guidance"]
+
+  workflows --> adoptWorkflow["Explicit adoption skill<br/>when available"]
   skills --> adoptWorkflow
-  adoptWorkflow --> targetWorkflow["Target workflow or<br/>agent guidance"]
+  adoptWorkflow --> targetWorkflow
 
   references --> consumers["Maintenance scripts<br/>and applicable skills"]
   validator --> kitCheck["Repository-wide checks"]
@@ -69,7 +72,9 @@ flowchart LR
 
 Installation exposes skills to an agent runtime. It does not apply them to a project. A user must invoke task-oriented skills explicitly.
 
-Synchronization and adoption inspect the target first. They adapt shared behavior to local ownership, language, tooling, and workflow conventions. They do not replace project-specific rules blindly.
+Workflows can be read or adapted directly. Add an adoption skill only after its adoption behavior is defined and repeatable.
+
+Synchronization and adoption inspect the target first. They adapt shared behavior to local ownership, language, tooling, and workflow conventions. They keep project-specific rules until those rules have been evaluated.
 
 Changes do not propagate automatically. Run the relevant audit or synchronization skill when a target repository needs current guidance or configuration.
 
