@@ -1,0 +1,6 @@
+interface:
+  display_name: 'Adopt OutcomeFlow'
+  short_description: 'Audit or adopt agent-native OutcomeFlow delivery'
+  default_prompt: 'Use $adopt-outcome-flow to audit product delivery in this repository or adapt OutcomeFlow to its existing conventions.'
+policy:
+  allow_implicit_invocation: false

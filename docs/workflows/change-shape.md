@@ -2,32 +2,50 @@
 
 > An agent-native method for classifying and coordinating software changes.
 >
-> Version 1.0.0
+> Version 1.1.0
 
-ChangeShape is a lightweight workflow for a product owner/developer working with AI agents. It classifies work by the shape of the change rather than estimated human effort.
+ChangeShape is a lightweight workflow for one person acting as product owner and developer while working with AI agents. It classifies work by the shape of the change rather than estimated human effort.
 
-Its purpose is to make product decisions, review, integration, and verification explicit without creating a second implementation history in documentation.
+## Scope
 
-## Why Change Shape
+ChangeShape governs how a software change is classified, coordinated, verified, accepted, and integrated after a request or outcome exists.
 
-Agent-assisted implementation can be much faster than traditional human-only development. Duration, story points, lines changed, and file count therefore describe work poorly.
+It is designed first for one person acting as product owner and developer, working with one primary agent and optional specialist agents. It can operate independently or as the execution method under [OutcomeFlow](./outcome-flow.md). When consequential uncertainty blocks safe shaping, it may use [EvidenceProbe](./evidence-probe.md) before production implementation continues.
 
-The constraints that remain scarce are:
+ChangeShape acceptance establishes that an implementation is sufficiently verified for integration. It does not establish whether the integrated change later produces its expected product or operational effect. OutcomeFlow owns delayed observation when adopted.
+
+ChangeShape retains its standalone limit of one active Shaped outcome per repository. OutcomeFlow adds a broader limit across the integration owner's current ownership domain. When both workflows apply, both limits must be satisfied.
+
+## Non-Goals
+
+ChangeShape does not:
+
+- select product direction
+- maintain a comprehensive backlog
+- replace version-control, CI, deployment, or incident systems
+
+Its minimal guidance for Initiatives and candidates keeps standalone adoption bounded.
+
+## Why ChangeShape
+
+When agent assistance reduces the time required to produce code, duration, story points, lines changed, and file count describe the consequential parts of work poorly.
+
+ChangeShape instead focuses on constraints that can remain scarce:
 
 - product attention
 - ambiguity and decision load
 - blast radius
-- irreversibility
+- recovery risk
 - coordination across boundaries or sessions
 - verification difficulty
 - human review capacity
 
-ChangeShape uses those constraints to decide how work should be executed and whether persistent coordination is justified.
+ChangeShape uses those constraints to select an execution method and determine whether persistent coordination is justified. It makes product decisions, review, integration, and verification explicit without creating a second implementation history in documentation.
 
 ## Principles
 
 1. **Classify before planning.** Determine the change shape before choosing artifacts or process.
-2. **One active Shaped outcome, one integration owner.** A single product owner/developer should not carry competing integration streams; parallel assistance does not create parallel product authority.
+2. **One active Shaped outcome per repository, one integration owner.** One person acting as product owner and developer must not carry competing integration streams; parallel assistance does not create parallel product authority.
 3. **Prefer bounded execution.** Use the smallest coherent, independently valuable change.
 4. **Persist only what must survive.** Conversation handles disposable planning; documents preserve durable truth and necessary cross-session decisions.
 5. **Separate direction from execution.** An Initiative is not an agent task.
@@ -39,13 +57,15 @@ ChangeShape uses those constraints to decide how work should be executed and whe
 
 Evaluate work across five dimensions:
 
-| Dimension       | Low end                               | High end                                                  |
-| --------------- | ------------------------------------- | --------------------------------------------------------- |
-| Ambiguity       | One conventional interpretation       | Material product or technical choices remain              |
-| Blast radius    | Local implementation detail           | Several owners, runtimes, consumers, or user journeys     |
-| Irreversibility | Easy to revert without lasting effect | Data, API, security, identity, or dependency consequences |
-| Coordination    | One coherent edit and review boundary | Several slices, sessions, contributors, or agents         |
-| Verification    | Fast deterministic local check        | Multiple environments, migrations, devices, or humans     |
+| Dimension     | Low end                                               | High end                                                     |
+| ------------- | ----------------------------------------------------- | ------------------------------------------------------------ |
+| Ambiguity     | One conventional interpretation                       | Material product or technical choices remain                 |
+| Blast radius  | Local implementation detail                           | Several owners, runtimes, consumers, or user journeys        |
+| Recovery risk | Failure is visible, contained, and low-cost to repair | Failure may be delayed, hard to contain, or costly to repair |
+| Coordination  | One coherent edit and review boundary                 | Several slices, sessions, contributors, or agents            |
+| Verification  | Fast deterministic local check                        | Multiple environments, migrations, devices, or humans        |
+
+Blast radius means the scope of affected owners, runtimes, consumers, or user journeys. Recovery risk includes rollback difficulty, time to detect failure, containment, data repairability, compatibility recovery, and lasting consequences.
 
 Classification is qualitative. Do not total scores or translate dimensions into estimated time.
 
@@ -53,7 +73,7 @@ Classification is qualitative. Do not total scores or translate dimensions into 
 
 ### Direct
 
-Use Direct when ambiguity, blast radius, irreversibility, coordination, and verification difficulty are all low. The outcome is clear, the implementation is conventional and local, and there is no material product or architecture choice.
+Use Direct when ambiguity, blast radius, recovery risk, coordination, and verification difficulty are all low. The outcome is clear, the implementation is conventional and local, and there is no material product or architecture choice.
 
 Typical examples:
 
@@ -81,7 +101,7 @@ Coordination:
 
 ### Scoped
 
-Use Scoped when ambiguity and irreversibility remain low, but blast radius or verification crosses several connected parts. The work remains inside one ownership area, has one clear approach, and can be reviewed as one coherent outcome.
+Use Scoped when ambiguity and recovery risk remain low, but blast radius or verification crosses several connected parts. The work remains inside one ownership area, has one clear approach, and can be reviewed as one coherent outcome.
 
 Typical examples:
 
@@ -109,17 +129,17 @@ Coordination:
 
 ### Shaped
 
-Use Shaped when ambiguity, blast radius, irreversibility, coordination, or verification difficulty is materially high. The work contains a consequential decision, crosses a durable boundary, changes high-consequence state, or needs several independently reviewable slices.
+Use Shaped when ambiguity, blast radius, recovery risk, coordination, or verification difficulty is materially high. The work contains a consequential decision, crosses a durable boundary, changes high-consequence state, or needs several independently reviewable slices.
 
 Any of these normally triggers Shaped work when the change alters semantics, ownership, contracts, persisted state, or risk. Merely touching code in one of these areas does not:
 
 - multiple reasonable product interpretations
 - a new domain or state model
 - persisted-data migration
-- frontend/backend or other runtime contract
+- a contract between frontend and backend or other runtimes
 - authentication, authorization, privacy, location, or security semantics or controls
 - public API, plugin, or contributor contract semantics
-- an irreversible or costly dependency decision
+- a dependency decision with costly rollback or recovery
 - coordination that must survive sessions
 - several slices that must preserve shared invariants
 - verification across multiple environments or physical devices
@@ -127,7 +147,9 @@ Any of these normally triggers Shaped work when the change alters semantics, own
 
 Execution:
 
-`investigate -> decide boundaries -> record essential shape -> implement and assemble slices -> verify -> integrate -> accept`
+`investigate -> decide boundaries -> record essential shape -> implement and assemble slices -> verify -> accept -> integrate`
+
+Use EvidenceProbe during investigation only when a consequential decision lacks sufficient evidence and a bounded Probe can change the action. Return the result to the human owner, then resume ChangeShape after the decision. Do not turn every Shaped change into a Probe.
 
 Verification:
 
@@ -137,7 +159,7 @@ Verification:
 
 Coordination:
 
-- list active Shaped work in the work index or equivalent coordination surface when one is needed
+- list active Shaped work in the work index or equivalent coordination system when one is needed
 - create one temporary work spec only when the index cannot safely preserve the decisions, boundaries, risks, and acceptance
 - merge durable outcomes into canonical documentation
 - remove the completed work entry and temporary spec; retain history in version control when present
@@ -171,18 +193,18 @@ The questions below operationalize the five change dimensions. Use them in this 
 1. **Coordination:** Does the request contain more than one independently valuable outcome?
    - Yes, and they share one coherent strategic direction: classify the direction as an Initiative and select one independently valuable Shaped slice.
    - Yes, but they are unrelated: split them and classify each outcome separately.
-2. **Ambiguity, blast radius, and irreversibility:** Does it alter product meaning, durable contracts, persisted data, security, privacy, identity, or runtime ownership?
+2. **Ambiguity, blast radius, and recovery risk:** Does it alter product meaning, durable contracts, persisted data, security, privacy, identity, or runtime ownership?
    - Yes: classify it as Shaped.
-3. **Verification and irreversibility:** Does acceptance or recovery require migrations, multiple environments or devices, substantial manual judgment, or a difficult rollback?
+3. **Verification and recovery risk:** Does acceptance or recovery require migrations, multiple environments or devices, substantial manual judgment, delayed failure detection, data repair, or a difficult rollback?
    - Yes: classify it as Shaped.
 4. **Coordination:** Must decisions or invariants survive several sessions, slices, or independent contributors?
    - Yes: classify it as Shaped.
 5. **Ambiguity, blast radius, and verification:** Is there one clear approach inside one ownership area?
-   - Yes, local and obvious: Direct.
+   - Yes, local and clear: Direct.
    - Yes, with several connected parts: Scoped.
    - No: Shaped.
 
-When uncertain between two shapes, choose the lighter shape only if a failed assumption is cheap to reverse and easy to detect.
+When uncertain between two shapes, choose the lighter shape only if a failed assumption is inexpensive to reverse and reliably detectable.
 
 ## Interaction Protocol
 
@@ -191,12 +213,14 @@ When uncertain between two shapes, choose the lighter shape only if a failed ass
 3. Omit the announcement only for a typo-level, single-file edit with no behavior change.
 4. Let the human owner raise the classification directly. Before accepting a lower classification, state which safety, coordination, or verification consequence the downgrade would discard.
 5. Treat classification as provisional. When implementation or verification reveals a different change shape, pause before expanding scope or integrating, announce the new classification and reason, and adopt its verification and coordination requirements.
-6. Report verification with one of these states:
+6. When material uncertainty blocks a consequential product or technical decision, resolve it directly with the human owner or use EvidenceProbe when bounded evidence can change the action. Do not hide the decision inside implementation.
+7. Report verification with one of these states:
    - `verified`: the command was run or the behavior was directly exercised, and the observed result supports acceptance
    - `failed`: verification was performed and did not satisfy acceptance
    - `unverified`: verification could not be performed; state why and name the remaining risk
-7. Treat `failed` and `unverified` as blocking integration by default. Proceed only when the human owner explicitly accepts the named failure or residual risk. Acceptance permits integration but does not change the verification state to `verified`.
-8. Keep classifications, commands, results, and overrides observable during the active interaction and disposable after integration. Preserve them only when they change canonical truth or a consequential decision must remain understandable.
+8. Treat `failed` and `unverified` as blocking integration by default. Proceed only when the human owner explicitly accepts the named failure or residual risk.
+9. Treat acceptance as permission to integrate. Do not change the verification state to `verified` after accepting a failure or residual risk.
+10. Keep classifications, commands, results, and overrides observable during the active interaction and disposable after integration. Preserve them only when they change canonical truth or a consequential decision must remain understandable.
 
 ## Coordination Artifacts
 
@@ -207,8 +231,8 @@ When uncertain between two shapes, choose the lighter shape only if a failed ass
 | Temporary work spec     | Decisions the index cannot safely retain           | Create on demand; remove after integration      |
 | Decision record         | Consequential decision and ramifications           | Use only when future readers need the rationale |
 | Version-control history | Implemented change history                         | Permanent                                       |
-| CI/check output         | Automated verification evidence                    | Keep in the owning system                       |
-| Conversation            | Direct/Scoped plans and transient reasoning        | Disposable                                      |
+| CI or check output      | Automated verification evidence                    | Keep in the owning system                       |
+| Conversation            | Direct and Scoped plans and transient reasoning    | Disposable                                      |
 
 Do not create progress journals, continuity ledgers, daily summaries, completed-task indexes, or verification transcripts as routine project documentation.
 
@@ -216,7 +240,7 @@ Do not create progress journals, continuity ledgers, daily summaries, completed-
 
 Use a work index only when coordination needs to survive the current interaction.
 
-Treat the work index as a role, not a required repository file. An existing issue tracker or project board can satisfy it when it preserves the active outcome, boundaries, and next decision without creating a parallel source of truth.
+Treat the work index as a role, not a required repository file. An existing issue tracker or project board can satisfy it when it preserves the active outcome, boundaries, and next decision without creating a parallel authority.
 
 Keep:
 
@@ -224,6 +248,8 @@ Keep:
 - at most two or three deliberately queued candidates
 - an outcome and next decision or trigger for each item
 - a link to a temporary spec only when one exists
+
+When OutcomeFlow governs the broader delivery scope, also apply its one-active-Shaped-outcome limit across the integration owner's current ownership domain.
 
 Direct or Scoped work may interrupt the active outcome only when it is inexpensive and does not create a competing integration stream or displace the owner's integration attention.
 
@@ -241,7 +267,7 @@ Strategic direction belongs in the canonical product guide, not as deeply specif
 
 Use a decision record only when a consequential choice and its rationale must remain understandable after the active work is complete. Typical candidates include data ownership, identity, transport, security, persistence, public contracts, and major framework boundaries.
 
-Keep the record brief: capture the context, decision, significant ramifications, and any condition that should trigger reconsideration. Preserve accepted records as history and link to a superseding decision instead of rewriting them when the choice changes.
+Keep the record brief. Capture the context, decision, significant ramifications, and any condition that triggers reconsideration. Preserve accepted records as history and link to a superseding decision instead of rewriting them when the choice changes.
 
 Use the repository's Architecture Decision Record (ADR) convention when one exists; do not impose a location or naming scheme.
 
@@ -281,12 +307,13 @@ Do not add progress percentages, session notes, implementation diaries, complete
 
 ## Agent Coordination
 
-- Keep priority, product meaning, irreversible decisions, and final acceptance with the human product owner/developer.
+- Keep priority, product meaning, costly-to-reverse decisions, and final acceptance with the person acting as product owner and developer.
 - Assign one primary agent as integration owner. It coordinates implementation, integration, and verification within the authority the human owner granted.
-- Use additional agents only for independent research, review, verification, or non-overlapping implementation when the primary agent and human owner have capacity to review and integrate the results. Unused agent capacity is not a reason to parallelize.
+- Use additional agents only for independent research, review, verification, or non-overlapping implementation when the primary agent and human owner have capacity to review and integrate the results.
+- Do not parallelize only because agent capacity is available.
 - Give every agent an outcome, scope, exclusions, acceptance, verification, and mutation authority.
 - Do not let independent agents modify the same ownership area concurrently without an explicit integration plan.
-- Require subagents to stop and report when they encounter product ambiguity, overlapping ownership, an irreversible decision, or a necessary scope expansion.
+- Require subagents to stop and report when they encounter product ambiguity, overlapping ownership, a costly-to-reverse decision, or a necessary scope expansion.
 - Treat agent plans and reports as disposable unless they change durable truth.
 - Require the integration owner to inspect the combined diff and run risk-proportionate verification.
 - When an active Shaped outcome must cross sessions, allow at most one shared, short-lived handoff in its existing work index or temporary spec.
@@ -316,15 +343,16 @@ Mechanical breadth does not imply Shaped work. A formatter migration across one 
 
 1. Capture the request without expanding it into a backlog.
 2. Inspect enough context to classify its change shape.
-3. Announce the classification and resolve material ambiguity before implementation.
+3. Announce the classification and resolve material ambiguity before implementation, using EvidenceProbe only when bounded evidence is needed for a consequential decision.
 4. Select the lightest justified execution, verification, and coordination path.
 5. Implement one coherent outcome through small integrated slices, reclassifying when evidence changes its shape.
-6. Verify according to the shape's contract, blast radius, irreversibility, and environment.
+6. Verify according to the shape's contract, blast radius, recovery risk, and environment.
 7. Resolve failed or unverified conditions before integration unless the human owner explicitly accepts the named risk.
-8. Obtain human acceptance for product meaning and experience.
-9. Merge durable truth into canonical docs.
-10. Remove temporary coordination artifacts and completed work entries.
-11. Reconsider the next candidate using what was learned.
+8. Obtain human acceptance for product meaning, experience, and any named residual risk.
+9. Integrate the accepted outcome.
+10. Merge durable truth into canonical docs.
+11. Remove temporary coordination artifacts and completed work entries.
+12. Reconsider the next candidate using what was learned.
 
 ## Influences
 

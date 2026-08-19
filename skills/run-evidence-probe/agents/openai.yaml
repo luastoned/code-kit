@@ -1,0 +1,6 @@
+interface:
+  display_name: 'Run EvidenceProbe'
+  short_description: 'Resolve one decision with bounded evidence'
+  default_prompt: 'Use $run-evidence-probe to resolve this consequential uncertainty with the smallest trustworthy probe.'
+policy:
+  allow_implicit_invocation: false
