@@ -15,7 +15,7 @@ Continue across multiple turns until the user confirms the intent, chooses to pr
 
 ## Workflow
 
-1. Read the conversation and inspect relevant project artifacts before asking anything. Do not ask for information already available or cheaply discoverable.
+1. Read the conversation and inspect relevant project artifacts before asking anything. Do not ask for information already available or discoverable through a brief inspection.
 2. When another active skill provides domain-specific discovery, let that workflow own the questions unless the user explicitly invoked `$interview-me`. In that case, use its required inputs as interview topics instead of running two separate question flows.
 3. Open with a brief working interpretation of the request and name the uncertainty that matters most. Do not assign a numerical confidence score.
 4. Ask one focused question at a time. Make each question depend on what is already known and the user's previous answer.

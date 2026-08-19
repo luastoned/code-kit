@@ -13,7 +13,7 @@ Apply shared config fragments and defaults from a source `configs/` directory in
 
 1. Identify the source configs directory:
    - Use the source path provided by the user when present.
-   - Otherwise resolve this skill's physical directory with symlinks followed and use `configs/` from the code-kit root two directories above it.
+   - Otherwise resolve symlinks to find this skill's directory, then use `configs/` from the code-kit root two directories above it.
    - Confirm the directory contains `AGENTS.md`. Ask for the source path if it does not.
 2. Identify the target project directory from the user request or current working directory.
 3. Read source `AGENTS.md` as the authoritative inventory and file-specific application guidance.
@@ -22,20 +22,20 @@ Apply shared config fragments and defaults from a source `configs/` directory in
 5. Inspect the target project:
    - Existing matching config files.
    - Hidden config files and dotfiles in the target root.
-   - Project manifests, lockfiles, workspace files, and README/developer docs when relevant.
-   - Tooling actually used by the project, so unrelated configs are not added blindly.
+   - Project manifests, lockfiles, workspace files, and README or developer documentation when relevant.
+   - Tooling actually used by the project, so unrelated configs are not added without evidence that they apply.
 6. Decide the action for each documented source file:
    - Copy when the target file is missing and the tool is relevant to the target.
    - Merge when the target file exists and both files use a structured format.
    - Skip when the config is clearly irrelevant to the target.
    - Ask only when applying the config could break an established target convention.
-7. Edit with the runtime's patch or structured edit tool. Do not overwrite target files wholesale unless they are absent or the user explicitly requested replacement.
+7. Edit with the runtime's patch or structured edit tool. Do not replace an entire target file unless it is absent or the user explicitly requested replacement.
 8. Validate changed files with the relevant parser or tool when available.
 
 ## Merge Rules
 
-- Preserve target-specific settings for project paths, generated directories, runtime assumptions, and framework/tool integrations.
-- Apply shared defaults for formatting, linting, and common compiler/tool behavior when they do not conflict with local requirements.
+- Preserve target-specific settings for project paths, generated directories, runtime assumptions, and framework or tool integrations.
+- Apply shared defaults for formatting, linting, and common compiler or tool behavior when they do not conflict with local requirements.
 - Prefer the target's existing schema path or schema URL when it is more specific or already valid. Add the source schema only when the target has none.
 - For ignore lists and similar arrays, keep the union unless order has semantic meaning.
 - For scalar values with different meanings, prefer the target value and mention the conflict in the final response.
@@ -46,7 +46,7 @@ Apply shared config fragments and defaults from a source `configs/` directory in
 
 ## Source File Guidance
 
-- Treat source `AGENTS.md` as the sole source of truth for available configs and their intended use. Do not duplicate its file mapping in this skill.
+- Treat source `AGENTS.md` as the authoritative inventory of available configs and their intended use. Do not duplicate its file mapping in this skill.
 - Apply each file only under the conditions documented there. Inspect undocumented source files, but do not sync them until their intended use is clear.
 - When source guidance delegates broader migration or cleanup to another skill, keep the config sync scoped and use that skill only when the user request includes the additional work.
 
@@ -59,4 +59,4 @@ Apply shared config fragments and defaults from a source `configs/` directory in
 
 ## Output Expectations
 
-Summarize which configs were copied, merged, or skipped. Call out preserved target choices, conflicts, and validation results.
+Summarize which configs were copied, merged, or skipped. Report preserved target choices, conflicts, and validation results.

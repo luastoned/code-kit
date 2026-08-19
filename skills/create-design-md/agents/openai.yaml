@@ -1,6 +1,6 @@
 interface:
   display_name: 'Create DESIGN.md'
-  short_description: 'Create a design system from a URL'
+  short_description: 'Create a design system from project evidence'
   default_prompt: 'Use $create-design-md to create a DESIGN.md for this project from a webpage or design brief.'
 policy:
   allow_implicit_invocation: false

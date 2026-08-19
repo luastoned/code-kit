@@ -7,7 +7,7 @@ description: Refactor selected files according to the nearest AGENTS.md and appl
 
 ## Overview
 
-Refactor one or more selected files using the target repository's own guidance as the source of truth. This is a conservative cleanup workflow: preserve behavior, respect local patterns, and apply the nearest `AGENTS.md` plus any mapped repository, language, runtime, or private guides that are explicitly available.
+Refactor one or more selected files using the target repository's own guidance as the primary authority. Preserve behavior, respect local patterns, and apply the nearest `AGENTS.md` plus any mapped repository, language, runtime, or private guides that are explicitly available.
 
 ## Workflow
 
@@ -16,7 +16,7 @@ Refactor one or more selected files using the target repository's own guidance a
    - Nearest `AGENTS.md` for the target file.
    - Root `AGENTS.md` when it applies.
    - Any mapped guide referenced by `AGENTS.md` for the file type, language, runtime, or repository shape.
-   - Private/local guidance only when explicitly requested or already active for the repository.
+   - Private or local guidance only when explicitly requested or already active for the repository.
    - For implementation decisions, prioritize the applicable language or runtime guide, then the nearest tooling configuration, then repository-level rules. Use repository guidance first only to determine scope, ownership, and project boundaries.
 3. Inspect local context:
    - Existing neighboring code, imports, helpers, types, tests, and module boundaries.
@@ -32,7 +32,7 @@ Refactor one or more selected files using the target repository's own guidance a
 6. Run the smallest relevant validation when practical:
    - Targeted tests for the touched area.
    - Project-local typecheck, lint, format check, or build command when relevant.
-   - Nearest workspace/project validation before root-wide validation in multi-project repos.
+   - Nearest workspace or project validation before root-wide validation in multi-project repositories.
 
 ## Refactor Rules
 
@@ -44,7 +44,7 @@ Refactor one or more selected files using the target repository's own guidance a
 - Preserve useful comments and remove stale narration. Add a short multiline file comment only when file-wide purpose, constraints, usage, or side effects are not clear from the file itself.
 - Inside the implementation, prefer one concise line per comment. Use a longer block only when one line would lose necessary safety, algorithm, protocol, or compatibility context.
 - Allow clear sentence fragments or compact conditions such as `If A, then B`; do not force fragments when a complete sentence is clearer.
-- Let formatter/linter tooling own formatting details such as import ordering, quote style, semicolons, and spacing.
+- Let formatter and linter tooling own formatting details such as import ordering, quote style, semicolons, and spacing.
 - Do not use named practices such as KISS, DRY, YAGNI, SOLID, or the Rule of Three as automatic rewrite mandates; use them as lenses when they fit the task.
 - If the best refactor requires a larger design change, stop and explain the recommended larger change instead of quietly expanding scope.
 

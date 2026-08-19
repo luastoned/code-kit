@@ -7,7 +7,9 @@ description: Audit or adapt reusable AGENTS.md and mapped language, repository, 
 
 ## Overview
 
-Audit a target project's instructions against the current public guidance from code-kit, or adapt that guidance into instructions that fit the project. Audit without writing when the user wants to know whether resynchronization is needed. When synchronizing, inspect established projects before writing and weight the result in this order: primary language guidance, applicable tooling or workflow guidance, then a compact repository baseline.
+Audit a target project's instructions against the public guidance from code-kit, or adapt that guidance into instructions that fit the project. Audit without writing when the user wants to know whether resynchronization is needed.
+
+When synchronizing, inspect established projects before writing. Prioritize primary language guidance, then applicable tooling or workflow guidance, then a compact repository baseline.
 
 ## Mode Selection
 
@@ -19,7 +21,7 @@ Audit a target project's instructions against the current public guidance from c
 
 1. Resolve the source guidance directory:
    - Use a source path supplied by the user.
-   - Otherwise resolve this skill's physical directory with symlinks followed and use `guidance/` from the code-kit root two directories above it.
+   - Otherwise resolve symlinks to find this skill's directory, then use `guidance/` from the code-kit root two directories above it.
    - Confirm the directory contains `AGENTS.md` and `Repositories.md`. Ask for the source path if it does not.
 2. Resolve the target project from the request or current working directory.
 3. Read source `AGENTS.md`, `Repositories.md`, and the guides selected under [Guide Selection](#guide-selection). Read private guidance only when explicitly requested.
@@ -40,10 +42,10 @@ Audit a target project's instructions against the current public guidance from c
 Use source `AGENTS.md` as the authoritative guide mapping; do not maintain a second hardcoded mapping in this skill.
 
 - Always read `Repositories.md` to determine guidance shape, ownership, commit boundaries, and validation scope. Carry forward its durable defaults, including commit guidance, while keeping them secondary to language and tooling content.
-- Use the primary language guide when the language is known from the user request, target source, or project metadata. This is sufficient evidence for a new or sparse project: a new TypeScript repository should receive a TypeScript-driven baseline even before its framework, runtime, package manager, or tooling is known.
-- Give the primary language guide content priority. In a single-language project, its applicable sections should dominate the resulting guidance rather than being condensed beneath broad repository or working-style sections.
+- Use the primary language guide when the language is known from the user request, target source, or project metadata. This is sufficient evidence for a new or sparse project. Give a new TypeScript repository a TypeScript-driven baseline even before its framework, runtime, package manager, or tooling is known.
+- Give the primary language guide content priority. In a single-language project, make its applicable sections dominate the resulting guidance rather than condensing them beneath broad repository or working-style sections.
 - Use additional language guides when those languages are maintained parts of normal development, not merely incidental files.
-- Use workflow or specialty guides for maintained operational surfaces such as containers, shell orchestration, security work, or reverse-engineering artifacts, or when the user explicitly targets that work.
+- Use workflow or specialty guides for maintained operational areas such as containers, shell orchestration, security work, or reverse-engineering artifacts, or when the user explicitly targets that work.
 - Treat framework, dependency, manifest, and tooling signals as refinements to language guidance rather than prerequisites for it.
 - Treat the absence of `.git`, commit hooks, CI, or tool configuration as a lack of local overrides. Use the source default where one exists, but do not invent commands or name unselected tools.
 - Ignore one-off helpers, examples, generated artifacts, vendored code, copied snippets, CI fragments, and tool output unless agents are expected to maintain them.
@@ -58,7 +60,7 @@ Use `rg --files` first and read only what is needed to establish local conventio
 - Manifests, lockfiles, workspace files, and language or toolchain configs.
 - Existing commands for formatting, linting, typechecking, testing, building, and development.
 - Nearest formatter, linter, test, build, and compiler configs.
-- Commit-message config and hooks; use recent history only as a fallback or sanity check.
+- Commit-message config and hooks; use recent history only as a fallback or consistency check.
 - README or developer docs that define workflows agents must follow.
 
 Do not invent a framework, runtime, package manager, command, or project convention when a new repository has not established one.
@@ -85,12 +87,24 @@ Do not use textual differences, heading order, prose condensation, timestamps, G
 - Treat each source guide's `##` sections as intentional, cohesive units. Keep an applicable section together under the same or a clearly adapted heading instead of scattering its bullets across unrelated target sections.
 - Combine sections only when their subjects form a coherent target section. Omit a section only when it does not apply, duplicates a stronger local rule, or belongs in another nested guide.
 - Preserve the source guide's conceptual coverage without mechanically copying its headings or irrelevant details.
-- Preserve clear technical-writing behavior by meaning: concise result-first responses, short active instructions, consistent terminology, conditions before dependent actions, and intent-focused comments. Do not claim ASD-STE100 compliance unless the target explicitly requires and validates it.
+- Preserve technical-writing behavior by meaning:
+  - concise, result-first responses in clear, conversational, and respectful technical English
+  - consistent terminology, direct reader address when useful, and global-audience wording
+  - numbered sequential procedures with short imperative steps and conditions before dependent actions
+  - explicit modality for requirements, recommendations, capability, and possibility
+  - versions, dates, states, or events instead of ambiguous time-relative labels
+  - evidence-backed claims, verifiable actions, and explicit unverified results
+  - comments that explain intent, constraints, or non-obvious trade-offs
+- Follow the target project's writing conventions first. Apply selected Google developer documentation language principles only; do not mechanically add the reference or import Google-specific branding, US spelling, heading capitalization, emphasis, or layout rules.
 - Keep language guidance concise. If the target references separate language guides, update the relevant guide; otherwise include the applicable sections in the nearest `AGENTS.md`.
 - Keep repository guidance compact but durable. Preserve source commit conventions, change boundaries, validation principles, and safety rules unless the target explicitly overrides them; expand repository sections only for concrete project constraints.
 - Include private overlays only when explicitly requested. Read `guidance/private/AGENTS.md` first when present, then only the guides it maps or the user names.
-- Surface unresolved conflicts, especially around commit format, tooling sources of truth, test commands, module systems, or typing rules.
+- Report unresolved conflicts, especially around commit format, tooling authority, test commands, module systems, or typing rules.
 
 ## Output Expectations
 
-In audit mode, report whether resynchronization is recommended, the guides checked, and the material reasons. In sync mode, the result should read as guidance written for the target project, not as a copy of code-kit. For a single-language project, a reader should immediately recognize the primary language guide as the focus; repository details should appear only as brief supporting constraints. Report the result first, then the files changed, guides applied, unresolved conflicts, and any non-obvious source sections that were moved, combined, or omitted. Do not repeat the request or workflow.
+In audit mode, report whether resynchronization is recommended, the guides checked, and the material reasons.
+
+In sync mode, write guidance for the target project rather than a copy of code-kit. Make the primary language guide immediately recognizable as the focus in a single-language project. Keep repository details as brief supporting constraints.
+
+Report the result first. Then list the files changed, guides applied, unresolved conflicts, and any non-obvious source sections that were moved, combined, or omitted. Do not repeat the request or workflow.

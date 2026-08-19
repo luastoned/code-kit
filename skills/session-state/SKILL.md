@@ -1,15 +1,22 @@
 ---
 name: session-state
-description: Save, restore, or consume current-session handoff context through an AGENTS_STATE.md file. Use only when the user explicitly invokes `$session-state` or names the `session-state` skill.
+description: Save, restore, or consume current-session handoff context through an established project coordination location or an AGENTS_STATE.md file. Use only when the user explicitly invokes `$session-state` or names the `session-state` skill.
 ---
 
 # Session State
 
 ## Overview
 
-Use `AGENTS_STATE.md` as a short-lived handoff file for agent context that should survive between sessions. The file is dynamic, local working state for the current repository or project, not source documentation.
+Use `AGENTS_STATE.md` as a short-lived handoff file for agent context that must survive between sessions. The file is dynamic, local working state for the current repository or project, not source documentation.
 
 This skill only uses the current conversation, repository state, and an existing `AGENTS_STATE.md` when present. Do not inspect agent-runtime history or session logs, including `~/.codex/history.jsonl`, `~/.codex/session_index.jsonl`, or `~/.codex/sessions/*`.
+
+## Workflow Compatibility
+
+- Before writing, inspect applicable workflow guidance and existing coordination state.
+- When OutcomeFlow, ChangeShape, or another project workflow already provides a work index, temporary specification, or shared handoff for the active work, reuse that established location instead of creating parallel state.
+- Create or update `AGENTS_STATE.md` when no established coordination location carries the needed handoff, or when the user explicitly requests that file.
+- Read or consume an existing `AGENTS_STATE.md` when requested, even if the project later adopted another workflow.
 
 ## Mode Selection
 
@@ -23,10 +30,11 @@ This skill only uses the current conversation, repository state, and an existing
 
 ## File Location
 
-1. If the user gives a folder, use that folder.
-2. Otherwise use the repository root from `git rev-parse --show-toplevel` when available, or the current project root discovered from its manifest and guidance files.
-3. Use a nested project root only when the user is explicitly working in that project and it has its own manifest or `AGENTS.md`.
-4. Do not create nested state files merely because a nearer guidance file exists.
+1. If an established coordination location applies, use it according to [Workflow Compatibility](#workflow-compatibility).
+2. If the user gives a folder for `AGENTS_STATE.md`, use that folder.
+3. Otherwise use the repository root from `git rev-parse --show-toplevel` when available, or the current project root discovered from its manifest and guidance files.
+4. Use a nested project root only when the user is explicitly working in that project and it has its own manifest or `AGENTS.md`.
+5. Do not create nested state files merely because a nearer guidance file exists.
 
 ## Read Mode
 
@@ -46,30 +54,31 @@ This skill only uses the current conversation, repository state, and an existing
 ## Write Mode
 
 1. Inspect only the context needed to make the handoff accurate:
-   - current user goal and latest instructions
+   - current user goal and most recent instructions
+   - established workflow coordination for the active work, when present
    - existing `AGENTS_STATE.md`, if present
    - `git status --short`
    - relevant diffs or changed file summaries when needed
    - validation commands and results already known from the session
-2. Create or update `AGENTS_STATE.md` with concise, factual, actionable state.
+2. Update the established coordination location with only the handoff fields that fit it. Otherwise create or update `AGENTS_STATE.md` with concise, factual, actionable state.
 3. Preserve still-relevant prior state and remove stale completed items.
 4. Do not include raw chat transcripts, tool dumps, hidden reasoning, secrets, credentials, tokens, or unrelated personal context.
 5. Mark uncertainty explicitly when a fact was inferred.
 6. Prefer short bullets. Keep the file small enough to read at session start.
 7. Keep one fact, decision, or action per bullet. Use active voice and one consistent term for each concept.
 
-Use this structure:
+When writing `AGENTS_STATE.md`, use this structure:
 
 ```md
 # Agent State
 
 ## Scope
 
-- Repository/project/folder this state applies to.
+- Repository, project, or folder this state applies to.
 
 ## Current Goal
 
-- The task the next session should continue.
+- The task for the next session to continue.
 
 ## Status
 
@@ -77,7 +86,7 @@ Use this structure:
 
 ## Decisions
 
-- Important decisions that should not be rediscovered.
+- Important decisions that must not be rediscovered.
 
 ## Changed Files
 
@@ -106,6 +115,6 @@ Use this structure:
 
 ## Output Expectations
 
-- In write mode, report the path written and the main continuation point.
+- In write mode, report the path or established coordination location written and the main continuation point.
 - In read or consume mode, report the loaded handoff summary and whether the file was kept or deleted.
 - If the skill cannot determine the correct project root, state the assumed root and proceed.
