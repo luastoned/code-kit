@@ -5,7 +5,7 @@ Links code-kit skills into Codex, Claude, or both runtimes.
 .DESCRIPTION
 Installs every available skill when no skill names are provided. Installs only
 the named skills when one or more skill names are provided. Refreshes existing
-symbolic links and refuses to overwrite real files or directories.
+symbolic links and refuses to overwrite non-symlink files or directories.
 
 .PARAMETER Runtime
 Selects codex, claude, or all. This parameter is required.
@@ -46,8 +46,8 @@ function Show-Usage {
 Usage: .\scripts\install-skills.ps1 <codex|claude|all> [skill ...]
 
 Install every skill when no skill names are provided, or install only the
-named skills. Existing symbolic links are refreshed. Real files and directories
-are never overwritten.
+named skills. Existing symbolic links are refreshed. Non-symlink files and
+directories are never overwritten.
 
 Examples:
   .\scripts\install-skills.ps1 codex

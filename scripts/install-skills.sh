@@ -7,8 +7,8 @@ usage() {
 Usage: scripts/install-skills.sh <codex|claude|all> [skill ...]
 
 Install every skill when no skill names are provided, or install only the
-named skills. Existing symlinks are refreshed. Real files and directories are
-never overwritten.
+named skills. Existing symlinks are refreshed. Non-symlink files and directories
+are never overwritten.
 
 Examples:
   scripts/install-skills.sh codex
