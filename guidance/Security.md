@@ -17,13 +17,13 @@ Use this guide for security-sensitive work, dual-use security tooling, exploit-a
 - Use the least privilege and smallest data set needed for the task.
 - Do not expose secrets, credentials, tokens, private keys, or captured sensitive data in committed files, logs, screenshots, or final responses. Keep potentially harmful payloads bounded to the authorized task and target.
 - Separate observation from inference, preserve relevant evidence and provenance, and mark uncertain findings explicitly.
-- Call out external side effects before actions that could change target state, availability, accounts, data, or detection posture.
+- State external side effects before actions that could change target state, availability, accounts, data, or detection posture.
 
 ## Related Guides
 
 - Use `C++.md` for C/C++, native code, Windows internals, driver-adjacent work, and hypervisor-adjacent system software.
-- Use `IDA.md` for reverse engineering, decompiler-driven analysis, recovered structures, binary provenance, game/client binaries, and anti-cheat analysis.
-- Use `TypeScript.md` for web frontend/backend security work, Node.js services, HTTP/API boundaries, and JavaScript/TypeScript tooling.
+- Use `IDA.md` for reverse engineering, decompiler-driven analysis, recovered structures, binary provenance, game or client binaries, and anti-cheat analysis.
+- Use `TypeScript.md` for web frontend and backend security work, Node.js services, HTTP and API boundaries, and JavaScript and TypeScript tooling.
 - Use `Python.md` and `Shell.md` for security automation, analysis scripts, local harnesses, and operational tooling.
 
 ## Validation

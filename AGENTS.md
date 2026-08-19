@@ -6,7 +6,7 @@ This repository stores shared coding resources that are reused across other proj
 
 - `configs/`: shared tooling defaults.
 - `guidance/`: reusable agent guidance that can be copied, linked, or adapted into target projects.
-- `guidance/private/`: local-only overlays and guidance that should not be published.
+- `guidance/private/`: local-only overlays and guidance that must not be published.
 - `skills/`: shareable agent skills and their support files.
 - `references/`: structured lookup data reused by tooling and agent workflows.
 - `scripts/`: repository maintenance helpers for validation and skill installation.
@@ -14,15 +14,15 @@ This repository stores shared coding resources that are reused across other proj
 
 ## Working In This Repo
 
-- Keep changes small, explicit, and easy to reuse from other projects.
+- Keep changes small, explicit, and straightforward to reuse from other projects.
 - Preserve the distinction between this repo's maintenance guidance and downstream project guidance.
 - Update `guidance/AGENTS.md` when changing the reusable root guidance intended for downstream projects.
 - Update the relevant mapped guide in `guidance/` when changing language, runtime, or tool-specific downstream guidance.
 - Update `configs/AGENTS.md` when adding, removing, or changing the intended use of files in `configs/`.
-- Keep personal, sensitive, or project-specific private overlays under `guidance/private/`; only `.gitkeep` should be tracked there.
+- Keep personal, sensitive, or project-specific private overlays under `guidance/private/`; only `.gitkeep` may be tracked there.
 - Update `skills/sync-agent-guidance/` when changing how guidance is adapted into target projects.
 - Keep scripts non-interactive, safe around existing files, and runnable from any working directory.
-- Update `configs/` only for tooling behavior that should become a shared default or reusable fragment.
+- Update `configs/` only for tooling behavior intended as a shared default or reusable fragment.
 - Keep `README.md` focused on what this repo contains and how other locations consume it.
 - Keep docs in `docs/` when the information is reference material rather than an instruction agents must follow.
 - Update `docs/repository-flow.md` when repository ownership, validation, installation, synchronization, or downstream consumption paths change.
