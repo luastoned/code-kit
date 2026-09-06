@@ -1,6 +1,6 @@
 interface:
   display_name: 'Adopt ChangeShape'
   short_description: 'Audit or adopt agent-native ChangeShape workflow'
-  default_prompt: "Use $adopt-change-shape to audit this repository's workflow or adapt ChangeShape to its existing conventions."
+  default_prompt: "Use $adopt-change-shape to adapt this repository's execution guidance to ChangeShape."
 policy:
   allow_implicit_invocation: false

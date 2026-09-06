@@ -25,10 +25,14 @@ flowchart TD
   review --> format["Run oxfmt"]
   format --> validate["Run scripts/validate.py"]
   validate --> diff["Review the complete diff"]
-  diff --> commit["Commit one coherent change"]
+  diff --> authorized{"Commit authorized?"}
+  authorized -->|Yes| commit["Commit one coherent change"]
+  authorized -->|No| handoff["Return verified changes"]
 ```
 
-Choose one canonical home for each rule or resource. Update related files only when they consume, index, describe, or validate that source.
+Choose one canonical home for each rule or resource. Update related files only when they consume, index, describe, or validate that source. A request to edit shared resources does not by itself require a commit.
+
+For substantial workflow changes, exercise representative request scenarios before handoff: a narrow edit, a read-only audit, an authorized implementation with verification, and a case needing a new decision. Check scope preservation and observable completion rather than matching prose or headings.
 
 ## Downstream Consumption
 
@@ -38,13 +42,17 @@ flowchart LR
     guidance["guidance/"]
     configs["configs/"]
     skills["skills/"]
-    workflows["docs/workflows/"]
+    workflows["docs/workflows/<br/>Operating contracts"]
+    examples["docs/workflows/references/<br/>Optional examples"]
+    skillDetails["Skill-local references/<br/>and assets/"]
     references["references/"]
     installers["install-skills.sh<br/>install-skills.ps1"]
     validator["scripts/validate.py"]
   end
 
   skills --> installers
+  skillDetails --> skills
+  workflows -.->|When needed| examples
   installers --> runtime["~/.codex/skills/<br/>~/.claude/skills/"]
 
   guidance --> syncGuidance["$sync-agent-guidance"]
@@ -74,7 +82,11 @@ Installation exposes skills to an agent runtime. It does not apply them to a pro
 
 Workflows can be read or adapted directly. Add an adoption skill only after its adoption behavior is defined and repeatable.
 
-Synchronization and adoption inspect the target first. They adapt shared behavior to local ownership, language, tooling, and workflow conventions. They keep project-specific rules until those rules have been evaluated.
+Synchronization and adoption inspect relevant target evidence first. They adapt shared behavior to local ownership, language, tooling, and workflow conventions. Missing generic advice or omitted source sections do not establish drift; retain instructions that affect likely decisions or protect concrete constraints.
+
+Workflow documents own compact operating contracts; their examples and rationale live under `docs/workflows/references/` and are read only for a relevant question. Skills route to these contracts and conditional skill-local resources instead of duplicating every rule. Existing compatible supporting methods do not require loading all linked workflows.
+
+Installers link complete skill directories. Keep the source checkout available because adoption and sync skills resolve shared `docs/`, `guidance/`, or `configs/` through their real paths. Standalone copies must include skill-local references and assets and may need user-supplied shared-source paths.
 
 Changes do not propagate automatically. Run the relevant audit or synchronization skill when a target repository needs current guidance or configuration.
 
