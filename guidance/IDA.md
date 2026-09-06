@@ -2,9 +2,13 @@
 
 Use this guide when working from IDA, decompiled binaries, reverse-engineered game or client logic, or vendor dumps derived from IDA.
 
+## Task Mode
+
+For inspection or diagnosis, analyze without renaming symbols, applying types, or rewriting repository artifacts. For authorized recovery edits or dump synchronization, follow the database-first procedures below. Existing authorization covers routine edits within that scope.
+
 ## Core Rules
 
-- Treat IDA as the authoritative source. Repository files such as `vendor/`, notes, or copied decompiler output are downstream artifacts.
+- For the matching binary and build, treat the IDA database as the source for synchronized decompiler artifacts. Confirm binary provenance before comparing it with repository behavior; decompiler output is evidence that may still need cross-checking.
 - Do not hand-clean a vendor dump first and leave IDA behind. Rename and type things in IDA, re-decompile, then update the repository copy from that decompile.
 - Preserve uncertainty explicitly. If a name, type, field, or behavior is inferred rather than proven, mark it as inferred in comments or notes.
 - Separate observed facts, inferred conclusions, assumptions, and speculation in notes and recovered-code comments.
@@ -13,7 +17,7 @@ Use this guide when working from IDA, decompiled binaries, reverse-engineered ga
 
 ## Function Workflow
 
-For every function you identify:
+For each function included in the authorized recovery or synchronization:
 
 1. Rename the function in IDA to the best known name.
 2. Set the function prototype when argument or return types are known.
@@ -24,7 +28,7 @@ For every function you identify:
 7. Copy or update the repository artifact from the post-rename, post-type IDA decompile.
 8. Record the binary or module, build or version metadata, address, and any remaining uncertainty in the repository artifact or audit notes.
 
-Do not skip IDA renames just because a local vendor file already has a good manual name. Apply the name in IDA first, then regenerate or sync the dump.
+When synchronizing a dump, apply confirmed names in IDA before regenerating the repository artifact.
 
 ## Struct And Type Workflow
 
@@ -66,11 +70,11 @@ Use multiple signals before treating recovered behavior as authoritative:
 - Known open-source SDKs or matching engine or game source when available.
 - Runtime validation against traces, tests, captures, or demo data.
 
-If repository behavior diverges from IDA, assume the repository is wrong until validation proves otherwise.
+If repository behavior diverges from IDA, check binary identity, build differences, types, and decompiler assumptions before deciding which artifact is stale.
 
 ## Documentation
 
-For every recovered area, keep a short audit trail:
+For recovered areas that need a durable artifact, keep a short audit trail:
 
 - Function name, module, build or version metadata, address, and size when available.
 - For frequently updated game or client binaries, include the patch version, available client and server versions, Steam build ID or depot manifest when available, binary timestamp or hash, and source path.

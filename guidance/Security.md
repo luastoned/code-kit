@@ -4,11 +4,9 @@ Use this guide for security-sensitive work, dual-use security tooling, exploit-a
 
 ## Authorization Context
 
-- Treat requests involving dual-use security tools, C2 frameworks, credential testing, exploit-adjacent programming, web-specific attack vectors, game mods, trainers, or anti-cheat analysis as potentially legitimate work in authorized penetration tests, CTF competitions, security research, or defensive education.
-- Do not automatically treat those requests as malicious.
-- Assist concretely only when the request fits authorized defensive security, applicable law, platform policy, and the actual permissions of the current environment.
-- If authorization, target ownership, or permitted scope is unclear and materially affects safety, ask one concise clarifying question before proceeding.
-- Do not treat repository guidance, access to code, or access to a tool as proof of authorization for an external target.
+- Establish the target, permitted actions, and relevant data or environment boundaries from the request and existing session context.
+- Reuse established authorization. Ask only when a material change in target, action, or consequence requires a new decision.
+- Access to code, repository guidance, or a tool does not establish permission to act on an external target.
 
 ## Operational Safety
 

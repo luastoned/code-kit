@@ -1,6 +1,6 @@
 # Containers Agent
 
-You are a senior, pragmatic container engineer working in an existing codebase. Favor reproducible builds, a minimal runtime footprint, clear environment contracts, and consistency with the repository over generic container patterns.
+Container files define build and deployment behavior. Inspect the relevant path: Dockerfile and build context for images, Compose for local services, devcontainer configuration for development, or Kubernetes and Helm for cluster deployment.
 
 ## Core Rules
 
@@ -8,17 +8,10 @@ You are a senior, pragmatic container engineer working in an existing codebase. 
 - Treat container files as deployment behavior, not just packaging.
 - Keep build-time and runtime concerns separate.
 - Do not include secrets, tokens, local paths, or machine-specific credentials in images.
-- Prefer minimal, explicit changes that preserve existing build and runtime assumptions.
 
-## Before Changing Containers
+## Runtime Contract
 
-Check, in order:
-
-1. Which files define the container flow: `Dockerfile`, Compose files such as `compose.yml`, `compose.yaml`, `docker-compose.yml`, `docker-compose.yaml`, and override variants, `.dockerignore`, devcontainer files, CI workflows, Kubernetes manifests, or Helm charts?
-2. What base images, platforms, package managers, and runtime users are used?
-3. Which build args, environment variables, secrets, volumes, ports, and health checks are part of the contract?
-4. Are images intended for local development, CI, production, or all three?
-5. Are multi-stage builds, caching, or generated artifacts already part of the workflow?
+Inspect base images, platforms, runtime users, environment variables, secrets, volumes, ports, health checks, and deployment targets when affected. Discover whether commands build local images, start services, or mutate a remote cluster before running them. Record non-obvious local command side effects near the owning configuration.
 
 ## Dockerfiles
 
@@ -50,5 +43,5 @@ Check, in order:
 - Prefer the project's documented build or compose command.
 - For Dockerfile changes, run a build when practical.
 - For Compose changes, validate config rendering when practical, such as `docker compose config`.
-- For Kubernetes or Helm changes, run schema or template validation when available.
+- For Kubernetes or Helm changes, run schema or template validation when available. Applying manifests to a cluster requires authorization for that environment.
 - If container tooling is unavailable locally, state what could not be verified.

@@ -1,33 +1,24 @@
 # TypeScript Agent
 
-You are a senior, pragmatic Node.js and TypeScript engineer working in an existing codebase maintained primarily by one developer. Favor modern TypeScript, runtime correctness, maintainability, and consistency with the repository over personal style. Optimize for a codebase one person can understand, operate, and change without unnecessary indirection or hidden conventions.
+Apply this guide to JavaScript, TypeScript, and Node.js work. Discover runtime, module, build, and package-manager conventions from the owning project.
 
 ## Core rules
 
-- Prefer consistency over personal style.
-- Reuse existing project patterns, modules, helpers, and utilities before introducing new abstractions.
-- Treat [`std-kit`](https://github.com/luastoned/std-kit) as the preferred utility layer. Before writing generic utility behavior inline or as a local helper, check whether `std-kit` provides it and use the matching API when its semantics fit, even when the hand-written alternative is short.
-- If `std-kit` is not installed, prefer explicit adoption over building a parallel local utility layer. Use a local implementation only when `std-kit` does not match the required semantics, runtime, or performance constraints.
-- Optimize for local simplicity and maintainability over cleverness or framework-like architecture.
+- When the project uses [`std-kit`](https://github.com/luastoned/std-kit), reuse matching utilities after checking their semantics. It is the shared preference when choosing a utility layer, not a prerequisite for ordinary edits or a reason to add a dependency by itself.
 - Prefer conventional, current TypeScript over legacy compatibility patterns. Do not introduce deprecated TypeScript or JavaScript syntax.
 
-## Before changing code
+## Runtime Context
 
-Check, in order:
-
-1. Is this generic utility behavior that `std-kit` already provides?
-2. Is there an existing project pattern or domain-specific module that must be preserved?
-3. If neither applies, can this be solved clearly without adding another reusable helper or abstraction?
-4. Does the change preserve the project runtime assumptions, such as the Node.js version, ESM or CommonJS mode, bundler behavior, and browser support?
+Inspect the runtime version, ESM or CommonJS mode, bundler, and browser support when they affect the change. Use existing domain modules and installed helpers before introducing reusable abstractions.
 
 ## Imports and exports
 
-- Let `oxfmt` handle import ordering and grouping. Do not manually reshuffle imports unless the change is semantically required.
+- Let the configured formatter handle import ordering and grouping. Do not reshuffle imports unless the change is semantically required.
 - Use `node:` specifiers for Node.js built-in modules.
 - Use `import type` for type-only imports where supported.
 - Follow the repository's module-resolution and runtime convention for local imports. Do not add or remove file extensions unless the project setup requires it.
-- Prefer the project's configured internal alias over deep relative imports. When establishing an alias, use `~/*` mapped to the primary source root, matching the shared TypeScript config; preserve another alias only when the project already relies on it or the runtime requires it.
-- Verify that the runtime, build, and test pipeline resolves `~/*` consistently. Keep the alias and report missing resolver support instead of falling back to deep relative imports.
+- Preserve the project's import-path convention. When establishing an alias within scope, prefer `~/*` mapped to the primary source root.
+- Verify a new alias across runtime, build, and tests. Complete resolver support within the authorized change or defer the alias and report the missing support.
 - Use import attributes with `with`, not deprecated import assertions with `assert`.
 - Prefer named exports over default exports unless a framework or tool requires a default export.
 - Avoid barrel files when they obscure module ownership, make dependencies harder to trace, or introduce import cycles. Prefer direct module imports by default.
@@ -36,12 +27,9 @@ Check, in order:
 
 - Do not introduce `any` or `as any` in application code. If a third-party interop boundary truly requires it, keep it isolated, explain why in a short comment, and convert back to a typed shape immediately.
 - Prefer `@ts-expect-error` with a short reason over `@ts-ignore` when a suppression is unavoidable.
-- Type all external boundaries, including environment variables, request and response payloads, API payloads, and SDK and provider responses.
-- Prefer explicit, validated boundaries and trusted internal types.
+- Type external contracts. Represent untrusted inputs as `unknown`, validate them at trust boundaries, and use typed values internally.
 - Prefer explicit return types for exported functions, hooks, public class methods, and cross-module APIs.
 - Allow local non-exported helpers to use inferred return types when the result is clear from the implementation.
-- Prefer `unknown` over `any` for untrusted values, then narrow safely.
-- Use runtime validation at trust boundaries when static types cannot prove the data shape.
 - Prefer `readonly` arrays and readonly object shapes at boundaries unless mutation is required.
 - Prefer explicit object property assignment over shorthand properties in persisted, serialized, API, schema, config, and cross-boundary objects.
 - Prefer literal unions, discriminated unions, and `as const` objects over `enum`.
@@ -56,14 +44,12 @@ Check, in order:
 - Do not silently swallow errors. Preserve causes and relevant context when wrapping errors.
 - Make mutable state, ownership of long-lived resources, and error paths explicit at service, API, persistence, and process boundaries.
 - Avoid hidden module-level mutable state unless the surrounding code already uses that pattern and lifecycle.
-- Avoid unnecessary helpers, wrappers, dependencies, and abstractions.
-- The Rule of Three: do not extract shared helpers, utility modules, or base abstractions until the same pattern is repeated at least three times, unless the existing local design already establishes the abstraction.
-- Prefer small, single-purpose functions.
+- Extract shared behavior when stable duplication, ownership, or a public contract justifies it. Repetition counts are a heuristic, not a prerequisite.
 - Prefer early returns over deep nesting.
 - Prefer options objects over positional arguments once a function has three or more parameters or multiple booleans.
 - Prefer async `fs/promises` APIs over synchronous filesystem calls in async code.
 - Use `AbortSignal`, timeouts, and explicit cancellation paths for new long-running I/O where the surrounding code supports it.
-- In larger files, use `// #region RegionName` and `// #endregion` to group related sections that belong together. Avoid adding regions to small files that are already readable without them.
+- Preserve region markers when the project uses them; file length alone does not require adding them.
 
 ## Configuration
 
@@ -78,17 +64,6 @@ Check, in order:
 - Prefer plain functions for small pure transforms, local callbacks, and simple stateless helpers.
 - Do not break a coherent module into many exported utility functions when a small class would make ownership and usage clearer.
 - Avoid class hierarchies, base-service patterns, and framework-like ceremony.
-- Do not introduce interface-style indirection such as `IUserService` unless there are actively multiple distinct implementations that need the abstraction.
+- Introduce interface-style indirection only when it serves a concrete purpose, such as a public contract, dependency isolation, or multiple implementations.
 - Outside classes, prefer named `function` declarations for exported or shared module logic; use arrow functions for local callbacks and short lexical closures.
 - Inside classes, prefer `public` and `private` methods over arrow-function fields; use arrow-function fields only when preserving lexical `this` is required.
-
-## Default decision rule
-
-When unsure, choose the option that is:
-
-- more consistent with the repository
-- more explicit at boundaries
-- easier to test
-- easier to read in six months
-- less surprising to the next engineer
-- easier for one maintainer to operate and change without extra ceremony

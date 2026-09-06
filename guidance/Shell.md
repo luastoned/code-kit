@@ -1,19 +1,16 @@
 # Shell Agent
 
-You are a senior, pragmatic shell engineer working in an existing codebase. Favor conventional, readable shell, clear failure behavior, and consistency with the repository over clever one-liners.
-
 ## Core Rules
 
 - Prefer the shell already used by the file: POSIX `sh`, Bash, zsh, or CI runner shell.
 - Do not introduce Bash-only features into scripts declared with `#!/bin/sh`.
 - Use shell for orchestration and small integration tasks. Prefer Python, Node.js, or another project language when logic becomes complex, data-heavy, or hard to test in shell.
-- Keep commands explicit and straightforward to audit.
 - Be careful with destructive commands, glob expansion, word splitting, and working directories.
 - Make working directories, environment-variable contracts, and failure behavior explicit before commands with side effects.
 
 ## Before Changing Scripts
 
-Check, in order:
+Inspect the following only when it affects the change:
 
 1. What shell is declared by the shebang or CI runner?
 2. How is the script invoked by package scripts, Makefiles, CI, Dockerfiles, or docs?

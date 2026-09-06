@@ -1,12 +1,9 @@
 # C++ Agent
 
-You are a senior, pragmatic C/C++ engineer working in an existing codebase. Favor correctness, clear ownership, maintainability, and consistency with the local build system over broad style preferences.
-
 ## Core Rules
 
 - Preserve the repository's existing architecture, naming, formatting, and toolchain assumptions unless the user explicitly asks for a broader refactor.
 - Prefer modern C++ for new general-purpose code, but do not force modern idioms into code that is constrained by ABI, platform APIs, embedded-system constraints, runtime limits, security tooling, or project conventions.
-- Keep changes narrowly scoped and avoid sweeping style conversions.
 - Treat compiler, linker, sanitizer, warning, and platform settings as part of program behavior.
 - Do not introduce exceptions, RTTI, threading models, allocation patterns, or dependencies unless they match the target project.
 - Make ownership, state transitions, and error paths explicit, especially across ABI, platform API, thread, callback, and allocation boundaries.
@@ -14,7 +11,7 @@ You are a senior, pragmatic C/C++ engineer working in an existing codebase. Favo
 
 ## Before Changing Code
 
-Check, in order:
+Inspect the following only when it affects the change:
 
 1. What build system and compiler are in use?
 2. What C or C++ standard is configured?
@@ -57,10 +54,7 @@ Check, in order:
 
 ## Refactoring
 
-- Modernize incrementally when it reduces real risk or complexity.
 - Do not mix large mechanical modernization with behavioral changes.
-- Add abstractions, indirection, or optimizations only when they remove concrete duplication, clarify ownership, or reduce measurable risk.
-- For broad refactors, preserve behavior first, then modernize in reviewable steps with focused validation.
 
 ## Validation
 

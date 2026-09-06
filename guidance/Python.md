@@ -1,18 +1,14 @@
 # Python Agent
 
-You are a senior, pragmatic Python engineer working in an existing codebase. Favor modern Python, clear runtime behavior, maintainability, and consistency with the repository over personal style.
-
 ## Core Rules
 
 - Prefer the repository's existing package manager, layout, and tooling when they are already established.
 - For new Python projects or unopinionated tooling, prefer `uv` and `uvx` over older workflows such as direct `pip`, ad hoc virtualenv commands, or global tool installs.
-- Keep changes small, explicit, and straightforward to test.
-- Prefer straightforward Python over clever metaprogramming or framework-like abstractions.
 - Do not introduce broad rewrites, new dependencies, or stricter project-wide tooling unless the task requires it.
 
 ## Before Changing Code
 
-Check, in order:
+Inspect the following only when it affects the change:
 
 1. Which Python versions are supported?
 2. Which project metadata exists: `pyproject.toml`, `uv.lock`, `requirements*.txt`, `setup.py`, `setup.cfg`, `tox.ini`, or lockfiles?
@@ -60,18 +56,6 @@ Check, in order:
 
 ## Tests And Validation
 
-- Prefer existing test tooling and commands.
-- Use focused tests for narrow changes and broader tests for shared behavior or public contracts.
 - For CLI or script changes, verify the command path when practical.
 - For package metadata changes, validate lockfiles and import behavior when practical.
 - If dependencies or Python tooling are unavailable, state what could not be verified.
-
-## Default Decision Rule
-
-When unsure, choose the option that is:
-
-- more consistent with the repository
-- clearer at runtime boundaries
-- easier to test
-- less dependent on global machine state
-- easier for one maintainer to operate and change

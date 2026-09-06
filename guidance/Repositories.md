@@ -6,7 +6,7 @@ Use this guide for repository shape, root and nested guidance, ownership boundar
 
 - Keep repository-wide rules in the root `AGENTS.md`: commit style, CI, repository boundaries, policies for generated and vendor files, root scripts, process managers, and release and deployment coordination.
 - Keep implementation rules in the nearest project `AGENTS.md`: commands, architecture, runtime, framework, language, and local tooling for that project.
-- If a nested project already has guidance but the repository root does not, create or preserve a concise root `AGENTS.md` instead of putting repo-wide rules into one project.
+- During guidance maintenance, keep repository-wide rules in a concise root `AGENTS.md`, even when nested guidance already exists. Ordinary implementation does not require creating missing guidance files.
 - Do not duplicate full language guidance in every nested project. Reference the relevant guide or keep only the target-specific parts.
 
 ## Working Across Projects
@@ -19,7 +19,7 @@ Use this guide for repository shape, root and nested guidance, ownership boundar
 
 ## Multi-Project Detection
 
-Treat the target as a multi-project repository when two or more of these are present:
+Use these signals to discover actual project ownership; no fixed number of signals establishes a boundary:
 
 - Multiple manifests or tool configs below the root, such as `backend/package.json` and `frontend/package.json`.
 - Workspace markers such as `pnpm-workspace.yaml`, npm or Yarn workspaces, `turbo.json`, `nx.json`, `lerna.json`, or application and package folders.
@@ -31,7 +31,7 @@ Treat the target as a multi-project repository when two or more of these are pre
 - Follow explicit commit tooling when present, such as `.commitlintrc*`, `commitlint.config.*`, `package.json` commitlint config, or commit hooks.
 - Otherwise follow explicit repository or source guidance for commit format.
 - Use recent history only as a consistency check or fallback. Do not copy a poor or inconsistent commit style when clearer guidance exists.
-- Before staging, review changed paths by project or root area and separate unrelated edits.
+- Stage or commit only when the task authorizes it. Before staging, review changed paths by project or root area and separate unrelated edits.
 - Keep project changes in separate commits when practical, and keep root coordination changes separate when they are not tightly coupled.
 - Stage moves and deletions together to preserve rename detection.
 - Do not commit local credentials, generated blobs, dependency folders, or nested Git checkouts unless explicitly requested.

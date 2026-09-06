@@ -1,110 +1,44 @@
 ---
 name: sync-agent-guidance
-description: Audit or adapt reusable AGENTS.md and mapped language, repository, and workflow guidance for a target project. Use only when the user explicitly invokes `$sync-agent-guidance` or names the `sync-agent-guidance` skill.
+description: Audit or adapt code-kit guidance to a target project. Use only when explicitly requested as $sync-agent-guidance.
 ---
 
 # Sync Agent Guidance
 
-## Overview
+Adapt instructions for decisions agents will actually face in the target. Source-section coverage is not a goal. Audit requests are read-only; sync, create, update, and resynchronize requests authorize the relevant guidance changes.
 
-Audit a target project's instructions against the public guidance from code-kit, or adapt that guidance into instructions that fit the project. Audit without writing when the user wants to know whether resynchronization is needed.
+## Discovery
 
-When synchronizing, inspect established projects before writing. Prioritize primary language guidance, then applicable tooling or workflow guidance, then a compact repository baseline.
+Resolve symlinks to this skill, then locate `guidance/` in the code-kit root two directories above it, or use the user's source path. Confirm the source entrypoint and repository guide exist; check known source locations before asking for a missing path.
 
-## Mode Selection
+Read source `AGENTS.md` for guide routing. Read `Repositories.md` when choosing root versus nested placement or resolving ownership and commit rules. Load language and specialty guides only for maintained areas relevant to the target request.
 
-- Use audit mode when the user asks whether guidance is current, needs resynchronization, or has drifted. Audit mode is read-only.
-- Use sync mode when the user asks to create, update, adapt, or resynchronize guidance.
-- Do not add version stamps, provenance comments, lock files, or other tracking metadata to the target project.
+Inspect applicable target instructions, manifests, hidden tool configs, ownership boundaries, local commands, and relevant developer docs. Use `rg --files --hidden` with generated, dependency, and Git internals excluded. Ignore incidental examples, vendor code, and one-off files unless their maintenance is in scope.
 
-## Workflow
+Private guidance is opt-in. When requested, read `guidance/private/AGENTS.md` first if present, then only the guides it maps or the user names. Do not copy private material into public files without explicit publication authorization.
 
-1. Resolve the source guidance directory:
-   - Use a source path supplied by the user.
-   - Otherwise resolve symlinks to find this skill's directory, then use `guidance/` from the code-kit root two directories above it.
-   - Confirm the directory contains `AGENTS.md` and `Repositories.md`. Ask for the source path if it does not.
-2. Resolve the target project from the request or current working directory.
-3. Read source `AGENTS.md`, `Repositories.md`, and the guides selected under [Guide Selection](#guide-selection). Read private guidance only when explicitly requested.
-4. Inspect the target using [Target Inspection](#target-inspection).
-5. In audit mode, follow [Audit Mode](#audit-mode), report the result, and stop without editing.
-6. In sync mode, decide the guidance shape:
-   - Use root guidance for repository-wide rules and nested guidance for project-specific implementation rules.
-   - For a single-project repository, organize `AGENTS.md` around the primary language guide. Follow it with applicable tooling guidance, then concise repository rules.
-   - For a new or sparse repository, include the broadly applicable sections from the known primary language guide even when framework, runtime, package-manager, and tooling details are not established.
-   - Carry forward the general technical-writing, response, and code-comment rules as compact supporting guidance when the target does not provide a stronger local convention.
-   - Include the source commit policy and other durable repository defaults even when `.git`, hooks, CI, or repository tooling have not been initialized. Treat missing setup as unknown or planned, not evidence that the guidance is irrelevant.
-   - Merge with existing instructions and referenced language guides instead of creating duplicate guidance.
-7. Before editing, inventory the `##` sections in each selected guide and map applicable sections to cohesive target sections. Record only non-obvious omissions, moves, or combinations that will need explanation.
-8. Edit with the runtime's patch or structured-edit tool, then review the diff for missing, duplicated, or contradictory rules.
+## Adaptation Criteria
 
-## Guide Selection
+Retain a source rule when it changes a likely decision, preserves a non-obvious constraint, addresses a demonstrated failure, or establishes a useful default the target lacks.
 
-Use source `AGENTS.md` as the authoritative guide mapping; do not maintain a second hardcoded mapping in this skill.
+Omit generic advice, instructions already enforced by tooling, irrelevant operational detail, and redundant restatements. Deliberate condensation or omission of such material is not drift. Do not reproduce every source heading or make language guidance dominate merely to prove coverage.
 
-- Always read `Repositories.md` to determine guidance shape, ownership, commit boundaries, and validation scope. Carry forward its durable defaults, including commit guidance, while keeping them secondary to language and tooling content.
-- Use the primary language guide when the language is known from the user request, target source, or project metadata. This is sufficient evidence for a new or sparse project. Give a new TypeScript repository a TypeScript-driven baseline even before its framework, runtime, package manager, or tooling is known.
-- Give the primary language guide content priority. In a single-language project, make its applicable sections dominate the resulting guidance rather than condensing them beneath broad repository or working-style sections.
-- Use additional language guides when those languages are maintained parts of normal development, not merely incidental files.
-- Use workflow or specialty guides for maintained operational areas such as containers, shell orchestration, security work, or reverse-engineering artifacts, or when the user explicitly targets that work.
-- Treat framework, dependency, manifest, and tooling signals as refinements to language guidance rather than prerequisites for it.
-- Treat the absence of `.git`, commit hooks, CI, or tool configuration as a lack of local overrides. Use the source default where one exists, but do not invent commands or name unselected tools.
-- Ignore one-off helpers, examples, generated artifacts, vendored code, copied snippets, CI fragments, and tool output unless agents are expected to maintain them.
-- Exclude `node_modules`, `dist`, `build`, `.git`, and coverage directories from detection.
+Follow local scope, architecture, security, deployment, commands, and ownership rules. Tool configuration governs the behavior it owns; shared language preferences fill gaps. A shared dependency or style preference is not permission to migrate tooling.
 
-## Target Inspection
+For a new project, use the known language to select useful constraints without inventing a runtime, framework, package manager, or commands. Include the source commit default when no local policy exists, even if Git has not been initialized.
 
-Use `rg --files` first and read only what is needed to establish local conventions:
+Keep root guidance focused on shared boundaries and discovery. Put project-specific implementation constraints near their owner. Preserve explicit user choices and existing authorization; define meaningful completion and escalation conditions rather than repeated approval gates.
 
-- Root and nested `AGENTS.md` files and any guides they reference.
-- Repository shape, ownership boundaries, and source layout.
-- Manifests, lockfiles, workspace files, and language or toolchain configs.
-- Existing commands for formatting, linting, typechecking, testing, building, and development.
-- Nearest formatter, linter, test, build, and compiler configs.
-- Commit-message config and hooks; use recent history only as a fallback or consistency check.
-- README or developer docs that define workflows agents must follow.
+## Audit
 
-Do not invent a framework, runtime, package manager, command, or project convention when a new repository has not established one.
+Compare meaning and likely behavior. Report `current` when no material decision-relevant drift exists, or `resync recommended` for missing constraints, obsolete instructions, conflicting authorities, or newly relevant behavior.
 
-## Audit Mode
+Give locations, consequences, and minimal revisions. Report important intentional overrides. Text differences, heading order, missing generic sections, timestamps, and absent provenance metadata do not establish drift. Do not edit or format in audit mode.
 
-1. Inventory the target's root and applicable nested instructions, including any guides they reference.
-2. Build a checklist from the applicable sections of each selected source guide.
-3. Compare meaning rather than wording. Classify each applicable source rule as:
-   - covered by equivalent target guidance
-   - intentionally replaced by a more specific local rule
-   - missing, stale, or contradicted
-   - not applicable to the target
-4. Report `current` when there is no material guidance drift. Report `resync recommended` when an applicable rule or cohesive section is missing, stale, contradicted without a clear local reason, or newly applicable because the project changed.
-5. Lead with the status and list only material drift, relevant local overrides, and the guides checked. Do not enumerate every matching rule unless requested.
+## Sync and Completion
 
-Do not use textual differences, heading order, prose condensation, timestamps, Git history, or absent version metadata as evidence of drift by themselves. Do not edit, create, format, or otherwise mutate target files in audit mode.
+Merge into existing guidance and referenced guides. Keep each retained subject coherent, but change headings or combine sections when that improves routing. Remove obsolete or duplicate instructions within scope; preserve unrelated user content.
 
-## Merge Rules
+Do not add version stamps, provenance comments, locks, or tracking files. Do not copy shared documentation wholesale or create parallel authorities.
 
-- Preserve local architecture, commands, deployment, testing, security, data-handling, ownership, and commit rules.
-- Keep repository-wide rules at the root. In multi-project repositories, explain how to find the owning project, select the nearest commands and configs, group commits by boundary, and validate affected projects.
-- Prefer the target project's nearest tooling configs and discovered commands over copied style rules or generic commands.
-- Treat each source guide's `##` sections as intentional, cohesive units. Keep an applicable section together under the same or a clearly adapted heading instead of scattering its bullets across unrelated target sections.
-- Combine sections only when their subjects form a coherent target section. Omit a section only when it does not apply, duplicates a stronger local rule, or belongs in another nested guide.
-- Preserve the source guide's conceptual coverage without mechanically copying its headings or irrelevant details.
-- Preserve technical-writing behavior by meaning:
-  - concise, result-first responses in clear, conversational, and respectful technical English
-  - consistent terminology, direct reader address when useful, and global-audience wording
-  - numbered sequential procedures with short imperative steps and conditions before dependent actions
-  - explicit modality for requirements, recommendations, capability, and possibility
-  - versions, dates, states, or events instead of ambiguous time-relative labels
-  - evidence-backed claims, verifiable actions, and explicit unverified results
-  - comments that explain intent, constraints, or non-obvious trade-offs
-- Follow the target project's writing conventions first. Apply selected Google developer documentation language principles only; do not mechanically add the reference or import Google-specific branding, US spelling, heading capitalization, emphasis, or layout rules.
-- Keep language guidance concise. If the target references separate language guides, update the relevant guide; otherwise include the applicable sections in the nearest `AGENTS.md`.
-- Keep repository guidance compact but durable. Preserve source commit conventions, change boundaries, validation principles, and safety rules unless the target explicitly overrides them; expand repository sections only for concrete project constraints.
-- Include private overlays only when explicitly requested. Read `guidance/private/AGENTS.md` first when present, then only the guides it maps or the user names.
-- Report unresolved conflicts, especially around commit format, tooling authority, test commands, module systems, or typing rules.
-
-## Output Expectations
-
-In audit mode, report whether resynchronization is recommended, the guides checked, and the material reasons.
-
-In sync mode, write guidance for the target project rather than a copy of code-kit. Make the primary language guide immediately recognizable as the focus in a single-language project. Keep repository details as brief supporting constraints.
-
-Report the result first. Then list the files changed, guides applied, unresolved conflicts, and any non-obvious source sections that were moved, combined, or omitted. Do not repeat the request or workflow.
+Review the final instructions for conflicting rules, broken paths, needless mandatory reading, and accidental permission changes. Run relevant local checks and fix introduced issues. Report changed files, guides used, material omissions or local adaptations, and unresolved conflicts or validation limits.
