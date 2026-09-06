@@ -1,6 +1,6 @@
 ---
 name: interview-me
-description: Interview the user to turn an ambiguous, consequential request into a confirmed statement of intent before planning or implementation. Use only when the user explicitly invokes `$interview-me` or names the `interview-me` skill.
+description: Clarify consequential intent through a focused interview. Use only when explicitly requested as $interview-me.
 ---
 
 # Interview Me
@@ -40,11 +40,11 @@ Restate the result compactly using only the fields that matter:
 - Constraints and delegated decisions
 - Out of scope
 
-Include motivation or urgency when it affects the direction. Ask the user to confirm or correct the restatement, and accept any unambiguous agreement. If they correct it, revise the restatement without restarting the interview.
+Include motivation or urgency when it affects the direction. Ask for confirmation only if the intent has not already been confirmed and the user has not asked to proceed with assumptions or delegated the remaining choices. Accept unambiguous agreement; corrections refine the existing interview rather than restarting it.
 
 ## Handoff
 
-After confirmation, continue only with the next action the user requested. Do not silently turn the interview into planning or implementation. If the user requested only an interview, return the confirmed intent and stop.
+After confirmation or explicit delegation to proceed, continue with the next action the user requested. Do not silently turn the interview into planning or implementation. If the user requested only an interview, return the confirmed intent and stop.
 
 Save the intent to a file only when the user requests persistence. Follow the target project's documentation conventions instead of imposing a fixed path.
 

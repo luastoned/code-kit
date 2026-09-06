@@ -1,6 +1,6 @@
 interface:
   display_name: 'Migrate TypeScript'
   short_description: 'Audit and migrate TypeScript projects'
-  default_prompt: 'Use $migrate-typescript to audit this project for TypeScript 6.0+ migration issues.'
+  default_prompt: 'Use $migrate-typescript to audit compatibility with the requested TypeScript version without changing files.'
 policy:
   allow_implicit_invocation: false

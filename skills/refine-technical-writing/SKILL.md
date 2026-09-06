@@ -1,6 +1,6 @@
 ---
 name: refine-technical-writing
-description: Audit or rewrite technical prose for clarity, concision, consistency, and global readability without changing its technical meaning or established voice. Use only when the user explicitly invokes `$refine-technical-writing` or names the `refine-technical-writing` skill for text, documentation, guidance, comments, docstrings, user-facing messages, or a prose-focused repository review.
+description: Audit or revise technical prose without changing meaning or established voice. Use only when explicitly requested as $refine-technical-writing.
 ---
 
 # Refine Technical Writing
@@ -18,10 +18,10 @@ Improve technical prose without changing the facts, requirements, commands, prod
    - In source files, edit comments, docstrings, or user-facing messages only when the user includes them in scope.
 2. Read the applicable project instructions and local writing guidance. Treat them as the primary authority.
 3. Identify the intended readers, document purpose, and content types before choosing edits.
-4. Read [references/language-principles.md](references/language-principles.md) before evaluating or changing prose.
-5. Read [references/content-patterns.md](references/content-patterns.md) when the target contains structured documentation, procedures, notices, links, tables, UI instructions, code or command examples, API reference text, placeholders, images, dates, numbers, or units.
+4. Read [references/language-principles.md](references/language-principles.md) for a broad editorial pass or a question about terminology, modality, or evidence. A narrow correction with a clear local convention does not require it.
+5. Read [references/content-patterns.md](references/content-patterns.md) when restructuring a procedure, API reference, accessibility guidance, or another content form whose conventions affect the requested revision. Merely containing a link, heading, or code block does not require loading the reference.
 6. Inspect enough surrounding context to preserve meaning, terminology, document purpose, and cross-file consistency. Verify factual claims against repository evidence when practical.
-7. Refine the prose at the smallest useful scope. Prefer focused edits over a uniform rewrite.
+7. In audit mode, return findings without editing or formatting files. In rewrite mode, refine the prose at the smallest useful scope; prefer focused edits over a uniform rewrite.
 8. Review the result for semantic drift, weakened or strengthened requirements, broken links, malformed Markdown, changed commands, and inconsistent terminology. Apply the relevant content checks from `content-patterns.md` when that reference was used.
 9. Report the files or text changed, the main language improvements, any material judgment calls, and anything that remains unverified.
 

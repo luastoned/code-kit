@@ -1,53 +1,40 @@
 ---
 name: refactor-code
-description: Refactor selected files according to the nearest AGENTS.md and applicable mapped guidance while preserving behavior. Use only when the user explicitly invokes `$refactor-code` or names the `refactor-code` skill. Do not activate for generic implementation, cleanup, review, bug-fix, or code-quality requests.
+description: Refactor selected code while preserving behavior and local conventions. Use only when explicitly requested as $refactor-code.
 ---
 
 # Refactor Code
 
-## Overview
+Work on the files or ownership area selected by the user. Preserve behavior unless a corresponding behavior change is explicitly part of the request.
 
-Refactor one or more selected files using the target repository's own guidance as the primary authority. Preserve behavior, respect local patterns, and apply the nearest `AGENTS.md` plus any mapped repository, language, runtime, or private guides that are explicitly available.
+## Context and Authority
 
-## Workflow
+Read applicable root and nested instructions. Use the nearest tooling configuration for behavior it owns, and mapped language or runtime guidance only when relevant constraints affect the refactor. Private guidance applies only when explicitly requested or already active under the project's instructions.
 
-1. Identify the requested file, files, folder, or current selection.
-2. Read guidance before editing:
-   - Nearest `AGENTS.md` for the target file.
-   - Root `AGENTS.md` when it applies.
-   - Any mapped guide referenced by `AGENTS.md` for the file type, language, runtime, or repository shape.
-   - Private or local guidance only when explicitly requested or already active for the repository.
-   - For implementation decisions, prioritize the applicable language or runtime guide, then the nearest tooling configuration, then repository-level rules. Use repository guidance first only to determine scope, ownership, and project boundaries.
-3. Inspect local context:
-   - Existing neighboring code, imports, helpers, types, tests, and module boundaries.
-   - Existing file-header and inline-comment conventions.
-   - Nearest formatter, linter, typechecker, test, and build configs.
-   - Existing abstractions before adding a new one.
-4. Decide the refactor scope:
-   - Keep behavior unchanged unless the user explicitly asks for behavior changes.
-   - Prefer readability, local consistency, clearer boundaries, and removal of incidental complexity.
-   - Avoid broad architecture changes, cross-module rewrites, or dependency changes unless the user requested them.
-   - Do not introduce a new abstraction unless it removes real repeated complexity or matches an established local pattern.
-5. Edit with the runtime's patch or structured edit tool.
-6. Run the smallest relevant validation when practical:
-   - Targeted tests for the touched area.
-   - Project-local typecheck, lint, format check, or build command when relevant.
-   - Nearest workspace or project validation before root-wide validation in multi-project repositories.
+Inspect neighboring code, existing abstractions, callers, tests, and module boundaries as needed to understand the behavior being preserved. Do not load unrelated guides or perform a repository-wide audit by default.
 
-## Refactor Rules
+## Simplification Review
 
-- Preserve public APIs, serialized shapes, persisted data, environment names, route paths, config keys, and cross-boundary behavior unless the user explicitly requests changes.
-- Keep changes within the requested file or project boundary when possible.
-- Prefer simple, explicit code over cleverness.
-- Remove duplication only when the repeated pattern is stable enough to justify it.
-- Prefer existing helpers, types, modules, and conventions before creating new ones.
-- Preserve useful comments and remove stale narration. Add a short multiline file comment only when file-wide purpose, constraints, usage, or side effects are not clear from the file itself.
-- Inside the implementation, prefer one concise line per comment. Use a longer block only when one line would lose necessary safety, algorithm, protocol, or compatibility context.
-- Allow clear sentence fragments or compact conditions such as `If A, then B`; do not force fragments when a complete sentence is clearer.
-- Let formatter and linter tooling own formatting details such as import ordering, quote style, semicolons, and spacing.
-- Do not use named practices such as KISS, DRY, YAGNI, SOLID, or the Rule of Three as automatic rewrite mandates; use them as lenses when they fit the task.
-- If the best refactor requires a larger design change, stop and explain the recommended larger change instead of quietly expanding scope.
+Reason from the intended outcome and actual constraints, not from the assumption that the current design is necessary. Challenge weak assumptions against available evidence and identify pieces that add complexity without serving a required purpose.
 
-## Output Expectations
+Look first for what can be deleted entirely, then for what becomes simpler once those pieces are gone. Prefer removing unnecessary work over simplifying it, simplifying over optimizing, and optimizing over automating. This is a decision preference, not a requirement to perform every stage or minimize line count.
 
-Lead with the refactor result. Briefly state what changed, what behavior was preserved, which guidance was applied, and which validation ran. If validation could not run, say why. Do not repeat the plan.
+Make justified improvements within scope. If the code already meets the goal and is clear to maintain, leave it unchanged; do not invent a refactor to produce a diff.
+
+## Refactor Boundaries
+
+Preserve public APIs, serialized and persisted shapes, environment names, routes, config keys, and cross-boundary behavior unless changes are authorized.
+
+Retain safety checks, compatibility handling, and intentional conventions unless evidence shows they are unnecessary under the actual requirements. Uncertainty alone does not justify deletion.
+
+Prefer local consistency, clear ownership, and removal of incidental complexity. Extract abstractions for stable repeated behavior or a concrete boundary; named methodologies and repetition counts do not mandate a rewrite.
+
+Comments should retain intent and non-obvious constraints. Remove stale narration and let formatter and linter tooling own presentation.
+
+If a useful improvement requires broader architecture, dependencies, or ownership changes outside scope, complete independent authorized improvements and explain the remaining decision. Do not silently expand the refactor.
+
+## Completion
+
+For changed code, run the smallest relevant checks, including integrated paths when the refactor crosses connected boundaries. Use owning-project validation before unrelated root checks. Fix regressions introduced by the refactor and rerun affected checks.
+
+Before calling the work done, reassess the result against the original goal for remaining unnecessary complexity. Stop when no concrete, justified improvement remains within scope and relevant verification is complete, or a concrete blocker remains. Report changes or why no change was warranted, preserved behavior, and validation or limitations without repeating the plan.

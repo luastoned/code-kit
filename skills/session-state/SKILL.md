@@ -1,120 +1,36 @@
 ---
 name: session-state
-description: Save, restore, or consume current-session handoff context through an established project coordination location or an AGENTS_STATE.md file. Use only when the user explicitly invokes `$session-state` or names the `session-state` skill.
+description: Save, restore, or consume a concise project handoff. Use only when explicitly requested as $session-state.
 ---
 
 # Session State
 
-## Overview
+Use the visible conversation, repository state, and established handoff only. Do not inspect agent-runtime history or session logs, including `~/.codex/history.jsonl`, `~/.codex/session_index.jsonl`, or `~/.codex/sessions/*`.
 
-Use `AGENTS_STATE.md` as a short-lived handoff file for agent context that must survive between sessions. The file is dynamic, local working state for the current repository or project, not source documentation.
+## Mode and Location
 
-This skill only uses the current conversation, repository state, and an existing `AGENTS_STATE.md` when present. Do not inspect agent-runtime history or session logs, including `~/.codex/history.jsonl`, `~/.codex/session_index.jsonl`, or `~/.codex/sessions/*`.
+- Save, update, or end-of-session handoff wording means write mode.
+- Read, load, restore, resume, or continue wording means read mode; keep the file.
+- Consume or an explicit instruction to delete after loading means consume mode.
 
-## Workflow Compatibility
+Reuse the project's established coordination or shared handoff when it carries the active work. An explicit `AGENTS_STATE.md` request takes precedence. Otherwise use the repository root, or the owning project root when no Git root exists. Use a nested project only when it is explicitly in scope; do not create multiple state files based solely on nearer guidance.
 
-- Before writing, inspect applicable workflow guidance and existing coordination state.
-- When OutcomeFlow, ChangeShape, or another project workflow already provides a work index, temporary specification, or shared handoff for the active work, reuse that established location instead of creating parallel state.
-- Create or update `AGENTS_STATE.md` when no established coordination location carries the needed handoff, or when the user explicitly requests that file.
-- Read or consume an existing `AGENTS_STATE.md` when requested, even if the project later adopted another workflow.
+## Read or Consume
 
-## Mode Selection
+Read the requested handoff completely. Check its scope, decisions, changed files, and next action against current instructions, files, and Git status. Stale state does not override the user or current evidence.
 
-- **Write mode**: Use when the user says to save, write, update, persist, or prepare session state, handoff, or continuation notes.
-- **Read mode**: Use when the user says to read, load, restore, continue from, or resume session state. Keep the file after reading.
-- **Consume mode**: Use when the user explicitly says to consume, remove, or delete session state after loading it.
-- If the request is ambiguous, infer from context:
-  - Existing `AGENTS_STATE.md` plus "continue" means read mode.
-  - End-of-session wording means write mode.
-  - "Update state" means write mode.
+Summarize only the continuation context that matters. If the request is to resume or continue work, proceed with the authorized next action after loading; do not stop at the summary. A request only to read or summarize ends with that result.
 
-## File Location
+Consume only the explicitly designated handoff after successful loading. Do not delete a work index or specification merely because it also carries handoff context; remove only the authorized handoff portion if the user requested that. If no file exists, report it and continue from available context when work was requested.
 
-1. If an established coordination location applies, use it according to [Workflow Compatibility](#workflow-compatibility).
-2. If the user gives a folder for `AGENTS_STATE.md`, use that folder.
-3. Otherwise use the repository root from `git rev-parse --show-toplevel` when available, or the current project root discovered from its manifest and guidance files.
-4. Use a nested project root only when the user is explicitly working in that project and it has its own manifest or `AGENTS.md`.
-5. Do not create nested state files merely because a nearer guidance file exists.
+## Write
 
-## Read Mode
+Inspect relevant changes and known validation results. Update the established location or use [the optional state outline](assets/state.template.md) for a new `AGENTS_STATE.md`. Include only necessary fields: goal, status, decisions and delegated authority, affected files, verified or unverified conditions, blockers, and the next action.
 
-1. Read `AGENTS_STATE.md` completely.
-2. Summarize the handoff for the current session:
-   - current goal
-   - status
-   - relevant decisions
-   - changed files
-   - validation state
-   - open questions
-   - next steps
-3. Keep `AGENTS_STATE.md` after a successful read. Delete it only in consume mode or when the user explicitly asks for deletion after loading.
-4. If the file is absent, say that no saved agent state exists and continue from the visible repository context.
-5. Do not treat stale state as authoritative when it conflicts with current files, git status, or direct user instructions.
+Preserve still-relevant state, remove stale entries, and keep the handoff concise. Exclude transcripts, tool dumps, hidden reasoning, secrets, credentials, and unrelated personal context. Mark inferred facts.
 
-## Write Mode
+## Git and Completion
 
-1. Inspect only the context needed to make the handoff accurate:
-   - current user goal and most recent instructions
-   - established workflow coordination for the active work, when present
-   - existing `AGENTS_STATE.md`, if present
-   - `git status --short`
-   - relevant diffs or changed file summaries when needed
-   - validation commands and results already known from the session
-2. Update the established coordination location with only the handoff fields that fit it. Otherwise create or update `AGENTS_STATE.md` with concise, factual, actionable state.
-3. Preserve still-relevant prior state and remove stale completed items.
-4. Do not include raw chat transcripts, tool dumps, hidden reasoning, secrets, credentials, tokens, or unrelated personal context.
-5. Mark uncertainty explicitly when a fact was inferred.
-6. Prefer short bullets. Keep the file small enough to read at session start.
-7. Keep one fact, decision, or action per bullet. Use active voice and one consistent term for each concept.
+Do not commit handoff state unless tracking is requested. Add an ignore rule only when setting up that workflow is in scope.
 
-When writing `AGENTS_STATE.md`, use this structure:
-
-```md
-# Agent State
-
-## Scope
-
-- Repository, project, or folder this state applies to.
-
-## Current Goal
-
-- The task for the next session to continue.
-
-## Status
-
-- What is done, in progress, paused, or blocked.
-
-## Decisions
-
-- Important decisions that must not be rediscovered.
-
-## Changed Files
-
-- Files changed or expected to be changed, with short reasons.
-
-## Validation
-
-- Commands run and results.
-- Anything relevant that was not verified.
-
-## Open Questions
-
-- Only blockers or unresolved choices.
-
-## Next Steps
-
-- Concrete continuation steps in order.
-```
-
-## Git Handling
-
-- Treat `AGENTS_STATE.md` as dynamic handoff state.
-- Do not commit `AGENTS_STATE.md` unless the user explicitly asks to track it.
-- If adding repository setup for this workflow, prefer ignoring `AGENTS_STATE.md` in `.gitignore`.
-- Mention in the final response whether the state file was written, consumed, kept, deleted, or missing.
-
-## Output Expectations
-
-- In write mode, report the path or established coordination location written and the main continuation point.
-- In read or consume mode, report the loaded handoff summary and whether the file was kept or deleted.
-- If the skill cannot determine the correct project root, state the assumed root and proceed.
+Report the location and whether state was written, loaded, kept, consumed, or missing. For resumed work, continue to its requested endpoint and include material handoff limitations in the final result.

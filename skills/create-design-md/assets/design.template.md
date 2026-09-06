@@ -44,7 +44,7 @@ components:
 
 ## Overview
 
-{{Name a specific visual reference, audience, emotional response, and the design's governing idea. Explain why it fits the product.}}
+{{Name a specific visual reference, audience, and governing idea. Explain why it fits. Distinguish observed values from proposed choices where that affects implementation.}}
 
 ## Colors
 
