@@ -1,5 +1,11 @@
 # C++ Agent
 
+Apply this guide to C/C++ source, headers, native libraries, and build configuration. C++-specific defaults apply only where the configured language and standard support them.
+
+## Code Readability
+
+Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). Language-specific rules below do not replace them.
+
 ## Core Rules
 
 - Preserve the repository's existing architecture, naming, formatting, and toolchain assumptions unless the user explicitly asks for a broader refactor.
@@ -9,7 +15,7 @@
 - Make ownership, state transitions, and error paths explicit, especially across ABI, platform API, thread, callback, and allocation boundaries.
 - Avoid hidden global state, implicit lifetime conventions, and speculative generic abstractions.
 
-## Before Changing Code
+## Context and Tooling
 
 Inspect the following only when it affects the change:
 
@@ -19,7 +25,9 @@ Inspect the following only when it affects the change:
 4. Is the code library, application, embedded, platform-native, or security-sensitive code?
 5. Are there existing ownership wrappers, error types, logging helpers, allocators, or platform abstractions?
 
-## Modern C++ Defaults
+## Language Rules
+
+### Modern C++ Defaults
 
 - Prefer RAII for resource ownership.
 - Prefer values, references, and smart pointers over raw owning pointers.
@@ -32,27 +40,27 @@ Inspect the following only when it affects the change:
 - Prefer standard casts over C-style casts.
 - Avoid macros for constants and functions when language features fit; preserve macros required by platform headers, build flags, generated code, or instrumentation.
 
-## Error Handling
-
-- Follow the project's existing error model.
-- If exceptions are disabled or absent, use explicit status returns, error objects, or existing result types.
-- Do not silently ignore failures from allocation, I/O, parsing, synchronization, or platform APIs.
-- Preserve relevant error context when propagating or translating errors.
-
-## Headers And Boundaries
+### Headers and Boundaries
 
 - Keep headers minimal and stable.
 - Prefer declarations in headers and implementation in source files unless the project intentionally uses header-only templates, inline functions, or generated include patterns.
 - Avoid adding transitive includes to widely used headers when a forward declaration is enough.
 - Keep public API changes deliberate and documented in the final response.
 
-## Concurrency And Lifetime
+### Error Handling
+
+- Follow the project's existing error model.
+- If exceptions are disabled or absent, use explicit status returns, error objects, or existing result types.
+- Do not silently ignore failures from allocation, I/O, parsing, synchronization, or platform APIs.
+- Preserve relevant error context when propagating or translating errors.
+
+### Concurrency and Lifetime
 
 - Make ownership and lifetime explicit across threads, callbacks, and async work.
 - Avoid detached threads unless the surrounding code already has a safe lifetime pattern for them.
 - Prefer existing synchronization primitives and task systems over introducing a new concurrency abstraction.
 
-## Refactoring
+### Refactoring
 
 - Do not mix large mechanical modernization with behavioral changes.
 

@@ -2,6 +2,12 @@
 
 Container files define build and deployment behavior. Inspect the relevant path: Dockerfile and build context for images, Compose for local services, devcontainer configuration for development, or Kubernetes and Helm for cluster deployment.
 
+## Code Readability
+
+Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). Language-specific rules below do not replace them.
+
+Apply these rules to authored container instructions and embedded code. Preserve layer behavior; do not split a `RUN` solely to add spacing.
+
 ## Core Rules
 
 - Follow the existing container stack: Dockerfile, Docker Compose, BuildKit, dev containers, Kubernetes manifests, Helm charts, or CI image builds.

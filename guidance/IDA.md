@@ -2,6 +2,12 @@
 
 Use this guide when working from IDA, decompiled binaries, reverse-engineered game or client logic, or vendor dumps derived from IDA.
 
+## Code Readability
+
+Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). Language-specific rules below do not replace them.
+
+Apply these rules to authored analysis scripts and maintained implementations. The database-first synchronization and verbatim-output requirements below remain authoritative for decompiler artifacts.
+
 ## Task Mode
 
 For inspection or diagnosis, analyze without renaming symbols, applying types, or rewriting repository artifacts. For authorized recovery edits or dump synchronization, follow the database-first procedures below. Existing authorization covers routine edits within that scope.

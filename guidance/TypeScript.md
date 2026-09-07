@@ -1,17 +1,29 @@
 # TypeScript Agent
 
-Apply this guide to JavaScript, TypeScript, and Node.js work. Discover runtime, module, build, and package-manager conventions from the owning project.
+Apply this guide to JavaScript, TypeScript, and Node.js source, runtime boundaries, and tooling.
 
-## Core rules
+## Code Readability
+
+Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). Language-specific rules below do not replace them.
+
+Keep connected `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` constructs together.
+
+## Core Rules
 
 - When the project uses [`std-kit`](https://github.com/luastoned/std-kit), reuse matching utilities after checking their semantics. It is the shared preference when choosing a utility layer, not a prerequisite for ordinary edits or a reason to add a dependency by itself.
 - Prefer conventional, current TypeScript over legacy compatibility patterns. Do not introduce deprecated TypeScript or JavaScript syntax.
 
-## Runtime Context
+## Context and Tooling
 
 Inspect the runtime version, ESM or CommonJS mode, bundler, and browser support when they affect the change. Use existing domain modules and installed helpers before introducing reusable abstractions.
 
-## Imports and exports
+- Treat the project's existing `tsconfig*.json`, package scripts, runtime, bundler, module system, and emitted output shape as authoritative.
+- Prefer strict TypeScript for new projects and isolated configs, but do not broaden strictness in an existing repo as an unrelated change.
+- Do not add deprecated TypeScript compiler options, deprecated syntax, or migration-only flags as permanent project style.
+
+## Language Rules
+
+### Imports and Exports
 
 - Let the configured formatter handle import ordering and grouping. Do not reshuffle imports unless the change is semantically required.
 - Use `node:` specifiers for Node.js built-in modules.
@@ -23,7 +35,7 @@ Inspect the runtime version, ESM or CommonJS mode, bundler, and browser support 
 - Prefer named exports over default exports unless a framework or tool requires a default export.
 - Avoid barrel files when they obscure module ownership, make dependencies harder to trace, or introduce import cycles. Prefer direct module imports by default.
 
-## Typing and boundaries
+### Typing and Boundaries
 
 - Do not introduce `any` or `as any` in application code. If a third-party interop boundary truly requires it, keep it isolated, explain why in a short comment, and convert back to a typed shape immediately.
 - Prefer `@ts-expect-error` with a short reason over `@ts-ignore` when a suppression is unavoidable.
@@ -38,7 +50,7 @@ Inspect the runtime version, ESM or CommonJS mode, bundler, and browser support 
 - Avoid non-null assertions (`!`) unless there is an immediately preceding runtime guarantee.
 - Avoid ambient namespaces, declaration merging, decorators, and global augmentation unless the framework or platform already requires them.
 
-## Code organization
+### Code Organization
 
 - Keep business logic separate from framework or transport details where practical.
 - Do not silently swallow errors. Preserve causes and relevant context when wrapping errors.
@@ -51,14 +63,7 @@ Inspect the runtime version, ESM or CommonJS mode, bundler, and browser support 
 - Use `AbortSignal`, timeouts, and explicit cancellation paths for new long-running I/O where the surrounding code supports it.
 - Preserve region markers when the project uses them; file length alone does not require adding them.
 
-## Configuration
-
-- Treat the project's existing `tsconfig*.json`, package scripts, runtime, bundler, module system, and emitted output shape as authoritative.
-- Run type checks through the project-local script or project-mode `tsc`; do not use `tsc some-file.ts` in repos with `tsconfig.json`.
-- Prefer strict TypeScript for new projects and isolated configs, but do not broaden strictness in an existing repo as an unrelated change.
-- Do not add deprecated TypeScript compiler options, deprecated syntax, or migration-only flags as permanent project style.
-
-## Functions and classes
+### Functions and Classes
 
 - Prefer classes when they provide a clear module boundary around cohesive state, dependencies, or behavior.
 - Prefer plain functions for small pure transforms, local callbacks, and simple stateless helpers.
@@ -67,3 +72,9 @@ Inspect the runtime version, ESM or CommonJS mode, bundler, and browser support 
 - Introduce interface-style indirection only when it serves a concrete purpose, such as a public contract, dependency isolation, or multiple implementations.
 - Outside classes, prefer named `function` declarations for exported or shared module logic; use arrow functions for local callbacks and short lexical closures.
 - Inside classes, prefer `public` and `private` methods over arrow-function fields; use arrow-function fields only when preserving lexical `this` is required.
+
+## Validation
+
+- Run type checks through the project-local script or project-mode `tsc`; do not use `tsc some-file.ts` in repos with `tsconfig.json`.
+- When import paths, aliases, or module settings change, verify resolution across the affected runtime, build, and tests.
+- If local tooling is unavailable, state what could not be verified.

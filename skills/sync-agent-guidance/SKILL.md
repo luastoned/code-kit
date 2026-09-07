@@ -23,6 +23,8 @@ Retain a source rule when it changes a likely decision, preserves a non-obvious 
 
 Omit generic advice, instructions already enforced by tooling, irrelevant operational detail, and redundant restatements. Deliberate condensation or omission of such material is not drift. Do not reproduce every source heading or make language guidance dominate merely to prove coverage.
 
+Preserve the shared semantic-spacing and local-consistency requirements for all maintained languages, including those without a mapped guide. Source language guides link to these rules in the source entrypoint. In the target, keep one canonical copy in applicable guidance and retarget links to it. When exporting a standalone guide without that shared source, include the necessary rules in the exported guide rather than leaving an unavailable link or silently omitting them. Formatter or linter silence is not enforcement and does not justify dropping these rules as generic style advice.
+
 Follow local scope, architecture, security, deployment, commands, and ownership rules. Tool configuration governs the behavior it owns; shared language preferences fill gaps. A shared dependency or style preference is not permission to migrate tooling.
 
 For a new project, use the known language to select useful constraints without inventing a runtime, framework, package manager, or commands. Include the source commit default when no local policy exists, even if Git has not been initialized.

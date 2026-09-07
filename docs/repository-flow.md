@@ -84,6 +84,8 @@ Workflows can be read or adapted directly. Add an adoption skill only after its 
 
 Synchronization and adoption inspect relevant target evidence first. They adapt shared behavior to local ownership, language, tooling, and workflow conventions. Missing generic advice or omitted source sections do not establish drift; retain instructions that affect likely decisions or protect concrete constraints.
 
+Source language guides share a consistent layout and link to canonical readability and local-consistency rules in `guidance/AGENTS.md`. Guidance synchronization keeps one applicable copy of those rules in the target and updates links; standalone exports include the required rules when the shared entrypoint will not accompany them.
+
 Workflow documents own compact operating contracts; their examples and rationale live under `docs/workflows/references/` and are read only for a relevant question. Skills route to these contracts and conditional skill-local resources instead of duplicating every rule. Existing compatible supporting methods do not require loading all linked workflows.
 
 Installers link complete skill directories. Keep the source checkout available because adoption and sync skills resolve shared `docs/`, `guidance/`, or `configs/` through their real paths. Standalone copies must include skill-local references and assets and may need user-supplied shared-source paths.

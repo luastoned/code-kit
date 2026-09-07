@@ -29,11 +29,23 @@ Retain safety checks, compatibility handling, and intentional conventions unless
 
 Prefer local consistency, clear ownership, and removal of incidental complexity. Extract abstractions for stable repeated behavior or a concrete boundary; named methodologies and repetition counts do not mandate a rewrite.
 
-Comments should retain intent and non-obvious constraints. Remove stale narration and let formatter and linter tooling own presentation.
+Comments should retain intent and non-obvious constraints. Remove stale narration and let formatter and linter tooling own presentation rules they actually specify.
 
 If a useful improvement requires broader architecture, dependencies, or ownership changes outside scope, complete independent authorized improvements and explain the remaining decision. Do not silently expand the refactor.
 
+## Required Readability
+
+Apply these requirements to every language in the requested refactor, including scripts and code examples, not just TypeScript. Preserve language syntax, significant whitespace, and literal contents; do not reformat generated or verbatim artifacts whose owning contract requires exact output.
+
+Keep semantic groups visibly separated by a single blank line, including transitions between setup, validation, computation, side effects, and results. Separate independent guard clauses and control-flow blocks even when they fit on one line; keep closely related statements together instead of spacing every statement mechanically.
+
+After a multiline statement or completed control-flow block, insert a blank line before the next sibling statement. Keep connected constructs such as `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` together, and comments attached to their code. Do not remove meaningful whitespace to reduce line count or invent helpers and comments to substitute for separation.
+
+These requirements apply even when the skill is used without shared guidance. Formatter or linter silence is not an exemption. Follow explicit conflicting target authority and report the conflict rather than silently abandoning semantic spacing.
+
 ## Completion
+
+Inspect the refactored code for semantic grouping and required blank lines after formatting. Correct missing separation within scope before calling the refactor complete; passing automated checks alone is insufficient.
 
 For changed code, run the smallest relevant checks, including integrated paths when the refactor crosses connected boundaries. Use owning-project validation before unrelated root checks. Fix regressions introduced by the refactor and rerun affected checks.
 

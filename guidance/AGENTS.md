@@ -36,13 +36,23 @@ Use `Repositories.md` when ownership or repository-wide coordination needs clari
 
 - Preserve unrelated work, public contracts, and project-specific behavior outside the requested change.
 - Keep code straightforward to understand, operate, and maintain. Avoid speculative generality, unnecessary indirection, and framework-like ceremony.
+- Before modifying an existing operation, inspect the nearest equivalent implementations and match their established pattern: local variable names, temporary results, statement structure, control flow, logging, error handling, and semantic spacing. Do not guess the pattern or replace it with a personal preference. If equivalent initializers use `const initOk = await module.init()`, retain that shape and name rather than inventing a module-specific variable or inlining the condition.
+- Keep localized fixes localized. Deviate from an established pattern only for a concrete correctness, safety, or task requirement; explain the reason rather than silently introducing a competing style. Before handing off, compare the changed code with its local equivalents and correct accidental inconsistencies within scope. A passing formatter or test suite does not replace this comparison.
 - Add dependencies, abstractions, or optimizations only when a concrete need within scope justifies their maintenance cost. Reuse suitable local patterns before adding new layers.
-- Comments explain intent, constraints, or non-obvious behavior. Let tooling own formatting.
+- Comments explain intent, constraints, or non-obvious behavior. Let tooling own formatting it actually specifies.
 - Prefer concise one-line implementation comments; use longer blocks or file-level comments when needed for safety, algorithms, protocols, compatibility, or non-obvious file-wide context.
-- Unless local formatting rules differ, separate a multiline statement from the next sibling statement with a blank line; keep connected constructs such as `if`/`else` and `try`/`catch`/`finally` together.
 - Select verification by affected behavior and risk. Start with the smallest relevant check and include integrated paths when changes cross boundaries.
 - Discover local test side effects before running unfamiliar commands. Reuse documented permission for disposable local tests; do not assume tests lack production access.
 - Update durable documentation when the change affects the truth it describes.
+
+## Code Readability
+
+These requirements apply to maintained code in every language, including scripts and code examples, whether or not a language-specific guide exists. Preserve language syntax, significant whitespace, and literal data; do not modify generated or verbatim artifacts whose owning contract requires exact output.
+
+- Separate logically distinct groups of statements with a single blank line, even when each statement occupies one line. Make transitions between setup, validation, computation, side effects, and results visually apparent. Keep closely related statements together; do not insert blank lines mechanically between every statement.
+- Separate independent guard clauses and control-flow blocks with a blank line. After a multiline statement or completed control-flow block, insert a blank line before the next sibling statement. Keep connected constructs such as `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` together, and keep comments attached to the code they explain.
+- These spacing rules are requirements, not optional polish. Do not remove semantic separation to minimize line count, or introduce helpers, abstractions, or narration merely to avoid using blank lines.
+- Inspect semantic spacing before handing off changed code. A passing formatter or linter does not establish compliance; tooling silence or absence does not waive these rules. If explicit target instructions or tooling conflict, follow the applicable authority and report the conflict rather than silently dropping the requirement.
 
 ## Communication and Writing
 

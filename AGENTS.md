@@ -15,6 +15,7 @@ This repository stores shared coding resources that are reused across other proj
 ## Working In This Repo
 
 - Keep changes small, explicit, easy to maintain, and straightforward to reuse from other projects. Avoid speculative abstractions and framework-like ceremony.
+- Apply the [shared code-readability requirements](guidance/AGENTS.md#code-readability) to maintained code in every language, including scripts and code examples. Semantic blank-line separation is required even when no formatter or linter enforces it.
 - Preserve the distinction between this repo's maintenance guidance and downstream project guidance.
 - Update `guidance/AGENTS.md` when changing the reusable root guidance intended for downstream projects.
 - Update the relevant mapped guide in `guidance/` when changing language, runtime, or tool-specific downstream guidance.
@@ -32,6 +33,7 @@ This repository stores shared coding resources that are reused across other proj
 - Write reusable guidance in a project-neutral way unless the file is explicitly for one project.
 - Prefer concrete rules tied to project constraints, intentional conventions, or demonstrated failure modes. Remove obsolete model workarounds and redundant generic advice without losing useful defaults.
 - Keep required operating rules compact. Link optional rationale, examples, and mode-specific detail with clear reading conditions.
+- Keep public language guides structurally consistent: a scope introduction, then `Code Readability`, `Core Rules`, `Context and Tooling`, `Language Rules`, and `Validation`. Link to the canonical shared readability and local-consistency rules rather than duplicating them; keep only language-specific notes beneath the links. Put specialized rules under descriptive subsections. Operational guides may retain their task-specific structure, but place shared readability immediately after the introduction when applicable.
 - Preserve user decisions and existing authorization. Define completion and escalation by outcome, risk, and scope rather than mandatory review pauses.
 - Do not duplicate the same rule across multiple files unless each file needs to stand alone in downstream use.
 - Prefer config for mechanically enforceable rules; retain reusable guidance defaults where downstream tooling may not enforce them.
