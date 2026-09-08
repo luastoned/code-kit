@@ -75,6 +75,8 @@ Inspect the runtime version, ESM or CommonJS mode, bundler, and browser support 
 
 ## Validation
 
+Follow the shared [test-work boundary](./AGENTS.md#test-work): test development and related assets require an explicit request; running existing checks does not.
+
 - Run type checks through the project-local script or project-mode `tsc`; do not use `tsc some-file.ts` in repos with `tsconfig.json`.
 - When import paths, aliases, or module settings change, verify resolution across the affected runtime, build, and tests.
 - If local tooling is unavailable, state what could not be verified.

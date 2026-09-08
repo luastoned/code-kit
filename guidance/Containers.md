@@ -46,6 +46,8 @@ Inspect base images, platforms, runtime users, environment variables, secrets, v
 
 ## Validation
 
+Follow the shared [test-work boundary](./AGENTS.md#test-work): test development and related assets require an explicit request; running existing checks does not.
+
 - Prefer the project's documented build or compose command.
 - For Dockerfile changes, run a build when practical.
 - For Compose changes, validate config rendering when practical, such as `docker compose config`.

@@ -26,6 +26,8 @@ Use this guide for security-sensitive work, dual-use security tooling, exploit-a
 
 ## Validation
 
+Follow the shared [test-work boundary](./AGENTS.md#test-work): test development and related assets require an explicit request; running existing checks does not.
+
 - Validate with the smallest representative test that stays within the authorized scope.
 - Do not probe live or third-party systems merely to confirm a local code change.
 - Record the relevant target, version, configuration, sample, or binary metadata needed to reproduce the result.

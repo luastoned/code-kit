@@ -1,17 +1,21 @@
 # Repository Agent
 
-Use this guide for repository shape, root and nested guidance, ownership boundaries, commit policy, and validation scope. It is especially important for repositories that contain multiple project roots, such as `backend/`, `frontend/`, `packages/*`, `apps/*`, or service-specific folders with their own manifests and tooling.
+Use this guide for repository shape, root and nested guidance, ownership boundaries, commit policy, and validation scope across all languages and toolchains.
 
 ## Guidance Shape
 
 - Keep repository-wide rules in the root `AGENTS.md`: commit style, CI, repository boundaries, policies for generated and vendor files, root scripts, process managers, and release and deployment coordination.
-- Keep implementation rules in the nearest project `AGENTS.md`: commands, architecture, runtime, framework, language, and local tooling for that project.
+- For a single project, keep implementation rules alongside shared rules in its root `AGENTS.md`: commands, architecture, runtime, framework, language, and local tooling. Ordinary source, include, test, or same-named inner folders do not require separate guidance.
+- Add a nested `AGENTS.md` only for an explicitly requested location or materially different operating rules that need subtree scope and cannot be kept clear at the root. Explain the scoping need; directory depth, source files, or a nested manifest alone are not sufficient.
 - During guidance maintenance, keep repository-wide rules in a concise root `AGENTS.md`, even when nested guidance already exists. Ordinary implementation does not require creating missing guidance files.
 - Do not duplicate full language guidance in every nested project. Reference the relevant guide or keep only the target-specific parts.
+- Preserve useful existing nested guidance. Consolidation must stay within the authorized scope, retain unique constraints, and update affected links; the one-root default does not authorize deleting existing files.
+
+A project may contain nested source directories, multiple manifests, and several build targets without needing guidance for each one. Place shared commands and implementation rules at the owning project root; reserve nested guidance for materially different scoped operating rules.
 
 ## Working Across Projects
 
-- Identify the owning project before editing. Use the nearest manifest, config files, source root, and `AGENTS.md` for the files being changed.
+- Identify the owning project before editing. Use build entrypoints, manifest relationships, config files, and applicable `AGENTS.md` files; the nearest source folder or manifest is not automatically a separate project boundary.
 - Prefer the owning project's commands and configs over root defaults unless the root command is clearly the orchestrator for the whole repo.
 - Keep unrelated project changes separate. Do not mix frontend, backend, package, infrastructure, and root coordination edits unless they are part of the same task.
 - When a change crosses project boundaries, state the coupling clearly in the final response and validate each affected project when practical.
@@ -21,14 +25,14 @@ Use this guide for repository shape, root and nested guidance, ownership boundar
 
 Use these signals to discover actual project ownership; no fixed number of signals establishes a boundary:
 
-- Multiple manifests or tool configs below the root, such as `backend/package.json` and `frontend/package.json`.
-- Workspace markers such as `pnpm-workspace.yaml`, npm or Yarn workspaces, `turbo.json`, `nx.json`, `lerna.json`, or application and package folders.
-- Root files that coordinate subprojects, such as process manager configs, compose files, CI workflows, shared formatter and linter config, or root scripts.
+- Multiple manifests or tool configurations below the root, interpreted through their relationships rather than counted as separate projects automatically.
+- Workspace or build definitions that identify independently maintained components.
+- Root configuration or scripts that coordinate component-specific build, test, runtime, or deployment commands.
 - Existing nested `AGENTS.md` files.
 
 ## Git And Commits
 
-- Follow explicit commit tooling when present, such as `.commitlintrc*`, `commitlint.config.*`, `package.json` commitlint config, or commit hooks.
+- Follow explicit commit policy enforced by repository configuration, hooks, or CI checks when present.
 - Otherwise follow explicit repository or source guidance for commit format.
 - Use recent history only as a consistency check or fallback. Do not copy a poor or inconsistent commit style when clearer guidance exists.
 - Stage or commit only when the task authorizes it. Before staging, review changed paths by project or root area and separate unrelated edits.

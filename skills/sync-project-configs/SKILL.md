@@ -23,6 +23,7 @@ Inspect existing configs, manifests, lockfiles, workspace boundaries, and local 
 - Preserve conflicting scalar values and report the conflict. Ask only when a necessary change cannot meet the request without choosing between materially different conventions.
 - Prefer an existing valid target schema when it is more specific.
 - Treat partial manifests as fragments: merge scripts, not entire package manifests.
+- Test-related configuration, scripts, CI jobs, and dependencies are opt-in. Do not create or change them under a general config-sync request unless the user explicitly includes that test work. Existing checks may still run within scope.
 - Do not add dependencies or commands solely because the source mentions them. Broader migrations require a request that includes that work.
 - Apply alias and runtime settings only under the source inventory's compatibility conditions.
 

@@ -11,6 +11,8 @@ Use audit mode for compatibility checks, findings, or recommendations. Audit mod
 
 Identify the project, installed and requested compiler versions, and whether the goal includes TypeScript 7 preparation. Preserve the runtime, module system, package manager, emitted output, and public contracts unless the request includes changing them.
 
+Test development remains opt-in: an upgrade alone does not authorize creating or changing tests, fixtures, mocks, snapshots, harnesses, test configuration, scripts, CI jobs, or test dependencies. Run existing checks where permitted; report test compatibility changes separately unless the user explicitly requested them. Do not create temporary tests to bypass this boundary.
+
 ## Investigation
 
 Read applicable project guidance and inspect manifests, lockfiles, `tsconfig` inheritance, compiler integrations, and relevant typecheck/build commands. Discover whether TypeScript emits runtime code, declarations, or only checks a bundler-managed project.

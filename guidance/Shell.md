@@ -59,6 +59,8 @@ Inspect the following only when it affects the change:
 
 ## Validation
 
+Follow the shared [test-work boundary](./AGENTS.md#test-work): test development and related assets require an explicit request; running existing checks does not.
+
 - Run `shellcheck` when available and relevant.
 - Run the changed script or the smallest command path that exercises it when practical.
 - For CI or Docker shell steps, validate the containing workflow or build when practical.

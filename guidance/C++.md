@@ -66,6 +66,8 @@ Inspect the following only when it affects the change:
 
 ## Validation
 
+Follow the shared [test-work boundary](./AGENTS.md#test-work): test development and related assets require an explicit request; running existing checks does not.
+
 - Prefer the project's local build command.
 - Run relevant tests when they exist.
 - For build-system or compiler-option changes, validate every affected configuration when practical.

@@ -17,6 +17,14 @@ Inspect applicable target instructions, manifests, hidden tool configs, ownershi
 
 Private guidance is opt-in. When requested, read `guidance/private/AGENTS.md` first if present, then only the guides it maps or the user names. Do not copy private material into public files without explicit publication authorization.
 
+## Guidance Placement
+
+Default to one `AGENTS.md` at the owning project root within the requested scope. Determine ownership from build entrypoints, manifest relationships, and actual commands, not directory depth or the current source-file location. Source, include, test, and same-named inner folders do not each need an `AGENTS.md`; a nested manifest or build target alone does not establish a separate guidance boundary.
+
+For `projectA/projectA.sln` with headers, C++ sources, and possibly a `.vcxproj` under `projectA/projectA/`, place shared and C++ implementation guidance in `projectA/AGENTS.md`. Do not create `projectA/projectA/AGENTS.md` merely because that folder contains the source or project file.
+
+Create nested guidance only when the user explicitly requests that placement or the subtree has materially different operating rules that need their own scope and cannot be kept clear in the root. State the concrete reason before creating it. Reuse existing nested guidance when appropriate; do not delete or flatten existing files solely to meet the one-root default. Consolidate only within authorized scope while preserving unique constraints and updating links.
+
 ## Adaptation Criteria
 
 Retain a source rule when it changes a likely decision, preserves a non-obvious constraint, addresses a demonstrated failure, or establishes a useful default the target lacks.
@@ -27,9 +35,11 @@ Preserve the shared semantic-spacing and local-consistency requirements for all 
 
 Follow local scope, architecture, security, deployment, commands, and ownership rules. Tool configuration governs the behavior it owns; shared language preferences fill gaps. A shared dependency or style preference is not permission to migrate tooling.
 
+Carry the shared opt-in test-work boundary into target guidance for every language. Ordinary implementation and verification requests do not authorize creating or changing tests or related assets; running relevant existing checks remains allowed within scope. Preserve this distinction in standalone exports, and report any explicit conflicting target policy instead of silently discarding either rule.
+
 For a new project, use the known language to select useful constraints without inventing a runtime, framework, package manager, or commands. Include the source commit default when no local policy exists, even if Git has not been initialized.
 
-Keep root guidance focused on shared boundaries and discovery. Put project-specific implementation constraints near their owner. Preserve explicit user choices and existing authorization; define meaningful completion and escalation conditions rather than repeated approval gates.
+For a single project, keep shared boundaries and project-specific implementation constraints together in root guidance. For genuinely distinct subprojects, keep shared rules at the root and scoped differences at their owning boundary without duplicating inherited rules. Preserve explicit user choices and existing authorization; define meaningful completion and escalation conditions rather than repeated approval gates.
 
 ## Audit
 
@@ -43,4 +53,4 @@ Merge into existing guidance and referenced guides. Keep each retained subject c
 
 Do not add version stamps, provenance comments, locks, or tracking files. Do not copy shared documentation wholesale or create parallel authorities.
 
-Review the final instructions for conflicting rules, broken paths, needless mandatory reading, and accidental permission changes. Run relevant local checks and fix introduced issues. Report changed files, guides used, material omissions or local adaptations, and unresolved conflicts or validation limits.
+Review the final instructions for conflicting rules, broken paths, needless mandatory reading, and accidental permission changes. Check that every new nested `AGENTS.md` has a concrete scoping need rather than merely mirroring a folder. Run relevant local checks and fix introduced issues. Report changed files, placement rationale, guides used, material omissions or local adaptations, and unresolved conflicts or validation limits.

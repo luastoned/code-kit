@@ -27,6 +27,8 @@ Preserve public APIs, serialized and persisted shapes, environment names, routes
 
 Retain safety checks, compatibility handling, and intentional conventions unless evidence shows they are unnecessary under the actual requirements. Uncertainty alone does not justify deletion.
 
+Test development is opt-in in every language. A refactor request does not authorize creating or changing tests, fixtures, mocks, snapshots, harnesses, test-only helpers, test configuration, scripts, CI jobs, or dependencies, including temporary test code. Run relevant existing checks; report necessary test changes as a gap unless the user explicitly included them. Do not weaken tests to make the refactor pass.
+
 Prefer local consistency, clear ownership, and removal of incidental complexity. Extract abstractions for stable repeated behavior or a concrete boundary; named methodologies and repetition counts do not mandate a rewrite.
 
 Comments should retain intent and non-obvious constraints. Remove stale narration and let formatter and linter tooling own presentation rules they actually specify.
@@ -37,15 +39,15 @@ If a useful improvement requires broader architecture, dependencies, or ownershi
 
 Apply these requirements to every language in the requested refactor, including scripts and code examples, not just TypeScript. Preserve language syntax, significant whitespace, and literal contents; do not reformat generated or verbatim artifacts whose owning contract requires exact output.
 
-Keep semantic groups visibly separated by a single blank line, including transitions between setup, validation, computation, side effects, and results. Separate independent guard clauses and control-flow blocks even when they fit on one line; keep closely related statements together instead of spacing every statement mechanically.
+Separate independent logical steps with a single blank line. Group by coherent operation, not by statement category: keep declarations and assignments adjacent to their immediate check, call, or return within that operation. A query buffer and its query, a computed boundary and its guard, or a final value and the return using it must not be split by a blank line. Keep related setup declarations together without treating every data dependency as one function-wide group.
 
-After a multiline statement or completed control-flow block, insert a blank line before the next sibling statement. Keep connected constructs such as `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` together, and comments attached to their code. Do not remove meaningful whitespace to reduce line count or invent helpers and comments to substitute for separation.
+Separate independent guards and control-flow blocks, and separate a completed block from the next independent step. Keep connected constructs such as `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` together, and comments attached to their code. A wrapped declaration or expression does not require a blank line before its tightly coupled use; follow local line-wrapping rules independently. Do not remove meaningful whitespace to reduce line count or invent helpers and comments to substitute for separation.
 
 These requirements apply even when the skill is used without shared guidance. Formatter or linter silence is not an exemption. Follow explicit conflicting target authority and report the conflict rather than silently abandoning semantic spacing.
 
 ## Completion
 
-Inspect the refactored code for semantic grouping and required blank lines after formatting. Correct missing separation within scope before calling the refactor complete; passing automated checks alone is insufficient.
+Inspect the refactored code for semantic grouping after formatting. Correct both missing separation between independent steps and unnecessary blank lines within tightly coupled groups before calling the refactor complete; passing automated checks alone is insufficient.
 
 For changed code, run the smallest relevant checks, including integrated paths when the refactor crosses connected boundaries. Use owning-project validation before unrelated root checks. Fix regressions introduced by the refactor and rerun affected checks.
 

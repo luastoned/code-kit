@@ -45,12 +45,21 @@ Use `Repositories.md` when ownership or repository-wide coordination needs clari
 - Discover local test side effects before running unfamiliar commands. Reuse documented permission for disposable local tests; do not assume tests lack production access.
 - Update durable documentation when the change affects the truth it describes.
 
+## Test Work
+
+- Test development is opt-in for every language. Do not create, extend, or modify tests or test-related assets unless the user explicitly requests that work. This includes test cases in existing files, fixtures, mocks, snapshots, harnesses, test-only helpers, testing or coverage configuration, scripts, CI jobs, and dependencies. Temporary or untracked test code is not an exception.
+- A request to implement, fix, refactor, migrate, or verify code does not by itself authorize test development. When explicitly requested, keep test work within that scope; do not scaffold a broader testing system.
+- Existing tests and other existing checks may still be run when relevant, safe, and authorized. Ordinary output from those checks is not test development, but do not use snapshot-update or baseline-regeneration modes without a request covering those changes.
+- Fix implementation regressions within scope without weakening assertions or changing expected results to make checks pass. If completing verification requires test changes or missing test infrastructure, report the gap and request direction only when it blocks the requested endpoint. Do not create tests merely to satisfy a generic verification instruction.
+
 ## Code Readability
 
 These requirements apply to maintained code in every language, including scripts and code examples, whether or not a language-specific guide exists. Preserve language syntax, significant whitespace, and literal data; do not modify generated or verbatim artifacts whose owning contract requires exact output.
 
-- Separate logically distinct groups of statements with a single blank line, even when each statement occupies one line. Make transitions between setup, validation, computation, side effects, and results visually apparent. Keep closely related statements together; do not insert blank lines mechanically between every statement.
-- Separate independent guard clauses and control-flow blocks with a blank line. After a multiline statement or completed control-flow block, insert a blank line before the next sibling statement. Keep connected constructs such as `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` together, and keep comments attached to the code they explain.
+- Separate independent logical steps with a single blank line. A group represents one coherent operation, not one statement category: setup, validation, computation, and a result can belong together when they serve that operation.
+- Keep a declaration or assignment adjacent to the check, call, or return that immediately consumes it within the same operation. Do not insert a blank line between a query buffer and its query, a computed boundary and its guard, or a final value and the return using it. Keep related setup declarations together; data dependency alone does not merge an entire function into one group.
+- Separate independent guards and control-flow blocks, and separate a completed block from the next independent step. Keep connected constructs such as `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` together, and keep comments attached to the code they explain.
+- Line wrapping does not define group boundaries. A multiline declaration or expression does not require a blank line before its tightly coupled use. Follow local wrapping rules without forcing conditions onto one line or splitting related statements merely because they wrap.
 - These spacing rules are requirements, not optional polish. Do not remove semantic separation to minimize line count, or introduce helpers, abstractions, or narration merely to avoid using blank lines.
 - Inspect semantic spacing before handing off changed code. A passing formatter or linter does not establish compliance; tooling silence or absence does not waive these rules. If explicit target instructions or tooling conflict, follow the applicable authority and report the conflict rather than silently dropping the requirement.
 

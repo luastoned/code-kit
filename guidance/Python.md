@@ -64,6 +64,8 @@ Inspect the following only when it affects the change:
 
 ## Validation
 
+Follow the shared [test-work boundary](./AGENTS.md#test-work): test development and related assets require an explicit request; running existing checks does not.
+
 - For CLI or script changes, verify the command path when practical.
 - For package metadata changes, validate lockfiles and import behavior when practical.
 - If dependencies or Python tooling are unavailable, state what could not be verified.
