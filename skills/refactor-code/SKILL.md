@@ -27,7 +27,7 @@ Preserve public APIs, serialized and persisted shapes, environment names, routes
 
 Retain safety checks, compatibility handling, and intentional conventions unless evidence shows they are unnecessary under the actual requirements. Uncertainty alone does not justify deletion.
 
-Test development is opt-in in every language. A refactor request does not authorize creating or changing tests, fixtures, mocks, snapshots, harnesses, test-only helpers, test configuration, scripts, CI jobs, or dependencies, including temporary test code. Run relevant existing checks; report necessary test changes as a gap unless the user explicitly included them. Do not weaken tests to make the refactor pass.
+Run relevant existing checks; focused disposable tests using existing tooling are allowed within scope in every language. Keep scratch tests isolated and remove them when finished. Persistent test changes and reusable harnesses or test infrastructure require an explicit request, even if the harness is temporary or untracked. Report necessary persistent test changes as a gap unless requested; do not weaken tests to make the refactor pass.
 
 Prefer local consistency, clear ownership, and removal of incidental complexity. Extract abstractions for stable repeated behavior or a concrete boundary; named methodologies and repetition counts do not mandate a rewrite.
 

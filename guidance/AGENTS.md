@@ -47,8 +47,9 @@ Use `Repositories.md` when ownership or repository-wide coordination needs clari
 
 ## Test Work
 
-- Test development is opt-in for every language. Do not create, extend, or modify tests or test-related assets unless the user explicitly requests that work. This includes test cases in existing files, fixtures, mocks, snapshots, harnesses, test-only helpers, testing or coverage configuration, scripts, CI jobs, and dependencies. Temporary or untracked test code is not an exception.
-- A request to implement, fix, refactor, migrate, or verify code does not by itself authorize test development. When explicitly requested, keep test work within that scope; do not scaffold a broader testing system.
+- Focused disposable tests are allowed in every language when they directly verify or investigate the requested work within its safety and side-effect boundaries. Keep them isolated from maintained project files, use existing tooling, and remove task-created scratch artifacts when finished; do not retain or commit them by default.
+- Persistent test changes and test harnesses or infrastructure require an explicit request. This includes maintained test cases, fixtures, mocks, snapshots, reusable test helpers, testing or coverage configuration, scripts, CI jobs, and dependencies. A harness is reusable scaffolding for arranging or running tests, not a focused one-off assertion or reproduction; calling it temporary or untracked does not exempt it.
+- A request to implement, fix, refactor, migrate, or verify code does not by itself authorize that persistent test work or scaffolding. When explicitly requested, keep test work within scope; do not build a broader testing system.
 - Existing tests and other existing checks may still be run when relevant, safe, and authorized. Ordinary output from those checks is not test development, but do not use snapshot-update or baseline-regeneration modes without a request covering those changes.
 - Fix implementation regressions within scope without weakening assertions or changing expected results to make checks pass. If completing verification requires test changes or missing test infrastructure, report the gap and request direction only when it blocks the requested endpoint. Do not create tests merely to satisfy a generic verification instruction.
 

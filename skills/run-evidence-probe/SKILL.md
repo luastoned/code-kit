@@ -17,6 +17,8 @@ Inspect existing evidence before creating an experiment. Select the smallest act
 
 Run the probe within its authority. Local disposable experiments are permitted when covered by the investigation; tracked implementation edits, external mutations, and costly state require authorization for those actions and their recovery implications. Preserve unrelated work and user-owned evidence.
 
+Focused disposable tests using existing tooling are allowed; keep them isolated and remove scratch tests when finished. Persistent test changes and reusable test harnesses or infrastructure require an explicit request. Calling a harness temporary or untracked does not exempt it.
+
 Label material claims `supported`, `contradicted`, or `unresolved`. Report observations actually obtained, commands as run, relevant environments, and limitations. Cite external evidence near the claim; do not invent confidence percentages or gather sources to meet a quota.
 
 Stop when another probe cannot reasonably change the action. Return `decision-ready` or `inconclusive` with residual uncertainty. Recommend an option only when the evidence supports one. An inconclusive result blocks a costly commitment unless the owner accepts the named risk; do not relabel evidence after acceptance.

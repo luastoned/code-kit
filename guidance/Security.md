@@ -26,7 +26,7 @@ Use this guide for security-sensitive work, dual-use security tooling, exploit-a
 
 ## Validation
 
-Follow the shared [test-work boundary](./AGENTS.md#test-work): test development and related assets require an explicit request; running existing checks does not.
+Follow the shared [test-work boundary](./AGENTS.md#test-work): existing checks and focused disposable tests are allowed within scope; persistent test changes and test harnesses or infrastructure require an explicit request.
 
 - Validate with the smallest representative test that stays within the authorized scope.
 - Do not probe live or third-party systems merely to confirm a local code change.

@@ -54,7 +54,7 @@ This repository stores shared coding resources that are reused across other proj
 ## Validation
 
 - There is no project build by default.
-- Follow the shared [test-work boundary](guidance/AGENTS.md#test-work): do not create or change tests or related assets unless explicitly requested. Use existing checks and read-only review by default; a validation requirement does not authorize new test infrastructure.
+- Follow the shared [test-work boundary](guidance/AGENTS.md#test-work): existing checks and focused disposable tests are allowed within scope. Persistent test changes and test harnesses or infrastructure require an explicit request; calling a harness temporary does not exempt it.
 - Run `python3 scripts/validate.py` for repository-wide changes.
 - For Markdown-only changes, review the rendered structure and check links or paths you changed.
 - For config changes, validate against the relevant tool when that tool is available locally.

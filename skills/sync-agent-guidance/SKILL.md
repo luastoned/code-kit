@@ -35,7 +35,7 @@ Preserve the shared semantic-spacing and local-consistency requirements for all 
 
 Follow local scope, architecture, security, deployment, commands, and ownership rules. Tool configuration governs the behavior it owns; shared language preferences fill gaps. A shared dependency or style preference is not permission to migrate tooling.
 
-Carry the shared opt-in test-work boundary into target guidance for every language. Ordinary implementation and verification requests do not authorize creating or changing tests or related assets; running relevant existing checks remains allowed within scope. Preserve this distinction in standalone exports, and report any explicit conflicting target policy instead of silently discarding either rule.
+Carry the shared test-work boundary into target guidance for every language: existing checks and focused, isolated disposable tests using existing tooling are allowed within scope; remove scratch tests when finished. Persistent test changes and reusable harnesses or test infrastructure require an explicit request, even if called temporary. Preserve this distinction in standalone exports, and report explicit conflicting target policy instead of silently discarding either rule.
 
 For a new project, use the known language to select useful constraints without inventing a runtime, framework, package manager, or commands. Include the source commit default when no local policy exists, even if Git has not been initialized.
 

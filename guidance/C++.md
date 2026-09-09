@@ -66,7 +66,7 @@ Inspect the following only when it affects the change:
 
 ## Validation
 
-Follow the shared [test-work boundary](./AGENTS.md#test-work): test development and related assets require an explicit request; running existing checks does not.
+Follow the shared [test-work boundary](./AGENTS.md#test-work): existing checks and focused disposable tests are allowed within scope; persistent test changes and test harnesses or infrastructure require an explicit request.
 
 - Prefer the project's local build command.
 - Run relevant tests when they exist.
