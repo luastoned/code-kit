@@ -2,7 +2,7 @@
 
 The compatibility reference is the [Google Labs DESIGN.md specification](https://github.com/google-labs-code/design.md/blob/main/docs/spec.md). It is an evolving alpha format. Follow the target's declared version and installed tooling when they differ from this snapshot; report material incompatibilities rather than silently changing schemas.
 
-The upstream format allows prose without token frontmatter. This skill defaults to tokens plus rationale for reusable implementation; that is an output preference, not a claim that upstream requires YAML. Preserve an existing prose-only document unless the task calls for adding tokens.
+The skill's new-design output contract is distinct from upstream format compatibility; preserve supported existing formats as directed by the skill entrypoint.
 
 ## Format Rules
 

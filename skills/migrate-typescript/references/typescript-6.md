@@ -1,6 +1,6 @@
 # TypeScript 6 Migration Checks
 
-Use these checks for TypeScript 6 compatibility or preparation from TypeScript 6 to 7. They are a starting point, not a substitute for the installed compiler's diagnostics. Confirm the requested compiler version and consult the [official TypeScript 6 release notes](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-6-0.html) when behavior differs.
+Use these checks for TypeScript 6 compatibility or preparation from TypeScript 6 to 7. Apply the skill's evidence requirements before using this checklist; the [official TypeScript 6 release notes](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-6-0.html) are the version-specific documentation starting point.
 
 ## Configuration and Source Checks
 

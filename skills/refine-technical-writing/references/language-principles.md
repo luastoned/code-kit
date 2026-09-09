@@ -10,6 +10,8 @@ Prefer active voice when responsibility matters. Keep qualifications near the cl
 
 Use clear, respectful language for the actual audience. Avoid cultural assumptions, needless jargon, and wording that minimizes the reader's work. Preserve deliberate product or community voice when it adds meaning.
 
+House-language defaults: prefer `for example` and `that is` over `e.g.` and `i.e.`, and a bounded example or clear category over `etc.`. Prefer `conventional` or `readable` over `boring`, `unrelated change` over `drive-by change`, and `authoritative source` or `canonical home` over `source of truth` when those terms fit. Replace vague `surface` with the actual interface, document, workflow, or boundary unless it is an established domain term. Apply these choices in context, preserving quotations, exact names, and deliberate local voice.
+
 ## Requirements and Evidence
 
 Preserve normative force: `must` or an imperative expresses a requirement, `prefer` a default, `can` capability, and `might` possibility. Do not mechanically replace `should`, `always`, or `never`; first establish the intended meaning.

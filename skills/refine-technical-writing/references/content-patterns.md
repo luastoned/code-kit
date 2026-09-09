@@ -20,7 +20,7 @@ Use fictitious or reserved values for sample credentials, personal data, and net
 
 ## API and Interface Instructions
 
-Describe the element's purpose and document inputs, outputs, errors, side effects, and constraints that are part of its contract. Do not repeat an API signature unless the explanation adds meaning. Identify migration paths for deprecated interfaces when known.
+Describe the element's purpose and document inputs, defaults, outputs, errors, side effects, constraints, and deprecations that are part of its contract. Do not repeat an API signature unless the explanation adds meaning. Identify migration paths for deprecated interfaces when known.
 
 Describe the user's goal with exact visible interface labels. Avoid instructions that depend only on position, color, or shape.
 

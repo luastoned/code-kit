@@ -13,7 +13,7 @@ Use the visible conversation, repository state, and established handoff only. Do
 - Read, load, restore, resume, or continue wording means read mode; keep the file.
 - Consume or an explicit instruction to delete after loading means consume mode.
 
-Reuse the project's established coordination or shared handoff when it carries the active work. An explicit `AGENTS_STATE.md` request takes precedence. Otherwise use the repository root, or the owning project root when no Git root exists. Use a nested project only when it is explicitly in scope; do not create multiple state files based solely on nearer guidance.
+Use the user-specified handoff path or folder first. Otherwise reuse established coordination carrying the active work, unless the user explicitly requests `AGENTS_STATE.md`. For that file, default to the repository root, or the owning project root when no Git root exists. Use a nested project only when explicitly in scope; do not create multiple state files based solely on nearer guidance.
 
 ## Read or Consume
 

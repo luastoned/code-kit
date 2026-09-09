@@ -5,7 +5,7 @@ description: Create or update a DESIGN.md from visual evidence or a design brief
 
 # Create DESIGN.md
 
-Create a design system whose rationale explains the visual intent and whose supported tokens make implementation repeatable. Honor an existing path, casing, format, and confirmed design decisions; otherwise use `DESIGN.md` in the project root.
+For new designs, produce prose-led rationale plus supported, machine-readable tokens in YAML frontmatter. Preserve an existing prose-only format unless adding tokens is in scope. Honor the existing path, casing, and confirmed design decisions; otherwise use `DESIGN.md` in the project root.
 
 ## Evidence and Input
 
@@ -17,10 +17,10 @@ For a brief or local project, use the supplied audience, visual references, bran
 
 ## Synthesis
 
-- Explain the specific visual character, intended audience, and why it fits. Preserve evocative language when it carries design intent.
+- Lead with a concrete visual reference, intended audience, and desired emotional effect; explain why they fit. Preserve evocative language when it carries design intent.
 - Select repeated or semantically important tokens rather than cataloging every observed value.
 - Distinguish observed values, inferred patterns, and proposed decisions. Do not invent precise colors, metrics, states, or breakpoints and present them as observations.
-- Describe hierarchy, responsive priorities, important component states, and constraints that prevent meaningful design drift.
+- Describe hierarchy, responsive priorities, and meaningful do/don't constraints that protect the design's character. Represent supported component variants and states as separate related entries.
 - Preserve confirmed local choices unless redesign is requested or evidence establishes they are stale. Identify unavailable proprietary fonts and assets.
 - Include accessible foreground/background pairs when known. Claim contrast results only when checked.
 

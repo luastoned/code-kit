@@ -19,9 +19,11 @@ Use [the optional outline](assets/readme.template.md) when creating a README or 
 
 ## Style Defaults
 
-Follow established project style first. When no style exists and a full presentation is requested, this skill's preference is friendly prose, restrained emoji headings, and a concise title or existing logo. Centered HTML, navigation, and flat-square badges are optional.
+Use a friendly, emoji-accented presentation: centered title or existing logo, a short subtitle, flat-square Shields badges backed by project facts, section navigation, emoji section headings, and concise emoji feature bullets. These are the standard presentation, not optional polish. Preserve explicit project presentation requirements and keep narrow edits scoped rather than redesigning unrelated sections.
 
-Use badges, screenshots, comparisons, benchmarks, adopters, and release highlights only when supported and useful. Do not invent APIs, install commands, features, assets, popularity, or support promises.
+Keep the first screen focused on the project name, purpose, badges, and navigation. Use existing or supplied logos and banners; do not invent assets or badges to fill the layout. Use practical install and quick-start examples, adapting section choices to the project.
+
+Include factual badges as part of the standard presentation; omit unsupported badges. Screenshots, comparisons, benchmarks, adopters, and release highlights are optional additions when supported and useful. Do not invent APIs, install commands, features, assets, popularity, or support promises.
 
 Use consistent terminology, actionable instructions, and descriptive links. Preserve requirements and commands when editing wording. Consult external README examples only when the user requests inspiration.
 

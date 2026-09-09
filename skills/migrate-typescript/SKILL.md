@@ -17,7 +17,9 @@ Run existing checks where permitted. In migration mode, focused disposable tests
 
 Read applicable project guidance and inspect manifests, lockfiles, `tsconfig` inheritance, compiler integrations, and relevant typecheck/build commands. Discover whether TypeScript emits runtime code, declarations, or only checks a bundler-managed project.
 
-Read [TypeScript 6 migration checks](references/typescript-6.md) only when the source or target versions make that transition relevant. For other versions, use the requested compiler's diagnostics and official release notes. Treat stale reference items as findings, not instructions to force an incompatible change.
+Before applying version-specific migration rules, verify their claims against the requested compiler's diagnostics or behavior and available official release notes or compiler documentation. Report unavailable evidence; do not wait for a mismatch before checking the rules.
+
+Read [TypeScript 6 migration checks](references/typescript-6.md) only when the source or target versions make that transition relevant. Treat stale reference items as findings, not instructions to force an incompatible change.
 
 Establish existing diagnostics when useful. In audit mode, use a non-emitting check without incremental-state writes, or inspect existing output if the project command has side effects. Do not treat passing type checks alone as proof that emitted paths or runtime resolution are preserved.
 

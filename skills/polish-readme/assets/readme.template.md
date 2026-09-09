@@ -1,27 +1,31 @@
-# {{project-name}}
+<h1 align="center">{{project-name}}</h1>
 
-{{One sentence describing what the project does and who it serves.}}
+<p align="center">{{One sentence describing what the project does and who it serves.}}</p>
 
-## Features
+<p align="center">{{Verified flat-square Shields badges; omit unsupported badges.}}</p>
 
-{{Only supported capabilities that help readers choose or use the project.}}
+<p align="center">{{Section navigation matching the retained headings.}}</p>
 
-## Install
+## ✨ Features
+
+{{Concise emoji feature bullets describing supported capabilities and their practical value.}}
+
+## 📦 Install
 
 {{Verified prerequisites and installation commands.}}
 
-## Quick Start
+## 🚀 Quick Start
 
 {{One representative working example and its expected result.}}
 
-## Usage
+## 💡 Usage
 
 {{The main scenarios, with links to detailed documentation when available.}}
 
-## Development
+## 🛠️ Development
 
 {{Relevant local validation and contribution commands.}}
 
-## License
+## 📄 License
 
 {{The actual license and attribution.}}

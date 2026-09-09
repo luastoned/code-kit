@@ -44,7 +44,7 @@ components:
 
 ## Overview
 
-{{Name a specific visual reference, audience, and governing idea. Explain why it fits. Distinguish observed values from proposed choices where that affects implementation.}}
+{{Name a concrete visual reference, audience, intended emotional effect, and governing idea. Explain why they fit. Distinguish observed values from proposed choices where that affects implementation.}}
 
 ## Colors
 
@@ -68,7 +68,7 @@ components:
 
 ## Components
 
-{{Describe the visual and interaction rules for the important component families and their states.}}
+{{Describe the visual and interaction rules for the important component families. Represent supported variants and states as separate related entries.}}
 
 ## Do's and Don'ts
 
