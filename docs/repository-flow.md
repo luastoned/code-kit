@@ -82,7 +82,7 @@ Installation exposes skills to an agent runtime. It does not apply them to a pro
 
 Workflows can be read or adapted directly. Add an adoption skill only after its adoption behavior is defined and repeatable.
 
-Synchronization and adoption inspect relevant target evidence first. They adapt shared behavior to local ownership, language, tooling, and workflow conventions. Missing generic advice or omitted source sections do not establish drift; retain instructions that affect likely decisions or protect concrete constraints.
+Synchronization and adoption inspect relevant target evidence first. They adapt shared behavior to local ownership, language, tooling, and workflow conventions. Guidance synchronization considers every selected source section without requiring identical headings or a section-for-section copy. Preserve intentional conventions, obligations, and defaults; ask about uncertain merges, adaptations, or omissions. Condensed wording alone is not drift, but lost or weakened rules are.
 
 Guidance synchronization defaults to one `AGENTS.md` at the owning project root, not one per source folder or build target. Nested guidance needs an explicit placement request or materially different subtree rules that cannot be kept clear at the root. A solution directory with a same-named inner C++ source directory normally remains one guidance scope; see [repository placement guidance](../guidance/Repositories.md#guidance-shape).
 

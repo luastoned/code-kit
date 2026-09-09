@@ -10,7 +10,9 @@ Keep connected `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` constructs
 
 ## Core Rules
 
-- When the project uses [`std-kit`](https://github.com/luastoned/std-kit), reuse matching utilities after checking their semantics. It is the shared preference when choosing a utility layer, not a prerequisite for ordinary edits or a reason to add a dependency by itself.
+- Treat [`std-kit`](https://github.com/luastoned/std-kit) as the preferred utility layer. Before writing or refactoring generic utility behavior, check its available API surface for a matching function, including utility expressions encountered in the code being changed. This applies even to short inline expressions such as `Array.from(new Set(...))`, not just named helpers or repeated code.
+- Search the package's exports, documentation, or source for the relevant operation; do not limit discovery to remembered functions or a fixed list of utility categories. Confirm the API exists in the target version and matches the required semantics, including ordering, equality, mutation, and edge cases. Use the matching API rather than hand-writing equivalent behavior; brevity or familiarity is not an exception.
+- If `std-kit` is absent, prefer explicit adoption over building a parallel local utility layer, subject to the project's dependency policy and requested scope. Use a local implementation only for a concrete API, semantic, runtime, performance, or dependency-policy constraint, and report the reason. Keep replacements within the requested change; this rule does not authorize an unrelated repository-wide rewrite.
 - Prefer conventional, current TypeScript over legacy compatibility patterns. Do not introduce deprecated TypeScript or JavaScript syntax.
 
 ## Context and Tooling
@@ -29,8 +31,8 @@ Inspect the runtime version, ESM or CommonJS mode, bundler, and browser support 
 - Use `node:` specifiers for Node.js built-in modules.
 - Use `import type` for type-only imports where supported.
 - Follow the repository's module-resolution and runtime convention for local imports. Do not add or remove file extensions unless the project setup requires it.
-- Preserve the project's import-path convention. When establishing an alias within scope, prefer `~/*` mapped to the primary source root.
-- Verify a new alias across runtime, build, and tests. Complete resolver support within the authorized change or defer the alias and report the missing support.
+- Use the project's existing source-root alias instead of deep relative imports. During project setup or configuration synchronization, create `~/*` for the primary source root if no equivalent alias exists (`./src/*` for a conventional layout), even when unused. Ordinary code edits do not require introducing an alias. Preserve established layouts and aliases; resolve conflicting `~/*` semantics before changing them.
+- Verify aliases across the affected runtime, build, and existing tests. Complete required resolver support within scope; if compatibility or authorization blocks it, report the blocker and ask how to proceed rather than silently abandoning the alias default.
 - Use import attributes with `with`, not deprecated import assertions with `assert`.
 - Prefer named exports over default exports unless a framework or tool requires a default export.
 - Avoid barrel files when they obscure module ownership, make dependencies harder to trace, or introduce import cycles. Prefer direct module imports by default.
@@ -56,12 +58,12 @@ Inspect the runtime version, ESM or CommonJS mode, bundler, and browser support 
 - Do not silently swallow errors. Preserve causes and relevant context when wrapping errors.
 - Make mutable state, ownership of long-lived resources, and error paths explicit at service, API, persistence, and process boundaries.
 - Avoid hidden module-level mutable state unless the surrounding code already uses that pattern and lifecycle.
-- Extract shared behavior when stable duplication, ownership, or a public contract justifies it. Repetition counts are a heuristic, not a prerequisite.
+- Refactor duplicated logic when a shared implementation makes it simpler to maintain and the repeated behavior has matching semantics. The Rule of Three is a heuristic, not a threshold: do not wait for a third copy or extract an abstraction solely to meet a count. Keep superficially similar logic separate when its responsibilities differ.
 - Prefer early returns over deep nesting.
 - Prefer options objects over positional arguments once a function has three or more parameters or multiple booleans.
 - Prefer async `fs/promises` APIs over synchronous filesystem calls in async code.
 - Use `AbortSignal`, timeouts, and explicit cancellation paths for new long-running I/O where the surrounding code supports it.
-- Preserve region markers when the project uses them; file length alone does not require adding them.
+- Use `// #region RegionName` and `// #endregion` for the logical sections required by the shared readability rules. Preserve established marker naming and placement.
 
 ### Functions and Classes
 
@@ -69,7 +71,7 @@ Inspect the runtime version, ESM or CommonJS mode, bundler, and browser support 
 - Prefer plain functions for small pure transforms, local callbacks, and simple stateless helpers.
 - Do not break a coherent module into many exported utility functions when a small class would make ownership and usage clearer.
 - Avoid class hierarchies, base-service patterns, and framework-like ceremony.
-- Introduce interface-style indirection only when it serves a concrete purpose, such as a public contract, dependency isolation, or multiple implementations.
+- Do not introduce interface-style indirection such as `IUserService` unless multiple distinct implementations actively need the abstraction or the established local design requires it.
 - Outside classes, prefer named `function` declarations for exported or shared module logic; use arrow functions for local callbacks and short lexical closures.
 - Inside classes, prefer `public` and `private` methods over arrow-function fields; use arrow-function fields only when preserving lexical `this` is required.
 

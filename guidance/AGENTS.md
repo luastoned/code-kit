@@ -62,6 +62,7 @@ These requirements apply to maintained code in every language, including scripts
 - Separate independent guards and control-flow blocks, and separate a completed block from the next independent step. Keep connected constructs such as `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` together, and keep comments attached to the code they explain.
 - Line wrapping does not define group boundaries. A multiline declaration or expression does not require a blank line before its tightly coupled use. Follow local wrapping rules without forcing conditions onto one line or splitting related statements merely because they wrap.
 - These spacing rules are requirements, not optional polish. Do not remove semantic separation to minimize line count, or introduce helpers, abstractions, or narration merely to avoid using blank lines.
+- Add named region markers when distinct responsibilities or multi-stage logic need named sections to make their structure and navigation clear, using the language/editor-supported convention. Base this on logical complexity, not file size or line counts. Preserve established marker style; do not wrap every guard or simple operation, invent unsupported syntax, or use regions to hide unnecessary complexity. Regions supplement semantic blank lines, not replace them.
 - Inspect semantic spacing before handing off changed code. A passing formatter or linter does not establish compliance; tooling silence or absence does not waive these rules. If explicit target instructions or tooling conflict, follow the applicable authority and report the conflict rather than silently dropping the requirement.
 
 ## Communication and Writing
@@ -70,7 +71,7 @@ Follow local terminology and voice. Lead with the result, use concrete language,
 
 ## Commit Messages
 
-Follow local commit tooling and explicit project policy. When neither establishes a format, use Conventional Commits with this shared default:
+Use Conventional Commits with gitmoji unless explicit local policy specifies a different format. Tooling that merely accepts other formats or inconsistent recent history does not override this standard:
 
 `<type>[optional scope][optional !]: <gitmoji> <description>`
 

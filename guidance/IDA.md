@@ -80,7 +80,7 @@ If repository behavior diverges from IDA, check binary identity, build differenc
 
 ## Documentation
 
-For recovered areas that need a durable artifact, keep a short audit trail:
+Let project policy determine whether recovered areas need durable audit trails. Where required or useful for the requested work, keep the record short:
 
 - Function name, module, build or version metadata, address, and size when available.
 - For frequently updated game or client binaries, include the patch version, available client and server versions, Steam build ID or depot manifest when available, binary timestamp or hash, and source path.

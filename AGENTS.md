@@ -32,6 +32,7 @@ This repository stores shared coding resources that are reused across other proj
 
 - Write reusable guidance in a project-neutral way unless the file is explicitly for one project.
 - Prefer concrete rules tied to project constraints, intentional conventions, or demonstrated failure modes. Remove obsolete model workarounds and redundant generic advice without losing useful defaults.
+- Preserve each contract's trigger, required behavior, intentional defaults, exceptions, and completion condition when editing or condensing guidance. Compress explanations and duplication, not meaning or strength. Keep required detail reachable through applicable references; ask before resolving uncertain changes in meaning.
 - Keep required operating rules compact. Link optional rationale, examples, and mode-specific detail with clear reading conditions.
 - Keep public language guides structurally consistent: a scope introduction, then `Code Readability`, `Core Rules`, `Context and Tooling`, `Language Rules`, and `Validation`. Link to the canonical shared readability and local-consistency rules rather than duplicating them; keep only language-specific notes beneath the links. Put specialized rules under descriptive subsections. Operational guides may retain their task-specific structure, but place shared readability immediately after the introduction when applicable.
 - Preserve user decisions and existing authorization. Define completion and escalation by outcome, risk, and scope rather than mandatory review pauses.
