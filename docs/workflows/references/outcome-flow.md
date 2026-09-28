@@ -51,6 +51,10 @@ OutcomeFlow owns direction, selection, attention, and delayed observation. Chang
 
 Each entry lists behavior an adopted copy may need to change. Upgrade by applying every entry after the recorded version.
 
+### 1.1.2
+
+- Repair the incomplete 1.1.0 upgrade entry; the operating contract is unchanged. Ensure execution receives what should become true, why it matters now, constraints and non-goals, decision authority, and the intended observable effect. Derive acceptance conditions from effects implementation can demonstrate; leave effects that only delayed use can show to observation.
+
 ### 1.1.1
 
 - Removed the supporting-method version alignment line; no behavior change.
@@ -59,7 +63,7 @@ Each entry lists behavior an adopted copy may need to change. Upgrade by applyin
 
 - Review live Decision Triggers before selecting the next outcome; a met trigger can reopen its decision ahead of new candidates.
 - An explicit flow runs from selection through execution, delivery, and observation to reconsideration, which updates Direction only when understanding changed.
-- Execution receives the intended observable effect and returns classification, evidence states, risks, and integration status. An outcome stays active until the integration or release that lets its effect occur is complete.
+- Execution receives what should become true, why it matters now, constraints and non-goals, decision authority, and the intended observable effect. It derives acceptance conditions from effects implementation can demonstrate and leaves effects that only delayed use can show to observation. It returns classification, evidence states, accepted or unresolved risks, and what was integrated or still awaits authorization. An outcome stays active until the integration or release that lets its effect occur is complete.
 - Restored from 0.1.0:
   - Initiatives are not decomposed in advance. Their next outcome is selected from current evidence, and the Initiative is reconsidered after each outcome. Outcomes do not become speculative task trees.
   - Trigger examples are listed.

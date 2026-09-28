@@ -2,7 +2,7 @@
 
 > An agent-native product delivery framework for selecting, delivering, and learning from independently valuable outcomes.
 >
-> Version 1.1.1
+> Version 1.1.2
 >
 > Status: Released
 
