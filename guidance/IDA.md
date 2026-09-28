@@ -4,7 +4,7 @@ Use this guide when working from IDA, decompiled binaries, reverse-engineered ga
 
 ## Code Readability
 
-Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). Language-specific rules below do not replace them.
+Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). The rules below do not replace them.
 
 Apply these rules to authored analysis scripts and maintained implementations. The database-first synchronization and verbatim-output requirements below remain authoritative for decompiler artifacts.
 
@@ -66,18 +66,6 @@ When a struct is partial, name it anyway if it materially improves the analysis,
 - Do not remove important casts, constants, offsets, or branches just because they look noisy.
 - Keep magic constants until their meaning is proven, then name or document them.
 
-## Cross-Checking
-
-Use multiple signals before treating recovered behavior as authoritative:
-
-- Callers and callees.
-- Cross-references to strings, globals, vtables, and imported functions.
-- Struct field offsets and repeated access patterns.
-- Known open-source SDKs or matching engine or game source when available.
-- Runtime validation against traces, tests, captures, or demo data.
-
-If repository behavior diverges from IDA, check binary identity, build differences, types, and decompiler assumptions before deciding which artifact is stale.
-
 ## Documentation
 
 Let project policy determine whether recovered areas need durable audit trails. Where required or useful for the requested work, keep the record short:
@@ -90,3 +78,17 @@ Let project policy determine whether recovered areas need durable audit trails. 
 - What remains missing, opaque, or outside the current IDA database.
 
 The goal is reproducible reverse engineering. The next engineer must be able to open IDA, search for the renamed symbol, and continue from the typed database without repeating the same recovery work.
+
+## Validation
+
+Follow the shared [test-work rules](./AGENTS.md#test-work).
+
+Use multiple signals before treating recovered behavior as authoritative:
+
+- Callers and callees.
+- Cross-references to strings, globals, vtables, and imported functions.
+- Struct field offsets and repeated access patterns.
+- Known open-source SDKs or matching engine or game source when available.
+- Runtime validation against traces, tests, captures, or demo data.
+
+If repository behavior diverges from IDA, check binary identity, build differences, types, and decompiler assumptions before deciding which artifact is stale.

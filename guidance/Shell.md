@@ -20,19 +20,11 @@ Preserve pipelines, continuations, here-document contents, and connected `if`/`e
 
 Inspect the following only when it affects the change:
 
-1. What shell is declared by the shebang or CI runner?
+1. What shell is declared by the shebang, a PowerShell `#Requires` statement, or the CI runner?
 2. How is the script invoked by package scripts, Makefiles, CI, Dockerfiles, or docs?
 3. Are there portability requirements across Linux, macOS, BusyBox, Alpine, or Windows shells?
 4. Are required tools available locally or installed by the project?
 5. Is there an existing pattern for logging, argument parsing, temp files, cleanup, or dry runs?
-
-### Strict Mode
-
-- Do not add `set -euo pipefail` without reviewing its effects.
-- Use `set -e` only when commands, conditionals, subshells, and cleanup behavior have been reviewed.
-- Use `set -u` only when unset optional variables are handled.
-- Use `pipefail` only in shells that support it.
-- Preserve strict mode in existing scripts and handle expected failures explicitly.
 
 ## Language Rules
 
@@ -44,6 +36,14 @@ Inspect the following only when it affects the change:
 - Keep environment-variable contracts near the top of the script or documented in usage text.
 - Use `printf` instead of `echo` when output portability or escape handling matters.
 - Prefer `command -v tool >/dev/null 2>&1` for dependency checks.
+
+### POSIX Strict Mode
+
+- Do not add `set -euo pipefail` without reviewing its effects.
+- Use `set -e` only when commands, conditionals, subshells, and cleanup behavior have been reviewed.
+- Use `set -u` only when unset optional variables are handled.
+- Use `pipefail` only in shells that support it.
+- Preserve strict mode in existing scripts and handle expected failures explicitly.
 
 ### POSIX Safety and Error Handling
 

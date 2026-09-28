@@ -1,10 +1,10 @@
 # Containers Agent
 
-Container files define build and deployment behavior. Inspect the relevant path: Dockerfile and build context for images, Compose for local services, devcontainer configuration for development, or Kubernetes and Helm for cluster deployment.
+Use this guide for Dockerfiles, Compose, dev containers, Kubernetes, Helm, and other container build or deployment files. They define build and deployment behavior; inspect the relevant path: Dockerfile and build context for images, Compose for local services, devcontainer configuration for development, or Kubernetes and Helm for cluster deployment.
 
 ## Code Readability
 
-Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). Language-specific rules below do not replace them.
+Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). The rules below do not replace them.
 
 Apply these rules to authored container instructions and embedded code. Preserve layer behavior; do not split a `RUN` solely to add spacing.
 
@@ -15,7 +15,7 @@ Apply these rules to authored container instructions and embedded code. Preserve
 - Keep build-time and runtime concerns separate.
 - Do not include secrets, tokens, local paths, or machine-specific credentials in images.
 
-## Runtime Contract
+## Context and Tooling
 
 Inspect base images, platforms, runtime users, environment variables, secrets, volumes, ports, health checks, and deployment targets when affected. Discover whether commands build local images, start services, or mutate a remote cluster before running them. Record non-obvious local command side effects near the owning configuration.
 

@@ -2,6 +2,12 @@
 
 Use this guide for security-sensitive work, dual-use security tooling, exploit-adjacent code, reverse engineering, binary analysis, anti-cheat analysis, credential testing, and defensive security education.
 
+## Code Readability
+
+Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). The rules below do not replace them.
+
+Apply these rules to authored security tooling, proof-of-concept code, and analysis scripts.
+
 ## Authorization Context
 
 - Establish the target, permitted actions, and relevant data or environment boundaries from the request and existing session context.

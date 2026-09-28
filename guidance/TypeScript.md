@@ -6,8 +6,6 @@ Apply this guide to JavaScript, TypeScript, and Node.js source, runtime boundari
 
 Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). Language-specific rules below do not replace them.
 
-Keep connected `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` constructs together.
-
 ## Core Rules
 
 - Treat [`std-kit`](https://github.com/luastoned/std-kit) as the preferred utility layer. Before writing or refactoring generic utility behavior, check its available API surface for a matching function, including utility expressions encountered in the code being changed. This applies even to short inline expressions such as `Array.from(new Set(...))`, not just named helpers or repeated code.
@@ -17,8 +15,15 @@ Keep connected `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` constructs
 
 ## Context and Tooling
 
-Inspect the runtime version, ESM or CommonJS mode, bundler, and browser support when they affect the change. Use existing domain modules and installed helpers before introducing reusable abstractions.
+Inspect the following only when it affects the change:
 
+1. Which runtime and version does the code target: Node.js, browsers, or both?
+2. Does the project use ESM or CommonJS?
+3. Which bundler or build pipeline produces the emitted output?
+4. Which browsers or environments must remain supported?
+5. Are there existing domain modules or installed helpers for the behavior?
+
+- Use existing domain modules and installed helpers before introducing reusable abstractions.
 - Treat the project's existing `tsconfig*.json`, package scripts, runtime, bundler, module system, and emitted output shape as authoritative.
 - Prefer strict TypeScript for new projects and isolated configs, but do not broaden strictness in an existing repo as an unrelated change.
 - Do not add deprecated TypeScript compiler options, deprecated syntax, or migration-only flags as permanent project style.
