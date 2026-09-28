@@ -34,8 +34,6 @@ Inspect the following only when it affects the change:
 - Keep functions small and named by action.
 - Prefer long flags in scripts when they improve readability.
 - Keep environment-variable contracts near the top of the script or documented in usage text.
-- Use `printf` instead of `echo` when output portability or escape handling matters.
-- Prefer `command -v tool >/dev/null 2>&1` for dependency checks.
 
 ### POSIX Strict Mode
 
@@ -47,6 +45,8 @@ Inspect the following only when it affects the change:
 
 ### POSIX Safety and Error Handling
 
+- Use `printf` instead of `echo` when output portability or escape handling matters.
+- Prefer `command -v tool >/dev/null 2>&1` for dependency checks.
 - Quote variable expansions unless intentional word splitting is required.
 - Use `--` when passing user-controlled values to commands that accept options.
 - Prefer `mktemp` for temporary files and directories.
@@ -62,6 +62,7 @@ Inspect the following only when it affects the change:
 
 - Target the edition the script declares with `#Requires -Version` or `#Requires -PSEdition`, or that its callers use. Do not use PowerShell 7-only syntax such as `&&`, `||`, `??`, or the ternary operator in scripts that must run on Windows PowerShell 5.1.
 - Use full cmdlet names and named parameters in scripts; do not rely on aliases such as `%`, `?`, `ls`, or `curl`.
+- Use `Get-Command -Name tool -ErrorAction SilentlyContinue` for dependency checks; restrict `-CommandType` when a specific command kind is required.
 - Name functions with approved verbs. Support `-WhatIf` and `-Confirm` through `[CmdletBinding(SupportsShouldProcess)]` for scripts or functions that make destructive changes.
 - Review `$ErrorActionPreference = 'Stop'` and `Set-StrictMode` as carefully as POSIX strict mode before adding them, and preserve them in existing scripts.
 - Check `$LASTEXITCODE` after native commands; their failures do not raise terminating errors by default.

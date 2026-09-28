@@ -11,7 +11,7 @@ Use this guide for repository shape, root and nested guidance, ownership boundar
 - Do not duplicate full language guidance in every nested project. Reference the relevant guide or keep only the target-specific parts.
 - Preserve useful existing nested guidance. Consolidation must stay within the authorized scope, retain unique constraints, and update affected links; the one-root default does not authorize deleting existing files.
 
-A project may contain nested source directories, multiple manifests, and several build targets without needing guidance for each one. Place shared commands and implementation rules at the owning project root; reserve nested guidance for materially different scoped operating rules. For `projectA/projectA.sln` with headers, C++ sources, and possibly a `.vcxproj` under `projectA/projectA/`, place shared and C++ implementation guidance in `projectA/AGENTS.md`, not in `projectA/projectA/AGENTS.md`.
+A project may contain nested source directories, multiple manifests, and several build targets without needing guidance for each one. Place shared commands and implementation rules at the owning project root; reserve nested guidance for materially different scoped operating rules.
 
 ## Working Across Projects
 
