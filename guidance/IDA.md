@@ -36,7 +36,7 @@ For each function included in the authorized recovery or synchronization:
 
 When synchronizing a dump, apply confirmed names in IDA before regenerating the repository artifact.
 
-## Struct And Type Workflow
+## Struct and Type Workflow
 
 Reconstruct structures in IDA whenever possible:
 
@@ -51,7 +51,7 @@ Reconstruct structures in IDA whenever possible:
 
 When a struct is partial, name it anyway if it materially improves the analysis, but keep unknown fields as padding or explicitly named unknown fields.
 
-## Names And Confidence
+## Names and Confidence
 
 - Use descriptive names based on observed behavior, call sites, strings, vtable slots, imports, RTTI, known SDKs, or equivalent source code.
 - Avoid overclaiming names that are only guesses. Prefer names such as `TraceCandidateSlotStore` over a precise engine class name if the class identity is not proven.

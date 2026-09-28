@@ -2,7 +2,7 @@
 
 > An agent-native product delivery framework for selecting, delivering, and learning from independently valuable outcomes.
 >
-> Version 1.1.0
+> Version 1.1.1
 >
 > Status: Released
 
@@ -81,6 +81,6 @@ Create a work index or temporary specification only when existing coordination c
 
 ## Supporting Methods and Examples
 
-OutcomeFlow 1.1.0 is aligned with ChangeShape 1.3.0 and EvidenceProbe 1.1.0. Equivalent local methods can satisfy the contracts without adopting their names or copying their documents.
+Equivalent local methods can satisfy the contracts without adopting their names or copying their documents.
 
 Read [delivery examples and flow](./references/outcome-flow.md) when the relationships between direction, execution, and delayed observation need illustration. Read its [changelog](./references/outcome-flow.md#changelog) when upgrading an adopted version. The adoption skill is `$adopt-outcome-flow`; it audits or adapts only the behavior missing from the target.

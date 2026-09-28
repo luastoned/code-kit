@@ -46,6 +46,7 @@ Inspect the following only when it affects the change:
 
 ### Code Organization
 
+- Use `# region RegionName` and `# endregion` for the logical sections required by the shared readability rules. Preserve established marker naming and placement.
 - Prefer `pathlib.Path` for filesystem paths in new code unless the surrounding code uses strings heavily.
 - Prefer context managers for files, locks, temp resources, network sessions, and database connections.
 - Prefer explicit exceptions with useful context over bare `except` or silent failure.
@@ -64,7 +65,7 @@ Inspect the following only when it affects the change:
 
 ## Validation
 
-Follow the shared [test-work boundary](./AGENTS.md#test-work): existing checks and focused disposable tests are allowed within scope; persistent test changes and test harnesses or infrastructure require an explicit request.
+Follow the shared [test-work rules](./AGENTS.md#test-work).
 
 - For CLI or script changes, verify the command path when practical.
 - For package metadata changes, validate lockfiles and import behavior when practical.

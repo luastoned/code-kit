@@ -19,23 +19,19 @@ Private guidance is opt-in. When requested, read `guidance/private/AGENTS.md` fi
 
 ## Guidance Placement
 
-Default to one `AGENTS.md` at the owning project root within the requested scope. Determine ownership from build entrypoints, manifest relationships, and actual commands, not directory depth or the current source-file location. Source, include, test, and same-named inner folders do not each need an `AGENTS.md`; a nested manifest or build target alone does not establish a separate guidance boundary.
+Apply the Guidance Shape section of source `guidance/Repositories.md`: one `AGENTS.md` at the owning project root within the requested scope, with ownership determined from build entrypoints, manifest relationships, and actual commands. Create nested guidance only for an explicitly requested placement or materially different subtree rules, and state the concrete reason before creating it. Reuse existing nested guidance; the one-root default does not authorize deleting or flattening it.
 
-For `projectA/projectA.sln` with headers, C++ sources, and possibly a `.vcxproj` under `projectA/projectA/`, place shared and C++ implementation guidance in `projectA/AGENTS.md`. Do not create `projectA/projectA/AGENTS.md` merely because that folder contains the source or project file.
-
-Create nested guidance only when the user explicitly requests that placement or the subtree has materially different operating rules that need their own scope and cannot be kept clear in the root. State the concrete reason before creating it. Reuse existing nested guidance when appropriate; do not delete or flatten existing files solely to meet the one-root default. Consolidate only within authorized scope while preserving unique constraints and updating links.
+Merge the selected guidance into that root `AGENTS.md` by default. Keep separate guide files only when the target already uses them or when several maintained languages each carry enough guidance that one file would obscure routing; link them from the root.
 
 ## Adaptation Criteria
 
 Consider each selected source section for retention, merging, adaptation, or omission. Preserve applicable obligations, intentional conventions, and useful defaults, including those not yet used by a sparse target. Keep the primary language guidance recognizable in a single-language project, with repository rules as compact supporting constraints.
 
-Preserve each contract's trigger, required behavior, intentional defaults, exceptions, and completion condition. Shorten explanations and duplication, not meaning or strength. Omit material only when it is inapplicable, equivalently covered by retained guidance or actual tooling enforcement, or explicitly superseded by local policy. Keep related rules together without mechanically copying headings. If unsure whether to merge, adapt, or omit a section without losing intent, ask the user before deciding; continue independent work.
+Preserve each contract's trigger, required behavior, intentional defaults, exceptions, and completion condition. Shorten explanations and duplication, not meaning or strength. Omit material only when it is inapplicable, equivalently covered by retained guidance or actual tooling enforcement, or explicitly superseded by local policy. Sections adopted from code-kit workflows count as retained guidance; do not duplicate their rules elsewhere. Keep related rules together without mechanically copying headings. If unsure whether to merge, adapt, or omit a section without losing intent, ask the user before deciding; continue independent work.
 
-Preserve the shared semantic-spacing and local-consistency requirements for all maintained languages, including those without a mapped guide. Source language guides link to these rules in the source entrypoint. In the target, keep one canonical copy in applicable guidance and retarget links to it. When exporting a standalone guide without that shared source, include the necessary rules in the exported guide rather than leaving an unavailable link or silently omitting them. Formatter or linter silence is not enforcement and does not justify dropping these rules as generic style advice.
+Carry these shared rules from source `guidance/AGENTS.md` into every target, for all maintained languages including those without a mapped guide: Code Readability, the local-consistency rules in Changes and Validation, Test Work, and Commit Messages. Formatter, linter, or test-policy silence is not enforcement and does not justify dropping them as generic advice. Keep one canonical copy in the target and retarget source guide links to it. A standalone export without the shared source includes their text instead of an unavailable link. When explicit target policy conflicts, follow it and report the conflict instead of silently discarding either rule.
 
 Follow local scope, architecture, security, deployment, commands, and ownership rules. Tool configuration governs the behavior it owns; shared language preferences fill gaps. A shared dependency or style preference is not permission to migrate tooling.
-
-Carry the shared test-work boundary into target guidance for every language: existing checks and focused, isolated disposable tests using existing tooling are allowed within scope; remove scratch tests when finished. Persistent test changes and reusable harnesses or test infrastructure require an explicit request, even if called temporary. Preserve this distinction in standalone exports, and report explicit conflicting target policy instead of silently discarding either rule.
 
 For a new project, use the known language to select useful constraints without inventing a runtime, framework, package manager, or commands. Include the source commit default unless explicit local commit policy specifies a different format, even if Git has not been initialized.
 
@@ -45,7 +41,7 @@ For a single project, keep shared boundaries and project-specific implementation
 
 Compare meaning and likely behavior. Report `current` when no material decision-relevant drift exists, or `resync recommended` for missing constraints, obsolete instructions, conflicting authorities, or newly relevant behavior.
 
-Give locations, consequences, and minimal revisions. Report important intentional overrides. Text differences, heading order, missing generic sections, timestamps, and absent provenance metadata do not establish drift. Do not edit or format in audit mode.
+Give locations, consequences, and minimal revisions. Report important intentional overrides. Text differences, heading order, missing generic sections, timestamps, absent provenance metadata, and rules carried by adopted workflow sections do not establish drift. Do not edit or format in audit mode.
 
 ## Sync and Completion
 

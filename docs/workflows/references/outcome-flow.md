@@ -51,6 +51,10 @@ OutcomeFlow owns direction, selection, attention, and delayed observation. Chang
 
 Each entry lists behavior an adopted copy may need to change. Upgrade by applying every entry after the recorded version.
 
+### 1.1.1
+
+- Removed the supporting-method version alignment line; no behavior change.
+
 ### 1.1.0
 
 - Review live Decision Triggers before selecting the next outcome; a met trigger can reopen its decision ahead of new candidates.

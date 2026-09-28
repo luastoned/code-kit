@@ -2,7 +2,7 @@
 
 > An agent-native method for resolving consequential uncertainty with bounded evidence.
 >
-> Version 1.1.0
+> Version 1.1.1
 >
 > Status: Released
 
@@ -32,7 +32,7 @@ Report commands as run, relevant environment details, and observations actually 
 
 Keep experiments isolated from production paths. Local disposable experiments within the authorized investigation may proceed without repeated confirmation. Changes to tracked implementation, external systems, production data, or costly state require authorization covering that action and its recovery implications.
 
-Focused disposable tests using existing tooling are allowed within that boundary; keep them isolated and remove scratch tests when finished. Persistent test changes and reusable test harnesses or infrastructure require an explicit request, even if the harness is temporary or untracked.
+Focused throwaway tests using existing tooling are fine within that boundary; keep them out of maintained files and remove them when done. Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked.
 
 Do not silently promote prototype code into production. If implementation is authorized, transition explicitly to the project's execution method and apply production verification requirements.
 

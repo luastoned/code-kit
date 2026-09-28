@@ -22,7 +22,7 @@ This repository stores shared coding resources that are reused across other proj
 - Update `configs/AGENTS.md` when adding, removing, or changing the intended use of files in `configs/`.
 - Keep personal, sensitive, or project-specific private overlays under `guidance/private/`; only `.gitkeep` may be tracked there.
 - Update `skills/sync-agent-guidance/` when changing how guidance is adapted into target projects.
-- When a workflow contract in `docs/workflows/` changes, bump its version: major for removed or incompatible behavior, minor for added or tightened behavior, patch for wording only. Add a changelog entry to its reference document and update the README version line and OutcomeFlow's alignment line. Adoption upgrades apply only listed changes, so check the entry against the contract's full diff since the previous version before releasing.
+- When a workflow contract in `docs/workflows/` changes, bump its version: major for removed or incompatible behavior, minor for added or tightened behavior, patch for wording only. Add a changelog entry to its reference document; keep version numbers only in the workflow documents and their changelogs. Adoption upgrades apply only listed changes, so check the entry against the contract's full diff since the previous version before releasing.
 - Keep scripts non-interactive, safe around existing files, and runnable from any working directory.
 - Update `configs/` only for tooling behavior intended as a shared default or reusable fragment.
 - Keep `README.md` focused on what this repo contains and how other locations consume it.
@@ -35,7 +35,7 @@ This repository stores shared coding resources that are reused across other proj
 - Prefer concrete rules tied to project constraints, intentional conventions, or demonstrated failure modes. Remove obsolete model workarounds and redundant generic advice without losing useful defaults.
 - Preserve each contract's trigger, required behavior, intentional defaults, exceptions, and completion condition when editing or condensing guidance. Compress explanations and duplication, not meaning or strength. Keep required detail reachable through applicable references; ask before resolving uncertain changes in meaning.
 - Keep required operating rules compact. Link optional rationale, examples, and mode-specific detail with clear reading conditions.
-- Keep public language guides structurally consistent: a scope introduction, then `Code Readability`, `Core Rules`, `Context and Tooling`, `Language Rules`, and `Validation`. Link to the canonical shared readability and local-consistency rules rather than duplicating them; keep only language-specific notes beneath the links. Put specialized rules under descriptive subsections. Operational guides may retain their task-specific structure, but place shared readability immediately after the introduction when applicable.
+- Keep public language guides structurally consistent: a scope introduction, then `Code Readability`, `Core Rules`, `Context and Tooling`, `Language Rules`, and `Validation`. Link to the canonical shared readability and local-consistency rules rather than duplicating them; keep only language-specific notes beneath the links. Put specialized rules under descriptive subsections. Operational guides cover tools, platforms, or procedures rather than a programming language, such as containers, reverse engineering, repositories, and security. They may retain their task-specific structure, but place shared readability immediately after the introduction when applicable.
 - Preserve user decisions and existing authorization. Define completion and escalation by outcome, risk, and scope rather than mandatory review pauses.
 - Do not duplicate the same rule across multiple files unless each file needs to stand alone in downstream use.
 - Prefer config for mechanically enforceable rules; retain reusable guidance defaults where downstream tooling may not enforce them.
@@ -50,13 +50,14 @@ This repository stores shared coding resources that are reused across other proj
 - Keep skill workflows scoped to actions an agent can perform. State outcomes and decision criteria; require fixed sequences only where ordering protects correctness or safety.
 - Keep descriptions concise and discriminating. Preserve explicit-only invocation while removing repeated capability lists.
 - Evaluate substantial skill changes with representative requests, checking scope, conditional reading, and completion behavior rather than heading or wording equality.
+- Link only to files inside the skill directory. Name other code-kit sources as paths from the code-kit root, which the skill locates by resolving its symlink; relative links outside the skill break once it is installed or copied.
 - Store reusable agent prompts or metadata under the skill directory when they belong to that skill.
 - Avoid adding generated or machine-local files to skills.
 
 ## Validation
 
 - There is no project build by default.
-- Follow the shared [test-work boundary](guidance/AGENTS.md#test-work): existing checks and focused disposable tests are allowed within scope. Persistent test changes and test harnesses or infrastructure require an explicit request; calling a harness temporary does not exempt it.
+- Follow the shared [test-work rules](guidance/AGENTS.md#test-work).
 - Run `python3 scripts/validate.py` for repository-wide changes.
 - For Markdown-only changes, review the rendered structure and check links or paths you changed.
 - For config changes, validate against the relevant tool when that tool is available locally.

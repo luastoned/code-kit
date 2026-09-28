@@ -11,7 +11,7 @@ Current mapping:
 - `IDA.md`: IDA and Hex-Rays analysis, recovered types, and synchronization of decompiler-derived artifacts.
 - `Python.md`: Python source, packaging, scripts, notebooks, runtime boundaries, and tooling.
 - `Security.md`: authorized security research, defensive testing, reverse engineering, and security-sensitive operations.
-- `Shell.md`: shell scripts, CI shell steps, Make recipes, and command orchestration.
+- `Shell.md`: POSIX shell, Bash, zsh, and PowerShell scripts, CI shell steps, Make recipes, and command orchestration.
 - `TypeScript.md`: JavaScript, TypeScript, Node.js, web runtime boundaries, and related tooling.
 - `Repositories.md`: ownership across projects, guidance placement, commit boundaries, and validation scope.
 
@@ -42,16 +42,15 @@ Use `Repositories.md` when ownership or repository-wide coordination needs clari
 - Comments explain intent, constraints, or non-obvious behavior. Let tooling own formatting it actually specifies.
 - Prefer concise one-line implementation comments; use longer blocks or file-level comments when needed for safety, algorithms, protocols, compatibility, or non-obvious file-wide context.
 - Select verification by affected behavior and risk. Start with the smallest relevant check and include integrated paths when changes cross boundaries.
-- Discover local test side effects before running unfamiliar commands. Reuse documented permission for disposable local tests; do not assume tests lack production access.
+- Discover local test side effects before running unfamiliar commands. Reuse documented permission for throwaway local tests; do not assume tests lack production access.
 - Update durable documentation when the change affects the truth it describes.
 
 ## Test Work
 
-- Focused disposable tests are allowed in every language when they directly verify or investigate the requested work within its safety and side-effect boundaries. Keep them isolated from maintained project files, use existing tooling, and remove task-created scratch artifacts when finished; do not retain or commit them by default.
-- Persistent test changes and test harnesses or infrastructure require an explicit request. This includes maintained test cases, fixtures, mocks, snapshots, reusable test helpers, testing or coverage configuration, scripts, CI jobs, and dependencies. A harness is reusable scaffolding for arranging or running tests, not a focused one-off assertion or reproduction; calling it temporary or untracked does not exempt it.
-- A request to implement, fix, refactor, migrate, or verify code does not by itself authorize that persistent test work or scaffolding. When explicitly requested, keep test work within scope; do not build a broader testing system.
-- Existing tests and other existing checks may still be run when relevant, safe, and authorized. Ordinary output from those checks is not test development, but do not use snapshot-update or baseline-regeneration modes without a request covering those changes.
-- Fix implementation regressions within scope without weakening assertions or changing expected results to make checks pass. If completing verification requires test changes or missing test infrastructure, report the gap and request direction only when it blocks the requested endpoint. Do not create tests merely to satisfy a generic verification instruction.
+- Run existing tests and checks when relevant and safe; use snapshot-update or baseline-regeneration modes only on request.
+- Focused throwaway tests that use existing tooling and verify or investigate the requested work are fine. Keep them out of maintained files and remove them when done.
+- Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked. When verification needs them, report the gap instead.
+- Fix regressions in the implementation; do not weaken assertions or expected results to make checks pass.
 
 ## Code Readability
 

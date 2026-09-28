@@ -12,7 +12,7 @@ Keep connected `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` constructs
 
 - Treat [`std-kit`](https://github.com/luastoned/std-kit) as the preferred utility layer. Before writing or refactoring generic utility behavior, check its available API surface for a matching function, including utility expressions encountered in the code being changed. This applies even to short inline expressions such as `Array.from(new Set(...))`, not just named helpers or repeated code.
 - Search the package's exports, documentation, or source for the relevant operation; do not limit discovery to remembered functions or a fixed list of utility categories. Confirm the API exists in the target version and matches the required semantics, including ordering, equality, mutation, and edge cases. Use the matching API rather than hand-writing equivalent behavior; brevity or familiarity is not an exception.
-- If `std-kit` is absent, prefer explicit adoption over building a parallel local utility layer, subject to the project's dependency policy and requested scope. Use a local implementation only for a concrete API, semantic, runtime, performance, or dependency-policy constraint, and report the reason. Keep replacements within the requested change; this rule does not authorize an unrelated repository-wide rewrite.
+- If `std-kit` is absent, always propose adopting it instead of building a parallel local utility layer; propose it once in the task result rather than for each expression. Adding the dependency still requires the user's agreement under the project's dependency policy. Until then, keep required utility behavior minimal and local, and name the `std-kit` APIs it would replace. When `std-kit` is present, use a local implementation only for a concrete API, semantic, runtime, performance, or dependency-policy constraint, and report the reason. Keep replacements within the requested change; this rule does not authorize an unrelated repository-wide rewrite.
 - Prefer conventional, current TypeScript over legacy compatibility patterns. Do not introduce deprecated TypeScript or JavaScript syntax.
 
 ## Context and Tooling
@@ -77,7 +77,7 @@ Inspect the runtime version, ESM or CommonJS mode, bundler, and browser support 
 
 ## Validation
 
-Follow the shared [test-work boundary](./AGENTS.md#test-work): existing checks and focused disposable tests are allowed within scope; persistent test changes and test harnesses or infrastructure require an explicit request.
+Follow the shared [test-work rules](./AGENTS.md#test-work).
 
 - Run type checks through the project-local script or project-mode `tsc`; do not use `tsc some-file.ts` in repos with `tsconfig.json`.
 - When import paths, aliases, or module settings change, verify resolution across the affected runtime, build, and tests.

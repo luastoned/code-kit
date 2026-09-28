@@ -60,13 +60,14 @@ Inspect the following only when it affects the change:
 - Avoid detached threads unless the surrounding code already has a safe lifetime pattern for them.
 - Prefer existing synchronization primitives and task systems over introducing a new concurrency abstraction.
 
-### Refactoring
+### Code Organization
 
+- Use `#pragma region RegionName` and `#pragma endregion` for the logical sections required by the shared readability rules when every compiler and flag set the project builds with accepts them without warnings. Otherwise, omit region markers rather than inventing another syntax. Preserve established marker naming and placement.
 - Do not mix large mechanical modernization with behavioral changes.
 
 ## Validation
 
-Follow the shared [test-work boundary](./AGENTS.md#test-work): existing checks and focused disposable tests are allowed within scope; persistent test changes and test harnesses or infrastructure require an explicit request.
+Follow the shared [test-work rules](./AGENTS.md#test-work).
 
 - Prefer the project's local build command.
 - Run relevant tests when they exist.

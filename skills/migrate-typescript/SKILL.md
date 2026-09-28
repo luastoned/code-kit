@@ -11,7 +11,7 @@ Use audit mode for compatibility checks, findings, or recommendations. Audit mod
 
 Identify the project, installed and requested compiler versions, and whether the goal includes TypeScript 7 preparation. Preserve the runtime, module system, package manager, emitted output, and public contracts unless the request includes changing them.
 
-Run existing checks where permitted. In migration mode, focused disposable tests using existing tooling are allowed within scope; keep them isolated and remove them when finished. Persistent test changes and reusable harnesses or test infrastructure require an explicit request, even if the harness is temporary or untracked. Report maintained test compatibility changes separately unless requested; audit mode remains read-only.
+Run existing checks where permitted. In migration mode, focused throwaway tests using existing tooling are fine; keep them out of maintained files and remove them when done. Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked, and report needed test compatibility changes separately. Audit mode remains read-only.
 
 ## Investigation
 

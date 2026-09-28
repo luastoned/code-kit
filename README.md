@@ -105,7 +105,7 @@ Use $adopt-change-shape to add execution guidance without OutcomeFlow.
 Use $run-evidence-probe to determine whether the storage model supports offline synchronization.
 ```
 
-Current versions: OutcomeFlow `1.1.0`, ChangeShape `1.3.0`, and EvidenceProbe `1.1.0`. Adopted guidance records `Version: x.y.z`; rerun the adoption skill to apply changes listed since that version.
+Each workflow document carries its version. Adopted guidance records `Version: x.y.z`; rerun the adoption skill to apply changes listed since that version.
 
 ## 💡 Usage
 

@@ -17,7 +17,7 @@ Inspect existing evidence before creating an experiment. Select the smallest act
 
 Run the probe within its authority. Local disposable experiments are permitted when covered by the investigation; tracked implementation edits, external mutations, and costly state require authorization for those actions and their recovery implications. Preserve unrelated work and user-owned evidence.
 
-Focused disposable tests using existing tooling are allowed; keep them isolated and remove scratch tests when finished. Persistent test changes and reusable test harnesses or infrastructure require an explicit request. Calling a harness temporary or untracked does not exempt it.
+Focused throwaway tests using existing tooling are fine; keep them out of maintained files and remove them when done. Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked.
 
 Label material claims `supported`, `contradicted`, or `unresolved`. Report observations actually obtained, commands as run, relevant environments, and limitations. Cite external evidence near the claim; do not invent confidence percentages or gather sources to meet a quota.
 

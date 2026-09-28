@@ -30,7 +30,7 @@ Inspect base images, platforms, runtime users, environment variables, secrets, v
 - Combine package-manager updates, installation, and cleanup in one layer when appropriate for the base image.
 - Avoid unbounded `latest` tags for production-oriented images unless the project already accepts that tradeoff.
 
-## Compose And Runtime Config
+## Compose and Runtime Config
 
 - Keep service names, networks, volumes, ports, and env files consistent with existing workflows.
 - Do not expose new host ports or mount sensitive paths unless required.
@@ -38,7 +38,7 @@ Inspect base images, platforms, runtime users, environment variables, secrets, v
 - Keep local-development conveniences out of production manifests unless the project intentionally shares them.
 - Be explicit about persistent volumes and data-loss implications.
 
-## Secrets And Environment
+## Secrets and Environment
 
 - Pass secrets at runtime through the platform's secret mechanism or environment, not through image layers.
 - Do not write secrets into Dockerfiles, Compose files, logs, build args, or committed env files.
@@ -46,7 +46,7 @@ Inspect base images, platforms, runtime users, environment variables, secrets, v
 
 ## Validation
 
-Follow the shared [test-work boundary](./AGENTS.md#test-work): existing checks and focused disposable tests are allowed within scope; persistent test changes and test harnesses or infrastructure require an explicit request.
+Follow the shared [test-work rules](./AGENTS.md#test-work).
 
 - Prefer the project's documented build or compose command.
 - For Dockerfile changes, run a build when practical.

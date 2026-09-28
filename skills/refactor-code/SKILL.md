@@ -9,11 +9,11 @@ Work on the files or ownership area selected by the user. Preserve behavior unle
 
 ## Context and Authority
 
-Read applicable root and nested instructions. Use the nearest tooling configuration for behavior it owns, and mapped language or runtime guidance only when relevant constraints affect the refactor. Private guidance applies only when explicitly requested or already active under the project's instructions.
+Read applicable root and nested instructions. Use the nearest tooling configuration for behavior it owns, and mapped language or runtime guidance only when relevant constraints affect the refactor. Local-only or private guidance applies only when explicitly requested or already active under the project's instructions.
 
 Inspect neighboring code, existing abstractions, callers, tests, and module boundaries as needed to understand the behavior being preserved. Do not load unrelated guides or perform a repository-wide audit by default.
 
-Match equivalent neighboring implementations in naming, temporary results, statement structure, control flow, logging, and error handling. Deviate only for a concrete correctness, safety, or task requirement, and explain the reason. Apply this even when the skill runs without code-kit's shared guidance.
+Match equivalent neighboring implementations in naming, temporary results, statement structure, control flow, logging, and error handling. Deviate only for a concrete correctness, safety, or task requirement, and explain the reason. Apply this even when the project has no shared guidance.
 
 ## Simplification Review
 
@@ -29,7 +29,7 @@ Preserve public APIs, serialized and persisted shapes, environment names, routes
 
 Retain safety checks, compatibility handling, and intentional conventions unless evidence shows they are unnecessary under the actual requirements. Uncertainty alone does not justify deletion.
 
-Run relevant existing checks; focused disposable tests using existing tooling are allowed within scope in every language. Keep scratch tests isolated and remove them when finished. Persistent test changes and reusable harnesses or test infrastructure require an explicit request, even if the harness is temporary or untracked. Report necessary persistent test changes as a gap unless requested; do not weaken tests to make the refactor pass.
+Run relevant existing checks. Focused throwaway tests using existing tooling are fine; keep them out of maintained files and remove them when done. Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked. When verification needs them, report the gap instead. Do not weaken tests to make the refactor pass.
 
 Prefer local consistency, clear ownership, and removal of incidental complexity. Refactor duplicated logic when shared behavior has matching semantics and makes maintenance simpler; do not wait for a third copy or merge superficial similarities with different responsibilities. Named methodologies and repetition counts do not mandate a rewrite.
 
@@ -39,15 +39,17 @@ If a useful improvement requires broader architecture, dependencies, or ownershi
 
 ## Required Readability
 
-Apply these requirements to every language in the requested refactor, including scripts and code examples, not just TypeScript. Preserve language syntax, significant whitespace, and literal contents; do not reformat generated or verbatim artifacts whose owning contract requires exact output.
+These requirements apply to maintained code in every language, including scripts and code examples, whether or not a language-specific guide exists. Preserve language syntax, significant whitespace, and literal data; do not modify generated or verbatim artifacts whose owning contract requires exact output.
 
-Separate independent logical steps with a single blank line. Group by coherent operation, not by statement category: keep declarations and assignments adjacent to their immediate check, call, or return within that operation. A query buffer and its query, a computed boundary and its guard, or a final value and the return using it must not be split by a blank line. Keep related setup declarations together without treating every data dependency as one function-wide group.
+- Separate independent logical steps with a single blank line. A group represents one coherent operation, not one statement category: setup, validation, computation, and a result can belong together when they serve that operation.
+- Keep a declaration or assignment adjacent to the check, call, or return that immediately consumes it within the same operation. Do not insert a blank line between a query buffer and its query, a computed boundary and its guard, or a final value and the return using it. Keep related setup declarations together; data dependency alone does not merge an entire function into one group.
+- Separate independent guards and control-flow blocks, and separate a completed block from the next independent step. Keep connected constructs such as `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` together, and keep comments attached to the code they explain.
+- Line wrapping does not define group boundaries. A multiline declaration or expression does not require a blank line before its tightly coupled use. Follow local wrapping rules without forcing conditions onto one line or splitting related statements merely because they wrap.
+- These spacing rules are requirements, not optional polish. Do not remove semantic separation to minimize line count, or introduce helpers, abstractions, or narration merely to avoid using blank lines.
+- Add named region markers when distinct responsibilities or multi-stage logic need named sections to make their structure and navigation clear, using the language/editor-supported convention. Base this on logical complexity, not file size or line counts. Preserve established marker style; do not wrap every guard or simple operation, invent unsupported syntax, or use regions to hide unnecessary complexity. Regions supplement semantic blank lines, not replace them.
+- Inspect semantic spacing before handing off changed code. A passing formatter or linter does not establish compliance; tooling silence or absence does not waive these rules. If explicit target instructions or tooling conflict, follow the applicable authority and report the conflict rather than silently dropping the requirement.
 
-Separate independent guards and control-flow blocks, and separate a completed block from the next independent step. Keep connected constructs such as `if`/`else`, `try`/`catch`/`finally`, and `do`/`while` together, and comments attached to their code. A wrapped declaration or expression does not require a blank line before its tightly coupled use; follow local line-wrapping rules independently. Do not remove meaningful whitespace to reduce line count or invent helpers and comments to substitute for separation.
-
-Add named region markers when distinct responsibilities or multi-stage logic need named sections to make their structure and navigation clear, using the language/editor-supported convention. Base this on logical complexity, not file size or line counts. Preserve established marker style; do not wrap every guard or simple operation, invent unsupported syntax, or use regions to hide unnecessary complexity. Regions supplement blank-line separation.
-
-These requirements apply even when the skill is used without shared guidance. Formatter or linter silence is not an exemption. Follow explicit conflicting target authority and report the conflict rather than silently abandoning readability requirements.
+Apply these requirements even when the project has no shared guidance. Unless the project establishes a different marker style, use `// #region Name` and `// #endregion` in JavaScript and TypeScript, `# region Name` and `# endregion` in Python and POSIX shells, and `#region Name` and `#endregion` in PowerShell. In C++, use `#pragma region Name` and `#pragma endregion` only when every compiler and flag set the project builds with accepts them without warnings; otherwise omit region markers.
 
 ## Completion
 

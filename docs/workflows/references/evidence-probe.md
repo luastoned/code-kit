@@ -34,6 +34,10 @@ For an inconclusive probe with no useful next experiment, name the missing evide
 
 ## Changelog
 
+### 1.1.1
+
+- Test-work rules condensed without changing behavior.
+
 ### 1.1.0
 
 - Focused disposable tests using existing tooling are allowed within the investigation boundary; remove scratch tests when finished. Persistent test changes and reusable test harnesses or infrastructure require an explicit request, even when called temporary or untracked.
