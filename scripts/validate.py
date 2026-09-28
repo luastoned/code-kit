@@ -247,6 +247,27 @@ def normalize_shared_body(text: str) -> str:
     return '\n'.join(lines)
 
 
+def without_fenced_code(text: str) -> str:
+    lines = []
+    fence = ''
+    for line in text.splitlines(keepends=True):
+        marker = re.match(r'^ {0,3}(`{3,}|~{3,})(.*)$', line)
+        if fence:
+            if marker and marker.group(1)[0] == fence[0] and len(marker.group(1)) >= len(fence) and not marker.group(2).strip():
+                fence = ''
+            lines.append('\n' if line.endswith('\n') else '')
+            continue
+
+        if marker and (marker.group(1)[0] != '`' or '`' not in marker.group(2)):
+            fence = marker.group(1)
+            lines.append('\n' if line.endswith('\n') else '')
+            continue
+
+        lines.append(line)
+
+    return ''.join(lines)
+
+
 def shared_section(source: str, location: str) -> str:
     relative_path, separator, anchor = source.partition('#')
     if not separator or not relative_path or not anchor or Path(relative_path).is_absolute():
@@ -258,22 +279,10 @@ def shared_section(source: str, location: str) -> str:
     if not path.is_file():
         raise ValidationError(f'{location}: missing shared source: {source}')
 
-    lines = path.read_text(encoding='utf-8').splitlines(keepends=True)
+    text = path.read_text(encoding='utf-8')
+    lines = text.splitlines(keepends=True)
     headings = []
-    fence = ''
-    for index, line in enumerate(lines):
-        fence_match = re.match(r'^ {0,3}(`{3,}|~{3,})', line)
-        if fence_match:
-            marker = fence_match.group(1)
-            if not fence:
-                fence = marker
-            elif marker[0] == fence[0] and len(marker) >= len(fence):
-                fence = ''
-            continue
-
-        if fence:
-            continue
-
+    for index, line in enumerate(without_fenced_code(text).splitlines()):
         heading = re.match(r'^(#{1,6})\s+(.+?)\s*$', line)
         if heading:
             headings.append((index, len(heading.group(1)), heading_slug(heading.group(2))))
@@ -289,14 +298,15 @@ def shared_section(source: str, location: str) -> str:
 
 
 def validate_shared_links(body: str, location: str) -> None:
+    body = without_fenced_code(body)
+    body = re.sub(r'(?<!`)(`+)(?!`).*?(?<!`)\1(?!`)', '', body, flags=re.DOTALL)
     targets = re.findall(r'!?\[[^\]\n]*\]\s*\(\s*(<[^>]*>|[^\s)]*)', body)
     definitions = re.findall(r'^ {0,3}\[([^\]\n]+)\]:\s*(<[^>]*>|\S+)', body, re.MULTILINE)
     targets.extend(target for _, target in definitions)
 
     labels = {' '.join(label.lower().split()) for label, _ in definitions}
     references = re.sub(r'^ {0,3}\[[^\]\n]+\]:.*$', '', body, flags=re.MULTILINE)
-    references = re.sub(r'(`+).*?\1', '', references, flags=re.DOTALL)
-    for label, reference in re.findall(r'!?\[([^\]\n]+)\](?:\[([^\]\n]*)\])?(?!\s*\()', references):
+    for label, reference in re.findall(r'!?\[([^\]\n]+)\]\[([^\]\n]*)\]', references):
         if ' '.join((reference or label).lower().split()) not in labels:
             raise ValidationError(f'{location}: shared block reference link has no local definition: {reference or label}')
 
@@ -307,10 +317,11 @@ def validate_shared_links(body: str, location: str) -> None:
 
 
 def validate_shared_blocks_in_file(path: Path) -> None:
-    lines = path.read_text(encoding='utf-8').splitlines(keepends=True)
+    text = path.read_text(encoding='utf-8')
+    lines = text.splitlines(keepends=True)
     source = None
     start = 0
-    for index, line in enumerate(lines):
+    for index, line in enumerate(without_fenced_code(text).splitlines()):
         if not re.match(r'^\s*<!--\s*/?code-kit shared block', line):
             continue
 
