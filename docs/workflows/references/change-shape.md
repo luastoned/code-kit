@@ -38,12 +38,16 @@ ChangeShape focuses on ambiguity, recovery, coordination, and verification becau
 
 Each entry lists behavior an adopted copy may need to change. Upgrade by applying every entry after the recorded version.
 
+### 1.3.1
+
+- Repair the incomplete 1.3.0 upgrade entry; the operating contract is unchanged. Under OutcomeFlow, ensure the selected outcome supplies what should become true, why it matters now, constraints and non-goals, decision authority, and the intended observable effect. Return classification, evidence states, accepted or unresolved risks, and what was integrated or still awaits authorization.
+
 ### 1.3.0
 
 - Classification chooses the lightest shape that covers the change, names the triggers for Scoped and Shaped, and uses the heavier shape when reversal cost or detectability is uncertain.
 - When state must survive the interaction and no coordination system exists, create a temporary specification for one active outcome or a work index for several entries.
 - An explicit flow classifies before implementation and ends by returning the result; standalone use then reviews remaining candidates.
-- Under OutcomeFlow, the selected outcome supplies the intended observable effect. Acceptance covers what implementation can demonstrate, delayed effects go to observation, and execution returns classification, evidence states, risks, and integration status.
+- Under OutcomeFlow, the selected outcome supplies what should become true, why it matters now, constraints and non-goals, decision authority, and the intended observable effect. Acceptance covers what implementation can demonstrate, delayed effects go to observation, and execution returns classification, evidence states, accepted or unresolved risks, and what was integrated or still awaits authorization.
 - Restored from 1.1.0:
   - Named Shaped areas: domain or state models, contracts between runtimes, and authentication, authorization, privacy, and identity semantics.
   - Isolated unit tests do not verify a Scoped boundary.

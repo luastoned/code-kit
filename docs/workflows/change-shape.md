@@ -2,7 +2,7 @@
 
 > An agent-native method for classifying and coordinating software changes.
 >
-> Version 1.3.0
+> Version 1.3.1
 
 ChangeShape governs execution after a request or outcome exists. It is designed for one person acting as product owner and developer with a primary agent and optional specialist agents. It works independently or under [OutcomeFlow](./outcome-flow.md).
 
