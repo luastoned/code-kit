@@ -94,4 +94,6 @@ Installers link complete skill directories. Keep the source checkout available b
 
 Changes do not propagate automatically. Run the relevant audit or synchronization skill when a target repository needs current guidance or configuration.
 
+Adopted workflow sections start with `Version: x.y.z`. Rerunning an adoption skill against a lower version applies only the changes listed after it in the workflow's reference changelog. Guidance synchronization leaves these sections to the adoption skills.
+
 Private guidance under `guidance/private/` stays local. Do not publish or copy it unless the user explicitly requests that action.

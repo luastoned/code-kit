@@ -17,9 +17,9 @@ Stay within the repositories placed in scope. Read applicable agent instructions
 
 ## Audit or Adoption
 
-Compare actual behavior with the contract: durable direction, outcome selection, decision authority, execution, attention limits, delayed observation, and information lifecycle. Equivalent local terminology and methods are acceptable.
+Compare actual behavior with the contract: durable direction, outcome selection, decision authority, the handoff to and from execution, attention limits, delayed observation, reconsideration, and information lifecycle. Equivalent local terminology and methods are acceptable.
 
-In audit mode, report `compatible`, `partially compatible`, or `adoption recommended`. Identify only material gaps and the smallest useful adoption. A missing metric, Initiative, tracker, or probe is not a gap when the project does not need it. Stop without editing.
+In audit mode, report `compatible`, `partially compatible`, or `adoption recommended`. Identify only material gaps and the smallest useful adoption. Include the recorded and current versions; changelog entries not yet adopted are gaps. A missing metric, Initiative, tracker, or probe is not a gap when the project does not need it. Stop without editing.
 
 In adoption mode:
 
@@ -30,11 +30,22 @@ In adoption mode:
 - Preserve delegated selection and acceptance. A selected request need not be selected again, and verification should continue through repairs to the authorized endpoint.
 - Keep release and deployment subject to their own authorization.
 - Apply the solo-owner attention defaults unless the owner has delegated independent integration capacity.
-- Keep delayed evidence triggers separate from active delivery. Do not invent direction, work, metrics, automations, or dependency inventories.
+- Keep delayed evidence triggers separate from active delivery, and review live triggers before selecting the next outcome. Do not invent direction, work, metrics, automations, or dependency inventories.
 - Reuse one coordination system. Create or consolidate artifacts only when active boundaries or live triggers justify them and the requested scope permits it. Preserve material history unless removal is authorized.
+
+## Version
+
+Keep the adopted rules together in one section of the target guidance and start that section with the source version on its own line: `Version: x.y.z`. The line lets later runs see whether an update exists; add no other provenance.
+
+- No recorded version: compare with the full contract, then record the current version.
+- Lower recorded version: read the entries after it in the `Changelog` section of `docs/workflows/references/outcome-flow.md`, adapt only those changes while preserving local adaptations, then update the line.
+- Same version: nothing to upgrade.
+- Higher recorded version: the code-kit checkout is stale. Report it and leave the section unchanged.
+
+When adoption adapts ChangeShape, keep it in its own section with its own version line. Upgrade an existing code-kit ChangeShape section the same way using `docs/workflows/references/change-shape.md`. An equivalent local execution method records no ChangeShape version.
 
 ## Completion
 
 Check affected Markdown, links, local validation, and the final diff for contradictions or duplicate authorities. Run `git diff --check` when applicable and repair issues introduced by the changes.
 
-Report the changed files, where delivery and execution rules live, important adaptations, validation, and unresolved decisions. Do not start a product outcome merely to demonstrate adoption.
+Report the changed files, where delivery and execution rules live, the recorded versions, important adaptations, validation, and unresolved decisions. Do not start a product outcome merely to demonstrate adoption.

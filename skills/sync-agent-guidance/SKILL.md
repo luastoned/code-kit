@@ -51,6 +51,6 @@ Give locations, consequences, and minimal revisions. Report important intentiona
 
 Merge into existing guidance and referenced guides. Keep each retained subject coherent, but change headings or combine sections when that improves routing. Remove obsolete or duplicate instructions within scope; preserve unrelated user content.
 
-Do not add version stamps, provenance comments, locks, or tracking files. Do not copy shared documentation wholesale or create parallel authorities.
+Do not add version stamps, provenance comments, locks, or tracking files. Leave sections adopted from code-kit workflows, including their `Version:` lines, to the workflow adoption skills. Do not copy shared documentation wholesale or create parallel authorities.
 
 Compare the result with the considered source sections for lost obligations, weakened defaults, conflicting rules, broken paths, needless mandatory reading, and accidental permission changes. Check that every new nested `AGENTS.md` has a concrete scoping need rather than merely mirroring a folder. Run relevant local checks and fix introduced issues. Report changed files, placement rationale, guides used, material omissions or local adaptations, and unresolved conflicts or validation limits.

@@ -22,6 +22,7 @@ This repository stores shared coding resources that are reused across other proj
 - Update `configs/AGENTS.md` when adding, removing, or changing the intended use of files in `configs/`.
 - Keep personal, sensitive, or project-specific private overlays under `guidance/private/`; only `.gitkeep` may be tracked there.
 - Update `skills/sync-agent-guidance/` when changing how guidance is adapted into target projects.
+- When a workflow contract in `docs/workflows/` changes, bump its version: major for removed or incompatible behavior, minor for added or tightened behavior, patch for wording only. Add a changelog entry to its reference document and update the README version line and OutcomeFlow's alignment line. Adoption upgrades apply only listed changes, so check the entry against the contract's full diff since the previous version before releasing.
 - Keep scripts non-interactive, safe around existing files, and runnable from any working directory.
 - Update `configs/` only for tooling behavior intended as a shared default or reusable fragment.
 - Keep `README.md` focused on what this repo contains and how other locations consume it.
