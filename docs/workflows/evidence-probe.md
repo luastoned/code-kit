@@ -2,7 +2,7 @@
 
 > An agent-native method for resolving consequential uncertainty with bounded evidence.
 >
-> Version 1.1.1
+> Version 1.2.0
 >
 > Status: Released
 
@@ -32,7 +32,16 @@ Report commands as run, relevant environment details, and observations actually 
 
 Keep experiments isolated from production paths. Local disposable experiments within the authorized investigation may proceed without repeated confirmation. Changes to tracked implementation, external systems, production data, or costly state require authorization covering that action and its recovery implications.
 
-Focused throwaway tests using existing tooling are fine within that boundary; keep them out of maintained files and remove them when done. Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked.
+Apply these test-work rules within that boundary; they do not authorize implementation changes for a probe-only request.
+
+<!-- code-kit shared block: guidance/AGENTS.md#test-work -->
+
+- Run existing tests and checks when relevant and safe; use snapshot-update or baseline-regeneration modes only on request.
+- Focused throwaway tests that use existing tooling and verify or investigate the requested work are fine. Keep them out of maintained files and remove them when done.
+- Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked. When verification needs them, report the gap instead.
+- Fix regressions in the implementation; do not weaken assertions or expected results to make checks pass.
+
+<!-- /code-kit shared block -->
 
 Do not silently promote prototype code into production. If implementation is authorized, transition explicitly to the project's execution method and apply production verification requirements.
 

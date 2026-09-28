@@ -32,6 +32,8 @@ flowchart TD
 
 Choose one canonical home for each rule or resource. Update related files only when they consume, index, describe, or validate that source. A request to edit shared resources does not by itself require a commit.
 
+Designated standalone rule copies inside code-kit use `code-kit shared block` comments to identify their canonical section. `scripts/validate.py` checks section-body equality, marker structure, and link portability. Update the source and all marked copies together; this does not enforce identical wording in downstream adaptations or detect unmarked duplicates.
+
 For substantial workflow changes, exercise representative request scenarios before handoff: a narrow edit, a read-only audit, an authorized implementation with verification, and a case needing a new decision. Check scope preservation and observable completion rather than matching prose or headings.
 
 ## Downstream Consumption

@@ -29,7 +29,14 @@ Preserve public APIs, serialized and persisted shapes, environment names, routes
 
 Retain safety checks, compatibility handling, and intentional conventions unless evidence shows they are unnecessary under the actual requirements. Uncertainty alone does not justify deletion.
 
-Run relevant existing checks. Focused throwaway tests using existing tooling are fine; keep them out of maintained files and remove them when done. Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked. When verification needs them, report the gap instead. Do not weaken tests to make the refactor pass.
+<!-- code-kit shared block: guidance/AGENTS.md#test-work -->
+
+- Run existing tests and checks when relevant and safe; use snapshot-update or baseline-regeneration modes only on request.
+- Focused throwaway tests that use existing tooling and verify or investigate the requested work are fine. Keep them out of maintained files and remove them when done.
+- Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked. When verification needs them, report the gap instead.
+- Fix regressions in the implementation; do not weaken assertions or expected results to make checks pass.
+
+<!-- /code-kit shared block -->
 
 Prefer local consistency, clear ownership, and removal of incidental complexity. Refactor duplicated logic when shared behavior has matching semantics and makes maintenance simpler; do not wait for a third copy or merge superficial similarities with different responsibilities. Named methodologies and repetition counts do not mandate a rewrite.
 
@@ -38,6 +45,8 @@ Preserve intent and non-obvious constraints in comments; remove stale narration.
 If a useful improvement requires broader architecture, dependencies, or ownership changes outside scope, complete independent authorized improvements and explain the remaining decision. Do not silently expand the refactor.
 
 ## Required Readability
+
+<!-- code-kit shared block: guidance/AGENTS.md#code-readability -->
 
 These requirements apply to maintained code in every language, including scripts and code examples, whether or not a language-specific guide exists. Preserve language syntax, significant whitespace, and literal data; do not modify generated or verbatim artifacts whose owning contract requires exact output.
 
@@ -48,6 +57,8 @@ These requirements apply to maintained code in every language, including scripts
 - These spacing rules are requirements, not optional polish. Do not remove semantic separation to minimize line count, or introduce helpers, abstractions, or narration merely to avoid using blank lines.
 - Add named region markers when distinct responsibilities or multi-stage logic need named sections to make their structure and navigation clear, using the language/editor-supported convention. Base this on logical complexity, not file size or line counts. Preserve established marker style; do not wrap every guard or simple operation, invent unsupported syntax, or use regions to hide unnecessary complexity. Regions supplement semantic blank lines, not replace them.
 - Inspect semantic spacing before handing off changed code. A passing formatter or linter does not establish compliance; tooling silence or absence does not waive these rules. If explicit target instructions or tooling conflict, follow the applicable authority and report the conflict rather than silently dropping the requirement.
+
+<!-- /code-kit shared block -->
 
 Apply these requirements even when the project has no shared guidance. Unless the project establishes a different marker style, use `// #region Name` and `// #endregion` in JavaScript and TypeScript, `# region Name` and `# endregion` in Python and POSIX shells, and `#region Name` and `#endregion` in PowerShell. In C++, use `#pragma region Name` and `#pragma endregion` only when every compiler and flag set the project builds with accepts them without warnings; otherwise omit region markers.
 

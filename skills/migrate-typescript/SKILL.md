@@ -11,7 +11,16 @@ Use audit mode for compatibility checks, findings, or recommendations. Audit mod
 
 Identify the project, installed and requested compiler versions, and whether the goal includes TypeScript 7 preparation. Preserve the runtime, module system, package manager, emitted output, and public contracts unless the request includes changing them.
 
-Run existing checks where permitted. In migration mode, focused throwaway tests using existing tooling are fine; keep them out of maintained files and remove them when done. Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked, and report needed test compatibility changes separately. Audit mode remains read-only.
+Run existing checks where permitted. In migration mode, apply the test-work rules below and report needed test compatibility changes separately. Audit mode remains read-only.
+
+<!-- code-kit shared block: guidance/AGENTS.md#test-work -->
+
+- Run existing tests and checks when relevant and safe; use snapshot-update or baseline-regeneration modes only on request.
+- Focused throwaway tests that use existing tooling and verify or investigate the requested work are fine. Keep them out of maintained files and remove them when done.
+- Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked. When verification needs them, report the gap instead.
+- Fix regressions in the implementation; do not weaken assertions or expected results to make checks pass.
+
+<!-- /code-kit shared block -->
 
 ## Investigation
 

@@ -206,6 +206,12 @@ def validate_gitmojis() -> None:
             raise ValidationError(f'{path}: duplicate {key} values')
 
 
+def heading_slug(value: str) -> str:
+    value = value.strip().lower()
+    value = ''.join(character for character in value if character.isalnum() or character in ' -_')
+    return re.sub(r' +', '-', value)
+
+
 def validate_markdown() -> None:
     for path in sorted(ROOT.rglob('*.md')):
         if '.git' in path.parts:
@@ -222,15 +228,131 @@ def validate_markdown() -> None:
     readme = (ROOT / 'README.md').read_text(encoding='utf-8')
     navigation = set(re.findall(r'href="#([^"]+)"', readme))
 
-    def slug(value: str) -> str:
-        value = value.strip().lower()
-        value = ''.join(character for character in value if character.isalnum() or character in ' -_')
-        return re.sub(r' +', '-', value)
-
-    headings = {slug(match.group(1)) for match in re.finditer(r'^#{1,6}\s+(.+?)\s*$', readme, re.MULTILINE)}
+    headings = {heading_slug(match.group(1)) for match in re.finditer(r'^#{1,6}\s+(.+?)\s*$', readme, re.MULTILINE)}
     missing = navigation - headings
     if missing:
         raise ValidationError(f'README navigation references missing headings: {sorted(missing)}')
+
+
+# region Shared blocks
+
+def normalize_shared_body(text: str) -> str:
+    lines = text.replace('\r\n', '\n').replace('\r', '\n').split('\n')
+    while lines and not lines[0].strip():
+        lines.pop(0)
+
+    while lines and not lines[-1].strip():
+        lines.pop()
+
+    return '\n'.join(lines)
+
+
+def shared_section(source: str, location: str) -> str:
+    relative_path, separator, anchor = source.partition('#')
+    if not separator or not relative_path or not anchor or Path(relative_path).is_absolute():
+        raise ValidationError(f'{location}: expected a repository-relative source path and section anchor: {source}')
+
+    path = (ROOT / relative_path).resolve()
+    if not path.is_relative_to(ROOT.resolve()) or path.is_relative_to((ROOT / 'guidance/private').resolve()):
+        raise ValidationError(f'{location}: shared source must be inside the public repository: {source}')
+    if not path.is_file():
+        raise ValidationError(f'{location}: missing shared source: {source}')
+
+    lines = path.read_text(encoding='utf-8').splitlines(keepends=True)
+    headings = []
+    fence = ''
+    for index, line in enumerate(lines):
+        fence_match = re.match(r'^ {0,3}(`{3,}|~{3,})', line)
+        if fence_match:
+            marker = fence_match.group(1)
+            if not fence:
+                fence = marker
+            elif marker[0] == fence[0] and len(marker) >= len(fence):
+                fence = ''
+            continue
+
+        if fence:
+            continue
+
+        heading = re.match(r'^(#{1,6})\s+(.+?)\s*$', line)
+        if heading:
+            headings.append((index, len(heading.group(1)), heading_slug(heading.group(2))))
+
+    matches = [(index, level) for index, level, slug in headings if slug == anchor]
+    if len(matches) != 1:
+        problem = 'unknown' if not matches else 'ambiguous'
+        raise ValidationError(f'{location}: {problem} shared source section: {source}')
+
+    start, level = matches[0]
+    end = next((index for index, depth, _ in headings if index > start and depth <= level), len(lines))
+    return normalize_shared_body(''.join(lines[start + 1:end]))
+
+
+def validate_shared_links(body: str, location: str) -> None:
+    targets = re.findall(r'!?\[[^\]\n]*\]\s*\(\s*(<[^>]*>|[^\s)]*)', body)
+    definitions = re.findall(r'^ {0,3}\[([^\]\n]+)\]:\s*(<[^>]*>|\S+)', body, re.MULTILINE)
+    targets.extend(target for _, target in definitions)
+
+    labels = {' '.join(label.lower().split()) for label, _ in definitions}
+    references = re.sub(r'^ {0,3}\[[^\]\n]+\]:.*$', '', body, flags=re.MULTILINE)
+    references = re.sub(r'(`+).*?\1', '', references, flags=re.DOTALL)
+    for label, reference in re.findall(r'!?\[([^\]\n]+)\](?:\[([^\]\n]*)\])?(?!\s*\()', references):
+        if ' '.join((reference or label).lower().split()) not in labels:
+            raise ValidationError(f'{location}: shared block reference link has no local definition: {reference or label}')
+
+    for target in targets:
+        target = target.strip('<>')
+        if not re.match(r'^[A-Za-z][A-Za-z0-9+.-]*:', target):
+            raise ValidationError(f'{location}: shared block contains a relative link or image: {target}')
+
+
+def validate_shared_blocks_in_file(path: Path) -> None:
+    lines = path.read_text(encoding='utf-8').splitlines(keepends=True)
+    source = None
+    start = 0
+    for index, line in enumerate(lines):
+        if not re.match(r'^\s*<!--\s*/?code-kit shared block', line):
+            continue
+
+        location = f'{path}:{index + 1}'
+        opening = re.fullmatch(r'<!-- code-kit shared block: ([^\s]+) -->', line.strip())
+        if opening:
+            if source is not None:
+                raise ValidationError(f'{location}: nested shared block')
+            source = opening.group(1)
+            start = index
+            continue
+
+        if line.strip() != '<!-- /code-kit shared block -->':
+            raise ValidationError(f'{location}: malformed shared block marker')
+        if source is None:
+            raise ValidationError(f'{location}: unmatched shared block closing marker')
+
+        location = f'{path}:{start + 1}'
+        expected = shared_section(source, location)
+        actual = normalize_shared_body(''.join(lines[start + 1:index]))
+        validate_shared_links(expected, f'{location} (source {source})')
+        validate_shared_links(actual, location)
+        if actual != expected:
+            raise ValidationError(f'{location}: shared block differs from {source}; update the source and every marked copy together')
+
+        source = None
+
+    if source is not None:
+        raise ValidationError(f'{path}:{start + 1}: unclosed shared block: {source}')
+
+
+def validate_shared_blocks() -> None:
+    paths = run(['git', 'ls-files', '-z', '--cached', '--others', '--exclude-standard', '--', '*.md'], capture=True)
+    for relative_path in sorted(set(paths.split('\0'))):
+        if not relative_path or relative_path.startswith('guidance/private/'):
+            continue
+
+        path = ROOT / relative_path
+        if path.is_file():
+            validate_shared_blocks_in_file(path)
+
+# endregion
 
 
 def validate_cross_file_consistency() -> None:
@@ -305,6 +427,7 @@ def main() -> int:
         ('JSON', validate_json),
         ('Gitmoji reference', validate_gitmojis),
         ('Markdown', validate_markdown),
+        ('shared blocks', validate_shared_blocks),
         ('cross-file consistency', validate_cross_file_consistency),
         ('text files', validate_text_files),
         ('external tools', validate_tools),
