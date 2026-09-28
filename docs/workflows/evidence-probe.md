@@ -2,7 +2,7 @@
 
 > An agent-native method for resolving consequential uncertainty with bounded evidence.
 >
-> Version 1.0.0
+> Version 1.1.0
 >
 > Status: Released
 

@@ -46,3 +46,23 @@ If shared-link joining works technically but observed failures cluster around ex
 ## Ownership
 
 OutcomeFlow owns direction, selection, attention, and delayed observation. ChangeShape owns implementation classification and verification. EvidenceProbe owns bounded evidence gathering. Native systems own code, checks, deployments, incidents, and product signals.
+
+## Changelog
+
+Each entry lists behavior an adopted copy may need to change. Upgrade by applying every entry after the recorded version.
+
+### 1.1.0
+
+- Review live Decision Triggers before selecting the next outcome; a met trigger can reopen its decision ahead of new candidates.
+- An explicit flow runs from selection through execution, delivery, and observation to reconsideration, which updates Direction only when understanding changed.
+- Execution receives the intended observable effect and returns classification, evidence states, risks, and integration status. An outcome stays active until the integration or release that lets its effect occur is complete.
+- Restored from 0.1.0:
+  - Initiatives are not decomposed in advance. Their next outcome is selected from current evidence, and the Initiative is reconsidered after each outcome. Outcomes do not become speculative task trees.
+  - Trigger examples are listed.
+  - Local safety or release constraints may tighten concurrency.
+  - One integration owner verifies a cross-repository boundary.
+  - Unrelated outcomes stay split even when they share a repository, release, or agent.
+
+### 1.0.0
+
+- Initial release.

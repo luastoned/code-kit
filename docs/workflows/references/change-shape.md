@@ -33,3 +33,42 @@ For a durable decision record, capture context, choice, ramifications, and a rec
 ## Background
 
 ChangeShape focuses on ambiguity, recovery, coordination, and verification because code-production speed does not remove those constraints. It draws on small-batch delivery, outcome-based planning, lightweight decision records, and Shape Up's attention to boundaries. It does not require sprints, story points, a branching model, or an issue tracker.
+
+## Changelog
+
+Each entry lists behavior an adopted copy may need to change. Upgrade by applying every entry after the recorded version.
+
+### 1.3.0
+
+- Classification chooses the lightest shape that covers the change, names the triggers for Scoped and Shaped, and uses the heavier shape when reversal cost or detectability is uncertain.
+- When state must survive the interaction and no coordination system exists, create a temporary specification for one active outcome or a work index for several entries.
+- An explicit flow classifies before implementation and ends by returning the result; standalone use then reviews remaining candidates.
+- Under OutcomeFlow, the selected outcome supplies the intended observable effect. Acceptance covers what implementation can demonstrate, delayed effects go to observation, and execution returns classification, evidence states, risks, and integration status.
+- Restored from 1.1.0:
+  - Named Shaped areas: domain or state models, contracts between runtimes, and authentication, authorization, privacy, and identity semantics.
+  - Isolated unit tests do not verify a Scoped boundary.
+  - Shaped work verifies each acceptance condition in every required environment.
+  - For every shape, verification uses each required environment or a faithful substitute whose limits are stated. Reports give checks as run and observations actually obtained, and name every failed or unverified acceptance condition.
+  - Initiatives are not decomposed into task trees in advance.
+  - Unrelated outcomes stay split even when they share a repository, release, or agent.
+  - Each subtask specifies exclusions and verification in addition to its outcome, scope, constraints, acceptance, and mutation authority.
+  - Subagents stop and report product ambiguity, overlapping ownership, costly-to-reverse decisions, or scope expansion.
+  - Documentation is also created when the user requests a durable document. Plans, completed work, and mentioned future ideas do not justify documentation, and progress journals, diaries, and verification transcripts are excluded.
+
+### 1.2.0
+
+- Condensed into an operating contract; examples and artifact guidance moved to this reference.
+- Infer the authorized endpoint and continue through verification and repairs. Prior approval and previously approved acceptance criteria carry forward.
+- Announce classification only when it explains a meaningful scope, coordination, or verification choice.
+- On reclassification, continue within existing authority; pause only work that needs a new decision or permission.
+
+### 1.1.0
+
+- Recovery risk replaces irreversibility and covers detection, containment, rollback, data repair, compatibility recovery, and lasting consequences.
+- Route consequential uncertainty to the owner or EvidenceProbe.
+- Acceptance precedes integration; accepting a failed or unverified condition does not relabel the evidence.
+- Under OutcomeFlow, also apply its one-Shaped-outcome default across the owner's ownership domain.
+
+### 1.0.0
+
+- Initial release.

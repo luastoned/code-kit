@@ -31,3 +31,13 @@ For “compare these options,” return the result and recommend an option only 
 For “test whether A meets these constraints; implement A if it does,” report the evidence and continue when the condition is met. Ask only if the result leaves a consequential choice outside that authorization.
 
 For an inconclusive probe with no useful next experiment, name the missing evidence and affected decision. More source collection does not by itself improve the result.
+
+## Changelog
+
+### 1.1.0
+
+- Focused disposable tests using existing tooling are allowed within the investigation boundary; remove scratch tests when finished. Persistent test changes and reusable test harnesses or infrastructure require an explicit request, even when called temporary or untracked.
+
+### 1.0.0
+
+- Initial release.
