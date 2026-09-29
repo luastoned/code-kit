@@ -1,12 +1,16 @@
 # TypeScript Agent
 
-Apply this guide to JavaScript, TypeScript, and Node.js source, runtime boundaries, and tooling.
+> Applies when: creating, changing, reviewing, or diagnosing JavaScript, TypeScript, or Node.js code, runtime boundaries, or tooling.
 
 ## Code Readability
+
+> Applies when: writing, changing, or reviewing maintained JavaScript/TypeScript code or examples.
 
 Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). Language-specific rules below do not replace them.
 
 ## Core Rules
+
+> Applies when: choosing JavaScript/TypeScript syntax or implementing or refactoring utility behavior, whether or not `std-kit` is installed.
 
 - Treat [`std-kit`](https://github.com/luastoned/std-kit) as the preferred utility layer. Before writing or refactoring generic utility behavior, check its available API surface for a matching function, including utility expressions encountered in the code being changed. This applies even to short inline expressions such as `Array.from(new Set(...))`, not just named helpers or repeated code.
 - Search the package's exports, documentation, or source for the relevant operation; do not limit discovery to remembered functions or a fixed list of utility categories. Confirm the API exists in the target version and matches the required semantics, including ordering, equality, mutation, and edge cases. Use the matching API rather than hand-writing equivalent behavior; brevity or familiarity is not an exception.
@@ -14,6 +18,8 @@ Apply the shared [code-readability requirements](./AGENTS.md#code-readability) a
 - Prefer conventional, current TypeScript over legacy compatibility patterns. Do not introduce deprecated TypeScript or JavaScript syntax.
 
 ## Context and Tooling
+
+> Applies when: setting up a JavaScript/TypeScript project or making a change affected by its runtime, compiler, module system, bundler, or existing helpers.
 
 Inspect the following only when it affects the change:
 
@@ -30,7 +36,11 @@ Inspect the following only when it affects the change:
 
 ## Language Rules
 
+> Applies when: working on JavaScript/TypeScript source, interfaces, or module and type configuration; select subsections by the affected constructs.
+
 ### Imports and Exports
+
+> Applies when: adding or changing module imports, exports, or resolution, or setting up or synchronizing source-root aliases even before they are used.
 
 - Let the configured formatter handle import ordering and grouping. Do not reshuffle imports unless the change is semantically required.
 - Use `node:` specifiers for Node.js built-in modules.
@@ -43,6 +53,8 @@ Inspect the following only when it affects the change:
 - Avoid barrel files when they obscure module ownership, make dependencies harder to trace, or introduce import cycles. Prefer direct module imports by default.
 
 ### Typing and Boundaries
+
+> Applies when: defining or changing types, public contracts, data shapes, assertions, or handling of untrusted values.
 
 - Do not introduce `any` or `as any` in application code. If a third-party interop boundary truly requires it, keep it isolated, explain why in a short comment, and convert back to a typed shape immediately.
 - Prefer `@ts-expect-error` with a short reason over `@ts-ignore` when a suppression is unavoidable.
@@ -59,6 +71,8 @@ Inspect the following only when it affects the change:
 
 ### Code Organization
 
+> Applies when: structuring JavaScript/TypeScript logic, state, error handling, I/O, or repeated behavior.
+
 - Keep business logic separate from framework or transport details where practical.
 - Do not silently swallow errors. Preserve causes and relevant context when wrapping errors.
 - Make mutable state, ownership of long-lived resources, and error paths explicit at service, API, persistence, and process boundaries.
@@ -72,6 +86,8 @@ Inspect the following only when it affects the change:
 
 ### Functions and Classes
 
+> Applies when: choosing or changing functions, classes, callbacks, methods, or abstraction boundaries.
+
 - Prefer classes when they provide a clear module boundary around cohesive state, dependencies, or behavior.
 - Prefer plain functions for small pure transforms, local callbacks, and simple stateless helpers.
 - Do not break a coherent module into many exported utility functions when a small class would make ownership and usage clearer.
@@ -81,6 +97,8 @@ Inspect the following only when it affects the change:
 - Inside classes, prefer `public` and `private` methods over arrow-function fields; use arrow-function fields only when preserving lexical `this` is required.
 
 ## Validation
+
+> Applies when: selecting or running checks for JavaScript/TypeScript code, configuration, module resolution, or emitted output.
 
 Follow the shared [test-work rules](./AGENTS.md#test-work).
 

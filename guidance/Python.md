@@ -1,8 +1,10 @@
 # Python Agent
 
-Apply this guide to Python source, scripts, packaging, notebooks, and tooling.
+> Applies when: creating, changing, reviewing, or diagnosing Python source, scripts, notebooks, packaging, or tooling.
 
 ## Code Readability
+
+> Applies when: writing, changing, or reviewing maintained Python code or examples.
 
 Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). Language-specific rules below do not replace them.
 
@@ -10,11 +12,15 @@ Preserve indentation and connected `if`/`elif`/`else`, `try`/`except`/`else`/`fi
 
 ## Core Rules
 
+> Applies when: setting up Python work or choosing changes to its package manager, project layout, dependencies, or tooling.
+
 - Prefer the repository's existing package manager, layout, and tooling when they are already established.
 - For new Python projects or unopinionated tooling, prefer `uv` and `uvx` over older workflows such as direct `pip`, ad hoc virtualenv commands, or global tool installs.
 - Do not introduce broad rewrites, new dependencies, or stricter project-wide tooling unless the task requires it.
 
 ## Context and Tooling
+
+> Applies when: selecting Python commands or tools, introducing packaging or validation tooling, or changing runtime, dependency, or configuration behavior.
 
 Inspect the following only when it affects the change:
 
@@ -34,7 +40,11 @@ Inspect the following only when it affects the change:
 
 ## Language Rules
 
+> Applies when: writing or reviewing Python implementations or interfaces; select subsections by the affected types, structure, and operations.
+
 ### Typing and Boundaries
+
+> Applies when: defining or changing Python APIs, data models, type annotations, or input validation.
 
 - Type public APIs, exported functions, class methods, CLI boundaries, service boundaries, and data models.
 - Type complex internal helpers when annotations make behavior clearer.
@@ -45,6 +55,8 @@ Inspect the following only when it affects the change:
 - Runtime validation still matters for untrusted input, config, files, network payloads, environment variables, and user input.
 
 ### Code Organization
+
+> Applies when: organizing Python modules or logical sections, or changing resource ownership, paths, errors, state, or dependencies between components.
 
 - Use `# region RegionName` and `# endregion` for the logical sections required by the shared readability rules. Preserve established marker naming and placement.
 - Prefer `pathlib.Path` for filesystem paths in new code unless the surrounding code uses strings heavily.
@@ -58,12 +70,16 @@ Inspect the following only when it affects the change:
 
 ### Async and I/O
 
+> Applies when: adding, changing, or reviewing Python asynchronous work, network operations, subprocesses, files, or other I/O resources.
+
 - Match the existing sync or async model.
 - Do not mix blocking I/O into async paths without using the project's established executor or thread pattern.
 - Use timeouts and cancellation paths for network or long-running I/O when the surrounding code supports them.
 - Close sessions, clients, subprocesses, files, and streams deterministically.
 
 ## Validation
+
+> Applies when: selecting or running checks for Python code, CLI behavior, packaging metadata, imports, or dependencies.
 
 Follow the shared [test-work rules](./AGENTS.md#test-work).
 

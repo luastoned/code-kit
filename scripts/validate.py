@@ -366,6 +366,19 @@ def validate_shared_blocks() -> None:
 # endregion
 
 
+def validate_guidance_applicability() -> None:
+    for path in sorted((ROOT / 'guidance').glob('*.md')):
+        text = path.read_text(encoding='utf-8')
+        lines = text.splitlines()
+        for index, line in enumerate(without_fenced_code(text).splitlines()):
+            if not re.match(r'^#{1,6}\s+\S', line):
+                continue
+
+            first_content = next((following for following in lines[index + 1:] if following.strip()), '')
+            if not re.match(r'^> Applies when: \S', first_content):
+                raise ValidationError(f'{path}:{index + 1}: {line.strip()} must start with a nonempty "> Applies when:" block')
+
+
 def validate_cross_file_consistency() -> None:
     readme = (ROOT / 'README.md').read_text(encoding='utf-8')
     skills = {path.name for path in skill_directories()}
@@ -439,6 +452,7 @@ def main() -> int:
         ('Gitmoji reference', validate_gitmojis),
         ('Markdown', validate_markdown),
         ('shared blocks', validate_shared_blocks),
+        ('guidance applicability', validate_guidance_applicability),
         ('cross-file consistency', validate_cross_file_consistency),
         ('text files', validate_text_files),
         ('external tools', validate_tools),

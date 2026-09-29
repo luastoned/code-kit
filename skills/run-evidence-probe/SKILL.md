@@ -21,6 +21,8 @@ Apply these test-work rules within that authority; they do not authorize impleme
 
 <!-- code-kit shared block: guidance/AGENTS.md#test-work -->
 
+> Applies when: verifying or investigating requested work, or considering running, adding, or changing tests, checks, or test infrastructure.
+
 - Run existing tests and checks when relevant and safe; use snapshot-update or baseline-regeneration modes only on request.
 - Focused throwaway tests that use existing tooling and verify or investigate the requested work are fine. Keep them out of maintained files and remove them when done.
 - Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked. When verification needs them, report the gap instead.

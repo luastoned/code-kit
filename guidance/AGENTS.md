@@ -1,8 +1,14 @@
 # AGENTS.md
 
+> Applies when: planning, performing, or reviewing repository work, or preparing engineering guidance for it.
+
 Use this entrypoint to find engineering guidance relevant to the task. Read applicable root and nested instructions; load supplemental guides only when their constraints affect the requested work.
 
+An `Applies when` block states a guide or section's trigger, not permission to act. Section triggers refine their guide's scope; individual rule conditions and exceptions still apply. For durable target guidance, assess triggers against maintained work and explicitly planned setup, not just the current edit. No section is included solely because of its name or location.
+
 ## Guide Selection
+
+> Applies when: choosing which language, runtime, or operational guidance a task needs.
 
 Current mapping:
 
@@ -19,12 +25,16 @@ Use `Repositories.md` when ownership or repository-wide coordination needs clari
 
 ## Authority
 
+> Applies when: resolving which project instructions, tool settings, or shared defaults govern a decision.
+
 - Follow applicable project instructions for scope, architecture, commands, security, and ownership.
 - Use the nearest formatter, linter, compiler, and runtime configuration for behavior those tools own. Shared language preferences do not override it.
 - Use mapped guides for constraints and defaults the target has not established, including when no formatter or linter enforces them. Preserve local conventions; a preference in a shared guide is not a request to migrate the project.
 - Treat named practices such as KISS, DRY, YAGNI, SOLID, and the Rule of Three as optional decision aids.
 
 ## Completion and Decisions
+
+> Applies when: determining a task's endpoint, deciding whether to continue or escalate, or reporting its result.
 
 - Infer the requested endpoint from the conversation: advice, verified local changes, a pull request, integration, or release. Do not treat one endpoint as permission for the next.
 - For implementation, continue through relevant verification and fixes caused by the change until the authorized endpoint is reached. Reuse valid results unless new evidence requires another check.
@@ -33,6 +43,8 @@ Use `Repositories.md` when ownership or repository-wide coordination needs clari
 - Report the result, material evidence, and remaining limitations. Distinguish observed results from inference; do not present an unrun check as successful.
 
 ## Changes and Validation
+
+> Applies when: planning, making, reviewing, or verifying changes to maintained code, configuration, or documentation.
 
 - Preserve unrelated work, public contracts, and project-specific behavior outside the requested change.
 - Keep code straightforward to understand, operate, and maintain. Avoid speculative generality, unnecessary indirection, and framework-like ceremony.
@@ -47,6 +59,8 @@ Use `Repositories.md` when ownership or repository-wide coordination needs clari
 
 ## Test Work
 
+> Applies when: verifying or investigating requested work, or considering running, adding, or changing tests, checks, or test infrastructure.
+
 - Run existing tests and checks when relevant and safe; use snapshot-update or baseline-regeneration modes only on request.
 - Focused throwaway tests that use existing tooling and verify or investigate the requested work are fine. Keep them out of maintained files and remove them when done.
 - Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked. When verification needs them, report the gap instead.
@@ -54,7 +68,9 @@ Use `Repositories.md` when ownership or repository-wide coordination needs clari
 
 ## Code Readability
 
-These requirements apply to maintained code in every language, including scripts and code examples, whether or not a language-specific guide exists. Preserve language syntax, significant whitespace, and literal data; do not modify generated or verbatim artifacts whose owning contract requires exact output.
+> Applies when: writing, modifying, or reviewing maintained code, including scripts and documentation examples in any language.
+
+These requirements apply whether or not a language-specific guide exists. Preserve language syntax, significant whitespace, and literal data; do not modify generated or verbatim artifacts whose owning contract requires exact output.
 
 - Separate independent logical operations with one blank line, including adjacent statements of the same kind, such as unrelated calls or independent guards. A group is one coherent operation; the boundaries below are the minimum, not the only ones.
 - Always start a new group:
@@ -71,14 +87,20 @@ These requirements apply to maintained code in every language, including scripts
 
 ## Communication and Writing
 
+> Applies when: writing or revising documentation, explanations, findings, or task handoffs.
+
 Follow local terminology and voice. Lead with the result, use concrete language, and keep explanations proportional to the decision. Cite material external evidence near the claim it supports. Preserve the meaning of requirements, commands, and examples when editing prose.
 
 ## Commit Messages
+
+> Applies when: preparing a commit message or establishing commit policy, including before a repository's first commit.
 
 Use Conventional Commits with gitmoji unless explicit local policy specifies a different format. Tooling that merely accepts other formats or inconsistent recent history does not override this standard:
 
 `<type>[optional scope][optional !]: <gitmoji> <description>`
 
 ## Private Guides
+
+> Applies when: considering access to, use of, or publication of private or personal guidance.
 
 Private guides under `guidance/private/` are local-only. List and read them only when the user explicitly requests private, personal, or local guidance. Do not copy them into public files without explicit publication authorization. The tracked `.gitkeep` only preserves the directory.

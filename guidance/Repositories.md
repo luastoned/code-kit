@@ -1,8 +1,10 @@
 # Repository Agent
 
-Use this guide for repository shape, root and nested guidance, ownership boundaries, commit policy, and validation scope across all languages and toolchains.
+> Applies when: deciding repository or guidance layout, project ownership, commit policy, or validation scope across languages and toolchains.
 
 ## Guidance Shape
+
+> Applies when: creating, synchronizing, consolidating, or deciding where to place repository guidance.
 
 - Keep repository-wide rules in the root `AGENTS.md`: commit style, CI, repository boundaries, policies for generated and vendor files, root scripts, process managers, and release and deployment coordination.
 - For a single project, keep implementation rules alongside shared rules in its root `AGENTS.md`: commands, architecture, runtime, framework, language, and local tooling. Ordinary source, include, test, or same-named inner folders do not require separate guidance.
@@ -15,6 +17,8 @@ A project may contain nested source directories, multiple manifests, and several
 
 ## Working Across Projects
 
+> Applies when: identifying the owning project for a change or coordinating work across project boundaries.
+
 - Identify the owning project before editing. Use build entrypoints, manifest relationships, config files, and applicable `AGENTS.md` files; the nearest source folder or manifest is not automatically a separate project boundary.
 - Prefer the owning project's commands and configs over root defaults unless the root command is clearly the orchestrator for the whole repo.
 - Keep unrelated project changes separate. Do not mix frontend, backend, package, infrastructure, and root coordination edits unless they are part of the same task.
@@ -22,6 +26,8 @@ A project may contain nested source directories, multiple manifests, and several
 - Do not apply one project's conventions to another. Framework, runtime, package manager, formatter, linter, and test rules may differ between folders.
 
 ## Multi-Project Detection
+
+> Applies when: deciding whether folders, manifests, or build targets represent independently maintained projects.
 
 Use these signals to discover actual project ownership; no fixed number of signals establishes a boundary:
 
@@ -32,6 +38,8 @@ Use these signals to discover actual project ownership; no fixed number of signa
 
 ## Git and Commits
 
+> Applies when: determining commit policy, reviewing changes for staging, or performing authorized Git staging or commits.
+
 - Follow explicit commit policy enforced by repository configuration, hooks, or CI checks when present.
 - Otherwise follow explicit repository or source guidance for commit format.
 - Use recent history only as a consistency check. Do not copy a poor or inconsistent commit style when clearer guidance exists.
@@ -41,6 +49,8 @@ Use these signals to discover actual project ownership; no fixed number of signa
 - Do not commit local credentials, generated blobs, dependency folders, or nested Git checkouts unless explicitly requested.
 
 ## Validation
+
+> Applies when: choosing checks at project or repository scope, especially for changes that cross ownership boundaries.
 
 - Run the smallest relevant validation command for each affected project first.
 - Use root-level validation when the root script is the documented orchestrator or when shared config changes affect multiple projects.

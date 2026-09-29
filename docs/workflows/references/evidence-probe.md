@@ -34,6 +34,10 @@ For an inconclusive probe with no useful next experiment, name the missing evide
 
 ## Changelog
 
+### 1.2.1
+
+- Added an explicit applicability block to the shared test-work rules. Their behavior and the probe-only authorization boundary are unchanged.
+
 ### 1.2.0
 
 - Adopt the full shared test-work rules within the existing investigation boundary: run existing checks only when relevant and safe; use snapshot-update or baseline-regeneration modes only on request; report gaps that require unrequested maintained test or infrastructure changes; fix implementation regressions only when authorized, without weakening assertions or expected results. Probe-only requests still do not authorize implementation changes. Existing-tooling, scratch cleanup, and explicit-request requirements for maintained tests and reusable harnesses remain unchanged.

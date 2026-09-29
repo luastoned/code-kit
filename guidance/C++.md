@@ -1,12 +1,18 @@
 # C++ Agent
 
-Apply this guide to C/C++ source, headers, native libraries, and build configuration. C++-specific defaults apply only where the configured language and standard support them.
+> Applies when: creating, changing, reviewing, or diagnosing C/C++ source, headers, native libraries, or their build configuration.
+
+C++-specific defaults apply only where the configured language and standard support them.
 
 ## Code Readability
+
+> Applies when: writing, changing, or reviewing maintained C/C++ code or examples.
 
 Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). Language-specific rules below do not replace them.
 
 ## Core Rules
+
+> Applies when: choosing C/C++ implementation approaches, ownership models, dependencies, or toolchain behavior.
 
 - Preserve the repository's existing architecture, naming, formatting, and toolchain assumptions unless the user explicitly asks for a broader refactor.
 - Prefer modern C++ for new general-purpose code, but do not force modern idioms into code that is constrained by ABI, platform APIs, embedded-system constraints, runtime limits, security tooling, or project conventions.
@@ -16,6 +22,8 @@ Apply the shared [code-readability requirements](./AGENTS.md#code-readability) a
 - Avoid hidden global state, implicit lifetime conventions, and speculative generic abstractions.
 
 ## Context and Tooling
+
+> Applies when: a C/C++ change depends on the build system, language standard, platform, compiler settings, or existing native abstractions.
 
 Inspect the following only when it affects the change:
 
@@ -27,7 +35,11 @@ Inspect the following only when it affects the change:
 
 ## Language Rules
 
+> Applies when: writing or reviewing C/C++ implementations or interfaces; select the subsections relevant to the affected constructs.
+
 ### Modern C++ Defaults
+
+> Applies when: choosing C++ types, ownership mechanisms, constants, casts, or other language idioms within the configured standard and project constraints.
 
 - Prefer RAII for resource ownership.
 - Prefer values, references, and smart pointers over raw owning pointers.
@@ -42,12 +54,16 @@ Inspect the following only when it affects the change:
 
 ### Headers and Boundaries
 
+> Applies when: adding or changing C/C++ headers, includes, declarations, or public interfaces.
+
 - Keep headers minimal and stable.
 - Prefer declarations in headers and implementation in source files unless the project intentionally uses header-only templates, inline functions, or generated include patterns.
 - Avoid adding transitive includes to widely used headers when a forward declaration is enough.
 - Keep public API changes deliberate and documented in the final response.
 
 ### Error Handling
+
+> Applies when: adding, changing, or reviewing failure detection, error propagation, or recovery in C/C++ code.
 
 - Follow the project's existing error model.
 - If exceptions are disabled or absent, use explicit status returns, error objects, or existing result types.
@@ -56,16 +72,22 @@ Inspect the following only when it affects the change:
 
 ### Concurrency and Lifetime
 
+> Applies when: C/C++ objects or resources cross threads, callbacks, or asynchronous execution boundaries.
+
 - Make ownership and lifetime explicit across threads, callbacks, and async work.
 - Avoid detached threads unless the surrounding code already has a safe lifetime pattern for them.
 - Prefer existing synchronization primitives and task systems over introducing a new concurrency abstraction.
 
 ### Code Organization
 
+> Applies when: organizing C/C++ logical sections or planning a modernization or refactor.
+
 - Use `#pragma region RegionName` and `#pragma endregion` for the logical sections required by the shared readability rules when every compiler and flag set the project builds with accepts them without warnings. Otherwise, omit region markers rather than inventing another syntax. Preserve established marker naming and placement.
 - Do not mix large mechanical modernization with behavioral changes.
 
 ## Validation
+
+> Applies when: selecting or running checks for C/C++ code, native interfaces, or build-setting changes.
 
 Follow the shared [test-work rules](./AGENTS.md#test-work).
 

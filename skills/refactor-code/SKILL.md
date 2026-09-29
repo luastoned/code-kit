@@ -31,6 +31,8 @@ Retain safety checks, compatibility handling, and intentional conventions unless
 
 <!-- code-kit shared block: guidance/AGENTS.md#test-work -->
 
+> Applies when: verifying or investigating requested work, or considering running, adding, or changing tests, checks, or test infrastructure.
+
 - Run existing tests and checks when relevant and safe; use snapshot-update or baseline-regeneration modes only on request.
 - Focused throwaway tests that use existing tooling and verify or investigate the requested work are fine. Keep them out of maintained files and remove them when done.
 - Add or change maintained tests, fixtures, test configuration, or test infrastructure, including reusable harnesses even when temporary or untracked, only when asked. When verification needs them, report the gap instead.
@@ -48,7 +50,9 @@ If a useful improvement requires broader architecture, dependencies, or ownershi
 
 <!-- code-kit shared block: guidance/AGENTS.md#code-readability -->
 
-These requirements apply to maintained code in every language, including scripts and code examples, whether or not a language-specific guide exists. Preserve language syntax, significant whitespace, and literal data; do not modify generated or verbatim artifacts whose owning contract requires exact output.
+> Applies when: writing, modifying, or reviewing maintained code, including scripts and documentation examples in any language.
+
+These requirements apply whether or not a language-specific guide exists. Preserve language syntax, significant whitespace, and literal data; do not modify generated or verbatim artifacts whose owning contract requires exact output.
 
 - Separate independent logical operations with one blank line, including adjacent statements of the same kind, such as unrelated calls or independent guards. A group is one coherent operation; the boundaries below are the minimum, not the only ones.
 - Always start a new group:

@@ -32,7 +32,7 @@ flowchart TD
 
 Choose one canonical home for each rule or resource. Update related files only when they consume, index, describe, or validate that source. A request to edit shared resources does not by itself require a commit.
 
-Designated standalone rule copies inside code-kit use `code-kit shared block` comments to identify their canonical section. `scripts/validate.py` checks section-body equality, marker structure, and link portability. Update the source and all marked copies together; this does not enforce identical wording in downstream adaptations or detect unmarked duplicates.
+Designated standalone rule copies inside code-kit use `code-kit shared block` comments to identify their canonical section. `scripts/validate.py` checks section-body equality, marker structure, and link portability, and requires a nonempty `Applies when` block after every public guidance heading outside code fences. Update the source and all marked copies together; these checks do not judge trigger quality, enforce identical wording in downstream adaptations, or detect unmarked duplicates.
 
 For substantial workflow changes, exercise representative request scenarios before handoff: a narrow edit, a read-only audit, an authorized implementation with verification, and a case needing a new decision. Check scope preservation and observable completion rather than matching prose or headings.
 
@@ -85,6 +85,8 @@ Installation exposes skills to an agent runtime. It does not apply them to a pro
 Workflows can be read or adapted directly. Add an adoption skill only after its adoption behavior is defined and repeatable.
 
 Synchronization and adoption inspect relevant target evidence first. They adapt shared behavior to local ownership, language, tooling, and workflow conventions. Guidance synchronization considers every selected source section without requiring identical headings or a section-for-section copy. Preserve intentional conventions, obligations, and defaults; ask about uncertain merges, adaptations, or omissions. Condensed wording alone is not drift, but lost or weakened rules are.
+
+Each public guide, section, and subsection declares an `Applies when` trigger. Guidance synchronization selects rules from maintained work and explicitly planned setup, not a mandatory section bundle or just the current edit. Relevant creation-time defaults can apply before a capability exists. Applicability does not grant permission to act; source conditions and target authorization still govern. Target wording preserves those conditions without requiring the source's block format.
 
 Guidance synchronization defaults to one `AGENTS.md` at the owning project root, not one per source folder or build target. Nested guidance needs an explicit placement request or materially different subtree rules that cannot be kept clear at the root. A solution directory with a same-named inner C++ source directory normally remains one guidance scope; see [repository placement guidance](../guidance/Repositories.md#guidance-shape).
 

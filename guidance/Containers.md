@@ -1,14 +1,20 @@
 # Containers Agent
 
-Use this guide for Dockerfiles, Compose, dev containers, Kubernetes, Helm, and other container build or deployment files. They define build and deployment behavior; inspect the relevant path: Dockerfile and build context for images, Compose for local services, devcontainer configuration for development, or Kubernetes and Helm for cluster deployment.
+> Applies when: creating, changing, reviewing, or operating container image builds, Compose services, dev containers, Kubernetes, Helm, or related deployment configuration.
+
+These files define build and deployment behavior; inspect the relevant path: Dockerfile and build context for images, Compose for local services, devcontainer configuration for development, or Kubernetes and Helm for cluster deployment.
 
 ## Code Readability
+
+> Applies when: writing, changing, or reviewing authored container instructions and embedded code.
 
 Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). The rules below do not replace them.
 
 Apply these rules to authored container instructions and embedded code. Preserve layer behavior; do not split a `RUN` solely to add spacing.
 
 ## Core Rules
+
+> Applies when: choosing or changing container build, packaging, or deployment behavior, including initial container setup.
 
 - Follow the existing container stack: Dockerfile, Docker Compose, BuildKit, dev containers, Kubernetes manifests, Helm charts, or CI image builds.
 - Treat container files as deployment behavior, not just packaging.
@@ -17,9 +23,13 @@ Apply these rules to authored container instructions and embedded code. Preserve
 
 ## Context and Tooling
 
+> Applies when: a container task depends on image or runtime configuration, or before running commands that build images, start services, or affect a cluster.
+
 Inspect base images, platforms, runtime users, environment variables, secrets, volumes, ports, health checks, and deployment targets when affected. Discover whether commands build local images, start services, or mutate a remote cluster before running them. Record non-obvious local command side effects near the owning configuration.
 
 ## Dockerfiles
+
+> Applies when: creating or changing Dockerfiles, base images, build stages, or image build contexts.
 
 - Prefer multi-stage builds when they reduce runtime size or isolate build dependencies.
 - Pin base image families deliberately; do not casually change distro, runtime, libc, or architecture assumptions.
@@ -32,6 +42,8 @@ Inspect base images, platforms, runtime users, environment variables, secrets, v
 
 ## Compose and Runtime Config
 
+> Applies when: configuring container services, startup, networks, ports, mounts, or persistent storage in Compose or other runtime manifests.
+
 - Keep service names, networks, volumes, ports, and env files consistent with existing workflows.
 - Do not expose new host ports or mount sensitive paths unless required.
 - Preserve health checks and startup ordering semantics.
@@ -40,11 +52,15 @@ Inspect base images, platforms, runtime users, environment variables, secrets, v
 
 ## Secrets and Environment
 
+> Applies when: introducing, passing, or documenting secrets or environment variables in container builds or runtime configuration.
+
 - Pass secrets at runtime through the platform's secret mechanism or environment, not through image layers.
 - Do not write secrets into Dockerfiles, Compose files, logs, build args, or committed env files.
 - Keep required environment variables documented near the config that consumes them.
 
 ## Validation
+
+> Applies when: selecting or running checks for container image, Compose, Kubernetes, Helm, or related configuration changes.
 
 Follow the shared [test-work rules](./AGENTS.md#test-work).
 

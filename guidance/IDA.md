@@ -1,8 +1,10 @@
 # IDA Reverse-Engineering Agent
 
-Use this guide when working from IDA, decompiled binaries, reverse-engineered game or client logic, or vendor dumps derived from IDA.
+> Applies when: analyzing IDA databases, decompiled binaries, reverse-engineered game or client logic, or repository artifacts derived from IDA.
 
 ## Code Readability
+
+> Applies when: authoring or reviewing analysis scripts and maintained implementations, rather than reformatting verbatim decompiler artifacts.
 
 Apply the shared [code-readability requirements](./AGENTS.md#code-readability) and [local-consistency rules](./AGENTS.md#changes-and-validation). The rules below do not replace them.
 
@@ -10,9 +12,13 @@ Apply these rules to authored analysis scripts and maintained implementations. T
 
 ## Task Mode
 
+> Applies when: distinguishing read-only inspection or diagnosis from authorized IDA recovery edits or dump synchronization.
+
 For inspection or diagnosis, analyze without renaming symbols, applying types, or rewriting repository artifacts. For authorized recovery edits or dump synchronization, follow the database-first procedures below. Existing authorization covers routine edits within that scope.
 
 ## Core Rules
+
+> Applies when: interpreting binary evidence or recovering and synchronizing IDA-derived code, types, names, or artifacts.
 
 - For the matching binary and build, treat the IDA database as the source for synchronized decompiler artifacts. Confirm binary provenance before comparing it with repository behavior; decompiler output is evidence that may still need cross-checking.
 - Do not hand-clean a vendor dump first and leave IDA behind. Rename and type things in IDA, re-decompile, then update the repository copy from that decompile.
@@ -22,6 +28,8 @@ For inspection or diagnosis, analyze without renaming symbols, applying types, o
 - Keep recovered code scoped to the functions and structures needed for the current investigation.
 
 ## Function Workflow
+
+> Applies when: function recovery or synchronization edits are authorized; not during read-only inspection or diagnosis.
 
 For each function included in the authorized recovery or synchronization:
 
@@ -38,6 +46,8 @@ When synchronizing a dump, apply confirmed names in IDA before regenerating the 
 
 ## Struct and Type Workflow
 
+> Applies when: reconstructing or applying structures and types during authorized IDA recovery work; not during read-only inspection or diagnosis.
+
 Reconstruct structures in IDA whenever possible:
 
 - Create named structs for repeated pointer layouts, object fields, records, vector-like storage, trace results, filters, handles, and runtime attributes.
@@ -53,12 +63,16 @@ When a struct is partial, name it anyway if it materially improves the analysis,
 
 ## Names and Confidence
 
+> Applies when: proposing, recording, or applying recovered names, behavioral interpretations, or binary provenance.
+
 - Use descriptive names based on observed behavior, call sites, strings, vtable slots, imports, RTTI, known SDKs, or equivalent source code.
 - Avoid overclaiming names that are only guesses. Prefer names such as `TraceCandidateSlotStore` over a precise engine class name if the class identity is not proven.
 - Include module, build, and address comments or notes for recovered functions, especially when copied into `vendor/`.
 - Keep original module, build or version, and address provenance visible enough that the function can be found again in IDA.
 
 ## Decompiler Output
+
+> Applies when: interpreting a fresh decompile or updating a repository copy after authorized IDA name or type changes.
 
 - After each rename and type pass, trust the resulting IDA decompile more than earlier repository dumps.
 - If the decompiler still emits awkward expressions, fix types in IDA before editing the dump by hand.
@@ -67,6 +81,8 @@ When a struct is partial, name it anyway if it materially improves the analysis,
 - Keep magic constants until their meaning is proven, then name or document them.
 
 ## Documentation
+
+> Applies when: project policy requires an audit trail or a recovery record is useful for the requested work.
 
 Let project policy determine whether recovered areas need durable audit trails. Where required or useful for the requested work, keep the record short:
 
@@ -80,6 +96,8 @@ Let project policy determine whether recovered areas need durable audit trails. 
 The goal is reproducible reverse engineering. The next engineer must be able to open IDA, search for the renamed symbol, and continue from the typed database without repeating the same recovery work.
 
 ## Validation
+
+> Applies when: checking recovered behavior or investigating differences between an IDA database, its binary, and repository artifacts.
 
 Follow the shared [test-work rules](./AGENTS.md#test-work).
 
