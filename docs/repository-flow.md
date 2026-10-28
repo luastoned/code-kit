@@ -36,6 +36,8 @@ Designated standalone rule copies inside code-kit use `code-kit shared block` co
 
 For substantial workflow changes, exercise representative request scenarios before handoff: a narrow edit, a read-only audit, an authorized implementation with verification, and a case needing a new decision. Check scope preservation and observable completion rather than matching prose or headings.
 
+The validator requires each workflow's version to match the top entry in its reference changelog. It checks version alignment, not whether that entry covers the full behavioral diff; maintainers must still review upgrade coverage.
+
 ## Downstream Consumption
 
 ```mermaid

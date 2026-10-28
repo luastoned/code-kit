@@ -379,6 +379,30 @@ def validate_guidance_applicability() -> None:
                 raise ValidationError(f'{path}:{index + 1}: {line.strip()} must start with a nonempty "> Applies when:" block')
 
 
+def validate_workflow_versions() -> None:
+    for path in sorted((ROOT / 'docs/workflows').glob('*.md')):
+        text = without_fenced_code(path.read_text(encoding='utf-8'))
+        versions = re.findall(r'^> Version (\d+\.\d+\.\d+)\s*$', text, re.MULTILINE)
+        if len(versions) != 1:
+            raise ValidationError(f'{path}: expected exactly one workflow version line')
+
+        reference = path.parent / 'references' / path.name
+        if not reference.is_file():
+            raise ValidationError(f'{path}: missing workflow changelog reference: {reference}')
+
+        reference_text = without_fenced_code(reference.read_text(encoding='utf-8'))
+        changelog = re.search(r'^## Changelog\s*\n(.*?)(?=^#{1,2}\s|\Z)', reference_text, re.MULTILINE | re.DOTALL)
+        if changelog is None:
+            raise ValidationError(f'{reference}: missing Changelog section')
+
+        entry = re.search(r'^### (.+?)\s*$', changelog.group(1), re.MULTILINE)
+        if entry is None:
+            raise ValidationError(f'{reference}: missing top changelog entry')
+
+        if entry.group(1) != versions[0]:
+            raise ValidationError(f'{path}: workflow version {versions[0]} differs from top changelog entry {entry.group(1)!r} in {reference}')
+
+
 def validate_cross_file_consistency() -> None:
     readme = (ROOT / 'README.md').read_text(encoding='utf-8')
     skills = {path.name for path in skill_directories()}
@@ -453,6 +477,7 @@ def main() -> int:
         ('Markdown', validate_markdown),
         ('shared blocks', validate_shared_blocks),
         ('guidance applicability', validate_guidance_applicability),
+        ('workflow versions', validate_workflow_versions),
         ('cross-file consistency', validate_cross_file_consistency),
         ('text files', validate_text_files),
         ('external tools', validate_tools),
