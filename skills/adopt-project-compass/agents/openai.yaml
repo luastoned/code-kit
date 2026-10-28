@@ -1,0 +1,6 @@
+interface:
+  display_name: 'Adopt ProjectCompass'
+  short_description: 'Align project direction and planning documentation'
+  default_prompt: 'Use $adopt-project-compass to align this project’s direction, documentation, and delivery workflow.'
+policy:
+  allow_implicit_invocation: false

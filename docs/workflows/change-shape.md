@@ -2,7 +2,7 @@
 
 > An agent-native method for classifying and coordinating software changes.
 >
-> Version 1.3.1
+> Version 1.4.0
 
 ChangeShape governs execution after a request or outcome exists. It is designed for one person acting as product owner and developer with a primary agent and optional specialist agents. It works independently or under [OutcomeFlow](./outcome-flow.md).
 
@@ -47,7 +47,9 @@ Announce classification when it explains a meaningful scope, coordination, or ve
 
 Before lowering a classification, explain which safety, coordination, or verification protections would be dropped and why the remaining treatment is sufficient. A lighter label does not waive required acceptance conditions or authorize residual risk.
 
-Use [EvidenceProbe](./evidence-probe.md) when bounded evidence could resolve consequential uncertainty. A conventional reversible choice or a preference the owner can answer directly does not require a probe.
+Investigate when consequential uncertainty blocks action and bounded evidence could resolve it. A conventional reversible choice or a preference the owner can answer directly does not require a probe. Use the smallest investigation that can distinguish the alternatives; stop when further evidence would not change the action or useful evidence is unavailable. Report missing evidence as unresolved, not support for a choice. Investigation alone does not authorize implementation; continue when existing conditional authorization permits it, otherwise return findings and the unresolved owner decision.
+
+Keep experiments isolated from production unless production interaction is explicitly authorized. Do not silently promote prototype code into production; transition within implementation authority and apply the required production verification.
 
 ### Verification and Acceptance
 
@@ -73,9 +75,9 @@ Direct or Scoped work may interrupt an active Shaped outcome only when the inter
 
 Use additional agents only when delegation is available and authorized and independent work can be reviewed and integrated. Each subtask needs an outcome, scope, exclusions, relevant constraints, acceptance, verification, and mutation authority. Subagents stop and report product ambiguity, overlapping ownership, costly-to-reverse decisions, or necessary scope expansion instead of resolving them. Avoid overlapping edits without an integration plan; the primary agent owns review of the combined result and relevant verification.
 
-When state must survive the interaction, keep it in one existing work index, issue tracker, or equivalent system. If none exists, create the smallest artifact that carries it: a temporary specification for a single active outcome, or a work index when several entries must persist. Retain only active work, immediate candidates, boundaries, and the next decision. Two or three candidates are a useful attention default, not a completeness target.
+Unless ProjectCompass is adopted, keep state that must survive the interaction in one existing work index, issue tracker, or equivalent system. If none exists, create the smallest artifact that carries it: a temporary specification for a single active outcome, or a work index when several entries must persist. With ProjectCompass, use its roadmap and required specification for every selected Shaped outcome. Retain only active work, immediate candidates, boundaries, and the next decision. Two or three candidates are a useful attention default, not a completeness target.
 
-Alongside an existing system, create a temporary specification only when that system cannot preserve the necessary decisions, risks, and acceptance. Use at most one shared handoff for an active outcome; do not create per-agent state files or parallel ledgers.
+Unless ProjectCompass requires the Shaped specification, create a temporary specification alongside an existing system only when that system cannot preserve the necessary decisions, risks, and acceptance. Use at most one shared handoff for an active outcome; do not create per-agent state files or parallel ledgers.
 
 Update canonical documentation when durable product, architecture, runtime, or contributor truth changes, or when the user requests a durable document. A plan, a passing check, completed work, many changed files, the end of a session, or a mentioned future idea does not by itself justify documentation; do not create progress journals, implementation diaries, or verification transcripts. Keep implementation and verification history in version control and native check systems. Retain consequential rationale using the local decision-record convention.
 
@@ -86,6 +88,12 @@ At completion, remove temporary artifacts created for the task when safe and aut
 The selected outcome supplies what should become true, why it matters now, constraints and non-goals, decision authority, and its intended observable effect. Derive acceptance conditions from the effects implementation can demonstrate; effects that only delayed use can show belong to OutcomeFlow observation, not acceptance.
 
 Return the classification, evidence states, accepted or unresolved risks, and what was integrated or still awaits authorization. ChangeShape acceptance concerns implementation readiness, not the delivered effect. Apply OutcomeFlow's one-Shaped-outcome default across the owner's ownership domain in addition to the per-repository default.
+
+### Adoption Requirements
+
+Adoption must establish classification before implementation, scope and decision authority, observable acceptance, required verification, and closure in operational guidance reachable from the owning `AGENTS.md`. Reconcile selected active work with these rules; do not reclassify an entire backlog or start product implementation to demonstrate adoption. Local terminology and tools may differ, but required behavior cannot be omitted as generic advice or replaced by a version line. Record explicit owner-approved departures and their reasons; report unresolved required changes as incomplete adoption.
+
+When [ProjectCompass](./project-compass.md) is adopted, its roadmap and `docs/work/<outcome>.md` placement apply: every selected Shaped outcome needs its specification before consequential implementation, including already-active work reconciled during adoption. This is a deliberate documentation profile, not a new classifier. Standalone ChangeShape retains its existing artifact conditions and does not impose ProjectCompass or OutcomeFlow. Direct and Scoped work remain lightweight.
 
 ## Reference Material
 

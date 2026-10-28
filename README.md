@@ -72,9 +72,9 @@ Keep the linked code-kit checkout available. Adoption and synchronization skills
 
 | Skill                       | Purpose                                                                                     |
 | --------------------------- | ------------------------------------------------------------------------------------------- |
-| `$adopt-outcome-flow`       | Audit or adopt OutcomeFlow with EvidenceProbe decisions and ChangeShape execution.          |
+| `$adopt-project-compass`    | Establish project direction, standard documentation homes, and delivery routing.            |
+| `$adopt-outcome-flow`       | Establish outcome selection, observation, and execution handoffs.                           |
 | `$adopt-change-shape`       | Audit or adopt a change-shaped, low-documentation project workflow.                         |
-| `$run-evidence-probe`       | Resolve one consequential decision through the smallest trustworthy evidence.               |
 | `$sync-agent-guidance`      | Adapt decision-relevant guidance while preserving project rules and ownership.              |
 | `$sync-project-configs`     | Merge shared formatter, linter, TypeScript, and package defaults into a target project.     |
 | `$migrate-typescript`       | Audit or migrate to a requested TypeScript version.                                         |
@@ -91,18 +91,18 @@ Invoke a skill explicitly in the request, for example: `Use $refactor-code on sr
 
 These methods are designed for one person acting as product owner and developer. Adapt them to existing ownership and decision authority; installing the skills does not adopt the methods.
 
-| Situation                                                               | Method                                              |
-| ----------------------------------------------------------------------- | --------------------------------------------------- |
-| Choose outcomes and reconsider their observed effects                   | [OutcomeFlow](./docs/workflows/outcome-flow.md)     |
-| Execute an already selected change with risk-proportionate verification | [ChangeShape](./docs/workflows/change-shape.md)     |
-| Resolve consequential uncertainty with bounded evidence                 | [EvidenceProbe](./docs/workflows/evidence-probe.md) |
+| Situation                                                               | Method                                                |
+| ----------------------------------------------------------------------- | ----------------------------------------------------- |
+| Establish a project's direction and standard planning documentation     | [ProjectCompass](./docs/workflows/project-compass.md) |
+| Choose outcomes and reconsider their observed effects                   | [OutcomeFlow](./docs/workflows/outcome-flow.md)       |
+| Execute an already selected change with risk-proportionate verification | [ChangeShape](./docs/workflows/change-shape.md)       |
 
-The workflow documents contain compact operating contracts and link optional examples. OutcomeFlow uses ChangeShape or equivalent execution behavior; EvidenceProbe is optional. Routine work needs no extra artifacts or repeated acceptance of decisions already made.
+The workflow documents contain compact operating contracts and link optional examples. ProjectCompass establishes standard `docs/` entrypoints and adopts OutcomeFlow and ChangeShape together. OutcomeFlow selects and revisits outcomes; ChangeShape executes them. Both remain independently adoptable without ProjectCompass's layout; standalone OutcomeFlow permits concretely mapped equivalent execution behavior. Routine work needs no extra artifacts or repeated acceptance of decisions already made.
 
 ```text
+Use $adopt-project-compass to align this project's direction, docs, and delivery workflow.
 Use $adopt-outcome-flow to adapt this project's delivery workflow.
 Use $adopt-change-shape to add execution guidance without OutcomeFlow.
-Use $run-evidence-probe to determine whether the storage model supports offline synchronization.
 ```
 
 Each workflow document carries its version. Adopted guidance records `Version: x.y.z`; rerun the adoption skill to apply changes listed since that version.

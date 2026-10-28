@@ -45,11 +45,20 @@ If shared-link joining works technically but observed failures cluster around ex
 
 ## Ownership
 
-OutcomeFlow owns direction, selection, attention, and delayed observation. ChangeShape owns implementation classification and verification. EvidenceProbe owns bounded evidence gathering. Native systems own code, checks, deployments, incidents, and product signals.
+OutcomeFlow owns direction, selection, attention, and delayed observation. ChangeShape owns implementation classification and verification. Native systems own code, checks, deployments, incidents, and product signals.
 
 ## Changelog
 
 Each entry lists behavior an adopted copy may need to change. Upgrade by applying every entry after the recorded version.
+
+### 1.2.0
+
+- If the adopted copy has a separate EvidenceProbe section or active probe, fold its applicable local rules into the investigation route. Keep active investigations and their decisions in the existing coordination home without resetting or relabeling evidence, then remove the separate method name and obsolete skill links.
+- Route blocked consequential decisions to bounded investigation without requiring a separate skill or method, not ordinary choices or preferences. Stop when further investigation would not change the action or useful evidence is unavailable; keep missing evidence unresolved. Preserve evidence-only results and authorized continuation.
+- Adoption must identify authoritative direction, selected-work, candidate, and observation homes; route agents from the owning `AGENTS.md`; and reconcile current work and triggers, stating when no work is selected.
+- Establish who updates selection, delivery, and reconsideration state and when. Do not invent work, metrics, or triggers to demonstrate adoption; naming and versioning alone are insufficient.
+- Equivalent execution requires a concrete mapping of classification, authority, acceptance, verification, closure, and the full execution handoff. Establish gaps, record owner-approved departures with reasons, and report unresolved required changes as incomplete.
+- Under ProjectCompass, use its standard documentation homes and separate OutcomeFlow and ChangeShape contracts. Standalone OutcomeFlow remains layout-independent and local terminology cannot weaken obligations.
 
 ### 1.1.2
 

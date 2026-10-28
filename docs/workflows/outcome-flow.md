@@ -2,7 +2,7 @@
 
 > An agent-native product delivery framework for selecting, delivering, and learning from independently valuable outcomes.
 >
-> Version 1.1.2
+> Version 1.2.0
 >
 > Status: Released
 
@@ -14,7 +14,7 @@ OutcomeFlow helps one person acting as product owner and developer decide what s
 
 1. Review Direction, live Decision Triggers, and the few candidates that matter.
 2. Select one outcome, unless a clear request already selected it.
-3. Hand it to execution, using EvidenceProbe only when consequential uncertainty blocks a decision.
+3. Hand it to execution, investigating only when consequential uncertainty blocks a decision and bounded evidence could change it.
 4. Deliver it through the integration or release the owner authorizes.
 5. Reconsider immediately when verification establishes the intended effect; otherwise keep it awaiting evidence with a Decision Trigger.
 6. At reconsideration, continue, reshape, or stop, update Direction when understanding changed, and select again.
@@ -37,7 +37,7 @@ Use [ChangeShape](./change-shape.md) or equivalent local behavior to classify, e
 
 Hand execution what should become true, why it matters now, constraints and non-goals, decision authority, and the intended observable effect. Execution derives acceptance conditions from the effects implementation can demonstrate and leaves effects that only delayed use can show to observation. It returns the classification, evidence states, accepted or unresolved risks, and what was integrated or still awaits authorization.
 
-Use [EvidenceProbe](./evidence-probe.md) only when consequential uncertainty blocks a decision and bounded evidence can change the action. Its result is evidence, not production implementation. Resume the blocked workflow under existing conditional authorization, or request the unresolved decision from the owner.
+Investigate only when consequential uncertainty blocks a decision and bounded evidence can change the action; preferences and conventional reversible choices do not require a probe. Stop when further investigation would not change the action or useful evidence is unavailable; keep missing evidence unresolved. An investigation returns evidence, not production implementation. Resume the blocked workflow under existing conditional authorization, or request the unresolved decision from the owner.
 
 Reassess when evidence changes meaning, ownership, recovery risk, scope, dependencies, or verification needs. Adapt execution within granted authority; pause dependent work only when a new decision or permission is required. Continue useful independent work.
 
@@ -77,10 +77,16 @@ Treat cross-repository changes as one outcome when value or acceptance depends o
 - One existing coordination system holds active boundaries, immediate candidates, unresolved decisions, and live evidence triggers when they must survive the interaction.
 - Native version-control, CI, release, deployment, incident, analytics, and feedback systems own operational history.
 
-Create a work index or temporary specification only when existing coordination cannot carry the needed information. Avoid parallel backlogs, progress journals, learning ledgers, completed-outcome archives, and per-agent handoffs. Preserve established local records unless consolidation or removal is authorized.
+Unless ProjectCompass is adopted, create a work index or temporary specification only when existing coordination cannot carry the needed information. With ProjectCompass, use its roadmap and required specification for every selected Shaped outcome. Avoid parallel backlogs, progress journals, learning ledgers, completed-outcome archives, and per-agent handoffs. Preserve established local records unless consolidation or removal is authorized.
+
+### Adoption Requirements
+
+Adoption must identify the authoritative homes for durable direction, selected work, immediate candidates, and live observation triggers, and route agents to operational rules from the owning `AGENTS.md`. Reconcile current work and triggers into those homes, including an explicit absence of selected work when true. Establish who updates selection, delivery, and reconsideration state and when; do not create work, metrics, or triggers to demonstrate adoption. Required behavior cannot be replaced by naming the method or recording its version.
+
+Equivalent local execution methods are acceptable only when their actual rules cover classification, authority, acceptance, verification, closure, and the complete execution handoff. Record the concrete mapping instead of asserting equivalence; establish missing behavior. Explicit owner-approved departures require a reason. Report unresolved required changes as incomplete adoption.
+
+When [ProjectCompass](./project-compass.md) is adopted, use its standard direction, roadmap, architecture, and Shaped-specification homes, with separate OutcomeFlow and ChangeShape contracts. Standalone OutcomeFlow does not impose that document structure. Keep accepted local terminology without weakening obligations.
 
 ## Supporting Methods and Examples
-
-Equivalent local methods can satisfy the contracts without adopting their names or copying their documents.
 
 Read [delivery examples and flow](./references/outcome-flow.md) when the relationships between direction, execution, and delayed observation need illustration. Read its [changelog](./references/outcome-flow.md#changelog) when upgrading an adopted version. The adoption skill is `$adopt-outcome-flow`; it audits or adapts only the behavior missing from the target.

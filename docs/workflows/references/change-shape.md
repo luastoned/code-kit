@@ -18,6 +18,8 @@ A documentation typo may fit alongside an active Shaped migration without compet
 
 ## Coordination Artifacts
 
+These are standalone defaults. Under ProjectCompass, every selected Shaped outcome requires a specification at `docs/work/<outcome>.md`; use its promotion, removal, and retention rules.
+
 | Artifact                       | Purpose                                          | Lifecycle                                                 |
 | ------------------------------ | ------------------------------------------------ | --------------------------------------------------------- |
 | Canonical guide                | Current product, architecture, or runtime truth  | Update when truth changes.                                |
@@ -37,6 +39,15 @@ ChangeShape focuses on ambiguity, recovery, coordination, and verification becau
 ## Changelog
 
 Each entry lists behavior an adopted copy may need to change. Upgrade by applying every entry after the recorded version.
+
+### 1.4.0
+
+- If the adopted copy has a separate EvidenceProbe section or active probe, fold its applicable local rules into the investigation route. Keep active investigations and their decisions in the existing coordination home without resetting or relabeling evidence, then remove the separate method name and obsolete skill links.
+- Keep experiments isolated from production unless production interaction is explicitly authorized. Do not silently promote prototype code into production; transition within implementation authority and apply the required production verification.
+- Route consequential uncertainty to bounded investigation without requiring a separate skill or method. Use the smallest investigation that distinguishes alternatives; stop when more evidence would not change the action or useful evidence is unavailable. Keep missing evidence unresolved. Investigation alone does not authorize implementation; honor existing conditional authorization or return the unresolved owner decision.
+- Adoption must establish classification, authority, acceptance, verification, and closure in operating guidance reachable from the owning `AGENTS.md`, and reconcile selected active work without reclassifying a backlog or implementing product work.
+- Local terminology and tools do not waive required behavior. Record owner-approved departures with reasons and report unresolved required changes as incomplete; a version line alone is insufficient.
+- Under ProjectCompass, use its roadmap and require `docs/work/<outcome>.md` for every selected Shaped outcome before consequential implementation, including reconciliation of already-active work. Standalone artifact conditions remain unchanged; Direct and Scoped work stay lightweight.
 
 ### 1.3.1
 
@@ -69,7 +80,7 @@ Each entry lists behavior an adopted copy may need to change. Upgrade by applyin
 ### 1.1.0
 
 - Recovery risk replaces irreversibility and covers detection, containment, rollback, data repair, compatibility recovery, and lasting consequences.
-- Route consequential uncertainty to the owner or EvidenceProbe.
+- Route consequential uncertainty to the owner or bounded investigation.
 - Acceptance precedes integration; accepting a failed or unverified condition does not relabel the evidence.
 - Under OutcomeFlow, also apply its one-Shaped-outcome default across the owner's ownership domain.
 

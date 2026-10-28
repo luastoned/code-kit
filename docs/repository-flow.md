@@ -100,6 +100,10 @@ Installers link complete skill directories. Keep the source checkout available b
 
 Changes do not propagate automatically. Run the relevant audit or synchronization skill when a target repository needs current guidance or configuration.
 
-Adopted workflow sections start with `Version: x.y.z`. Rerunning an adoption skill against a lower version applies only the changes listed after it in the workflow's reference changelog. Guidance synchronization leaves these sections to the adoption skills.
+ProjectCompass adoption establishes `docs/README.md`, `docs/roadmap.md`, and `docs/architecture.md`, migrates existing coordination and references, and requires `docs/work/<outcome>.md` for selected Shaped work. It establishes separate OutcomeFlow and ChangeShape operating sections without authorizing product implementation. Explicit publication boundaries remain in force; placement exceptions require an owner decision. Standalone OutcomeFlow and ChangeShape adoption do not impose this layout.
+
+Under ProjectCompass, full versioned sections live in `docs/workflow.md` by default; reuse an appropriate existing home, including `docs/process/workflow.md` when its folder already groups related process documents. Do not create a process subfolder solely for that file. `AGENTS.md` keeps compact conditional routing and immediate execution boundaries. Completed work specifications are removed by default only after authorized delivery and closure, promotion of durable content and live triggers, and safe authorized deletion. Preserve unresolved acceptance, user history, and explicit retention policies.
+
+Adoption must establish operational routing and reconcile current work, not merely add method names or version lines. Equivalent standalone execution methods need a concrete behavior mapping. Adopted workflow sections start with `Version: x.y.z`. Rerunning an adoption skill against a lower version applies only the changes listed after it in the workflow's reference changelog; same-version runs still check for drift. Record an updated version only when its required changes are established, and report partial adoption honestly. Guidance synchronization leaves these sections to the adoption skills.
 
 Private guidance under `guidance/private/` stays local. Do not publish or copy it unless the user explicitly requests that action.
