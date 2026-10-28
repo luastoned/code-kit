@@ -8,7 +8,9 @@ Usage: scripts/install-skills.sh <codex|claude|all> [skill ...]
 
 Install every skill when no skill names are provided, or install only the
 named skills. Existing symlinks are refreshed. Non-symlink files and directories
-are never overwritten.
+are never overwritten. Full installs also remove stale installer-created links
+into this checkout when the skill no longer has a SKILL.md. Named installs
+do not clean up other skills.
 
 Examples:
   scripts/install-skills.sh codex
@@ -32,19 +34,16 @@ shift
 script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
 repo_root=$(cd -- "$script_dir/.." && pwd -P)
 
+install_all=false
 selected_skills=()
 if (( $# > 0 )); then
   selected_skills=("$@")
 else
+  install_all=true
   for skill_path in "$repo_root"/skills/*; do
     [[ -f $skill_path/SKILL.md ]] || continue
     selected_skills+=("${skill_path##*/}")
   done
-fi
-
-if (( ${#selected_skills[@]} == 0 )); then
-  printf 'No skills found under %s/skills.\n' "$repo_root" >&2
-  exit 1
 fi
 
 install_for_runtime() {
@@ -100,6 +99,22 @@ install_for_runtime() {
     ln -s "$source_path" "$destination"
     printf 'Linked: %s -> %s\n' "$destination" "$source_path"
   done
+
+  if [[ $install_all == true ]]; then
+    for destination in "$target_root"/*; do
+      [[ -L $destination ]] || continue
+      skill_name=${destination##*/}
+      [[ $skill_name =~ ^[a-z0-9-]+$ ]] || continue
+
+      source_path=$repo_root/skills/$skill_name
+      current_target=$(readlink "$destination")
+      [[ $current_target == "$source_path" ]] || continue
+      [[ ! -f $source_path/SKILL.md ]] || continue
+
+      rm -- "$destination"
+      printf 'Removed stale link: %s -> %s\n' "$destination" "$source_path"
+    done
+  fi
 }
 
 case $runtime in

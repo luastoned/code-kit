@@ -6,6 +6,8 @@ Links code-kit skills into Codex, Claude, or both runtimes.
 Installs every available skill when no skill names are provided. Installs only
 the named skills when one or more skill names are provided. Refreshes existing
 symbolic links and refuses to overwrite non-symlink files or directories.
+Full installs remove stale installer-created links into this checkout when the
+skill no longer has a SKILL.md. Named installs do not clean up other skills.
 
 .PARAMETER Runtime
 Selects codex, claude, or all. This parameter is required.
@@ -47,7 +49,9 @@ Usage: .\scripts\install-skills.ps1 <codex|claude|all> [skill ...]
 
 Install every skill when no skill names are provided, or install only the
 named skills. Existing symbolic links are refreshed. Non-symlink files and
-directories are never overwritten.
+directories are never overwritten. Full installs also remove stale installer-created
+links into this checkout when the skill no longer has a SKILL.md. Named installs
+do not clean up other skills.
 
 Examples:
   .\scripts\install-skills.ps1 codex
@@ -86,17 +90,14 @@ $SelectedSkills = @(
   @($Skill) | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
 )
 
-if ($SelectedSkills.Count -eq 0) {
+$InstallAll = $SelectedSkills.Count -eq 0
+if ($InstallAll) {
   $SelectedSkills = @(
     Get-ChildItem -LiteralPath $SkillsRoot -Directory |
       Where-Object { Test-Path -LiteralPath (Join-Path $_.FullName 'SKILL.md') -PathType Leaf } |
       Sort-Object -Property Name |
       ForEach-Object { $_.Name }
   )
-}
-
-if ($SelectedSkills.Count -eq 0) {
-  throw "No skills found under $SkillsRoot."
 }
 
 function Install-ForRuntime {
@@ -161,6 +162,27 @@ function Install-ForRuntime {
     }
 
     Write-Host "Linked: $Destination -> $SourcePath"
+  }
+
+  if ($InstallAll) {
+    foreach ($Existing in Get-ChildItem -LiteralPath $TargetRoot -Force) {
+      if ($Existing.LinkType -ne 'SymbolicLink' -or $Existing.Name -cnotmatch '^[a-z0-9-]+$') {
+        continue
+      }
+
+      $SourcePath = Join-Path $SkillsRoot $Existing.Name
+      $CurrentTarget = @($Existing.Target)[0]
+      if (-not [System.StringComparer]::Ordinal.Equals($CurrentTarget, $SourcePath)) {
+        continue
+      }
+
+      if (Test-Path -LiteralPath (Join-Path $SourcePath 'SKILL.md') -PathType Leaf) {
+        continue
+      }
+
+      Remove-Item -LiteralPath $Existing.FullName -Force
+      Write-Host "Removed stale link: $($Existing.FullName) -> $SourcePath"
+    }
   }
 }
 

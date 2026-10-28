@@ -96,7 +96,7 @@ Source language guides share a consistent layout and link to canonical readabili
 
 Workflow documents own compact operating contracts; their examples and rationale live under `docs/workflows/references/` and are read only for a relevant question. Skills route to these contracts and conditional skill-local resources instead of duplicating every rule. Existing compatible supporting methods do not require loading all linked workflows.
 
-Installers link complete skill directories. Keep the source checkout available because adoption and sync skills resolve shared `docs/`, `guidance/`, or `configs/` through their real paths. Standalone copies must include skill-local references and assets and may need user-supplied shared-source paths.
+Installers link complete skill directories. Full installs also remove stale installer-created links into the same checkout when their skill entrypoint is gone; named installs leave other skills alone. Cleanup preserves ordinary files and directories and differently targeted links, including links into other checkouts. Keep the source checkout available because adoption and sync skills resolve shared `docs/`, `guidance/`, or `configs/` through their real paths. Standalone copies must include skill-local references and assets and may need user-supplied shared-source paths.
 
 Changes do not propagate automatically. Run the relevant audit or synchronization skill when a target repository needs current guidance or configuration.
 

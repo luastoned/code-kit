@@ -62,7 +62,7 @@ On Windows, the PowerShell installer accepts the same arguments:
 .\scripts\install-skills.ps1 codex session-state interview-me
 ```
 
-The installers create runtime skill directories, refresh symlinks, and refuse to overwrite ordinary files or directories. Windows symlink creation may require Developer Mode or an elevated shell. Run either installer with `--help` for usage; PowerShell also supports `Get-Help`.
+The installers create runtime skill directories, refresh symlinks, and refuse to overwrite ordinary files or directories. Full installs also remove stale installer-created links into this checkout when the skill no longer has a `SKILL.md`; named-skill installs do not clean up other skills. Cleanup leaves ordinary files and directories, differently targeted links, and links into other checkouts untouched. Windows symlink creation may require Developer Mode or an elevated shell. Run either installer with `--help` for usage; PowerShell also supports `Get-Help`.
 
 Skills are explicit-only: installation does not activate a workflow or modify a project. Invoke `$skill-name` in a request. Start a new runtime session if a linked skill is not discovered.
 
