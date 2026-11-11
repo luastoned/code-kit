@@ -7,6 +7,19 @@ description: Refactor selected code while preserving behavior and local conventi
 
 Work on the files or ownership area selected by the user. Preserve behavior unless a corresponding behavior change is explicitly part of the request.
 
+## Goals Before Editing
+
+Before editing, establish the desired improvements and completion criteria. Reuse goals, constraints, and delegated choices already supplied; inspect relevant code and tooling first so questions are concrete. Ask for missing goals in one short round, covering:
+
+- The priority: for example, easier-to-follow control flow, less duplication, clearer responsibilities, or simpler maintenance.
+- The cognitive-complexity ceiling: low, moderate, high, or a specific numeric limit. Low favors linear flow and minimal nesting; moderate permits bounded branching within a coherent responsibility; high permits more involved logic where splitting it would obscure the algorithm. These are qualitative targets, not standardized score bands. Recommend a level based on the selected code, but ask which ceiling the user wants unless already specified or delegated. Existing enforced limits still apply.
+- Comment coverage: whether to add missing explanations for remaining complex logic, broader non-obvious intent and invariants, or only maintain existing comments. Recommend explaining necessary complexity, assumptions, and tradeoffs; do not narrate obvious statements or use comments in place of simplification. Preserve required safety and contract explanations regardless of the selected coverage.
+- Any material scope or tradeoff not already settled, such as permitted helper extraction or structural changes.
+
+Wait for the missing choices before editing unless the user has delegated them or asked to proceed with assumptions. With delegation, state the chosen goals and continue without another approval step. Do not turn a focused refactor with settled goals into a questionnaire.
+
+For a numeric target, establish the analyzer/rule, measurement scope (usually per function), and exact bound, distinguishing below a value from at most that value. Use existing tooling to record a baseline and compare the result under the same settings. Do not substitute cyclomatic complexity for cognitive complexity or claim an unmeasured score. If measurement is unavailable, report that before editing and agree on qualitative review or an authorized measurement approach; a numeric goal alone does not authorize installing tooling.
+
 ## Context and Authority
 
 Read applicable root and nested instructions. Use the nearest tooling configuration for behavior it owns, and mapped language or runtime guidance only when relevant constraints affect the refactor. Local-only or private guidance applies only when explicitly requested or already active under the project's instructions.
@@ -22,6 +35,8 @@ Reason from the intended outcome and actual constraints, not from the assumption
 Look first for what can be deleted entirely, then for what becomes simpler once those pieces are gone. Prefer removing unnecessary work over simplifying it, simplifying over optimizing, and optimizing over automating. This is a decision preference, not a requirement to perform every stage or minimize line count.
 
 Make justified improvements within scope. If the code already meets the goal and is clear to maintain, leave it unchanged; do not invent a refactor to produce a diff.
+
+Reduce complexity by clarifying the logic. Do not split code into trivial helpers or move branching elsewhere solely to lower a score; extracted responsibilities must remain coherent and easier to follow. Report a conflict between the complexity ceiling and maintainability rather than silently weakening either goal.
 
 ## Refactor Boundaries
 
@@ -77,5 +92,7 @@ Apply these requirements even when the project has no shared guidance. Unless th
 Inspect the refactored code for semantic grouping and consistency with equivalent neighboring implementations after formatting. Correct missing separation, unnecessary blank lines within tightly coupled groups, and accidental pattern differences before calling the refactor complete; passing automated checks alone is insufficient.
 
 For changed code, run the smallest relevant checks, including integrated paths when the refactor crosses connected boundaries. Use owning-project validation before unrelated root checks. Fix regressions introduced by the refactor and rerun affected checks.
+
+Check the agreed complexity ceiling and comment coverage. For a qualitative ceiling, explain how the resulting control flow meets it and identify any remaining difficult logic. For a numeric target, report the analyzer, before/after results, and any remaining violations or measurement limitations. Do not call an unverified or unmet target complete; explain the remaining gap without broadening scope.
 
 Before calling the work done, reassess the result against the original goal for remaining unnecessary complexity. Finish when the requested refactor is complete, relevant verification is done, and the final review finds no unresolved issue introduced by the change. Report further optional improvements without extending the task. If blocked, state what remains incomplete. Report changes or why no change was warranted, preserved behavior, and validation or limitations without repeating the plan.
